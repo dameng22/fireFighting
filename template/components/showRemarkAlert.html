@@ -1,0 +1,66 @@
+<div ng-class="$ctrl.is_or_no_alert()" class="border_radius_4">
+	<p class="remark_alert_title" ng-if="$ctrl.type==1"><i class="ico_sprite ico_close" ng-click="$ctrl.alert_cancel()"></i>备注信息</p>
+	<table width="100%" ng-show="$ctrl.type==1">
+		<tr>
+			<td class="tb_head">消控室电话：</td>
+			<td>
+				<p class="input_text_edit border_0" ng-if="$ctrl.type==1">{{$ctrl.list.results[0].famCustomerSite.controlRoomContactinfo}}</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="tb_head">消防安全负责人：</td>
+			<td>
+				<p class="input_text_edit border_0" ng-if="$ctrl.type==1">{{$ctrl.list.results[0].contactPersons[0].givenNameOriental}}</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="tb_head">联系方式：</td>
+			<td>
+				<p class="input_text_edit border_0" ng-if="$ctrl.type==1">{{$ctrl.list.results[0].contactPersons[0].contactInfos[0].contactInfo}}</p>
+			</td>
+		</tr>
+	</table>
+	<table width="100%" ng-show="$ctrl.type==0">
+		<tr>
+			<td class="tb_head">填写时间：</td>
+			<td>
+				<input type="text" class="input_text_edit input_disabled" value="系统自动匹配保存时间" ng-disabled="true"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="tb_head">填写人：</td>
+			<td>
+				<input type="text" class="input_text_edit input_disabled" value="{{$root.users_name}}" ng-disabled="true"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="tb_head">备注信息：</td>
+			<td>
+				<textarea class="textarea_input" ng-model="$ctrl.remark"></textarea>
+			</td>
+		</tr>
+	</table>
+	<div class="check_task_scroll remark_alert_list" ng-show="$ctrl.list.results[0].remarkTime && $ctrl.type==1">
+		<p class="list_data list_data_head">
+			<span class="remark_alert_operate">填写人</span>
+			<span class="remark_alert_time">填写时间</span>
+			<span class="remark_alert_notes">备注</span>
+			<span class="remark_alert_operate">操作</span>
+		</p>
+		<div class="list_data_scroll fix_time_data">
+			<p class="list_data cursor_normal" ng-repeat="l in $ctrl.list.results track by $index">
+				<span class="remark_alert_operate" title="{{l.person.nameOriental}}">{{l.person.nameOriental}}</span>
+				<span class="remark_alert_time">{{l.remarkTime | date:'yyyy/MM/dd-HH:mm:ss'}}</span>
+				<span class="remark_alert_notes" title="{{l.remark}}">{{l.remark}}</span>
+				<span class="remark_alert_operate"><font ng-click="$ctrl.delete_remark(l.id)">删除</font></span>
+			</p>
+		</div>
+	</div>
+	<p class="text-right" style="margin-top:18px;" ng-if="$ctrl.type==0">
+		<span class="btn_size btn_blue" ng-click="$ctrl.alert_true()">保存</span>
+		<span class="btn_size btn_blue" ng-click="$ctrl.alert_cancel()">取消</span>
+	</p>
+	<div class="text-center" style="margin:18px 0;min-height: 10px;" ng-if="$ctrl.type==1">
+		<ul uib-pagination total-items="$ctrl.list.count" max-size="4" ng-model="$ctrl.currentPage" items-per-page="5" class="pagination-sm list_pagination" boundary-link-numbers="true" rotate="false" ng-click="$ctrl.get_by_page()" ng-if="$ctrl.totalPage>0"></ul>
+	</div>
+</div>

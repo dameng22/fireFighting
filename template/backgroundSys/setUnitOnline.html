@@ -1,0 +1,36 @@
+<div class="content_all border_radius_4">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="rsearch_list()"></i></span>
+			<select class="select_text vertical_align_btm width_140 margin_right_10" ng-model="area_id" ng-change="rsearch_list()">
+				<option>按区域筛选</option>
+				<option ng-repeat="l in net_areas" value="{{l.id}}">{{l.regionName}}</option>
+			</select>
+			<span class="btn_size btn_blue notice_upload"><input type="file" class="btn_size" id="upload">文件导入</span>
+			<span class="btn_size btn_blue width_100" ng-click="add_show()">新增联网单位</span>
+			<span class="btn_size btn_light_blue" ng-click="go_detail(3,current_id)" ng-class="current_id?'btn_blue':''">修改资料</span>
+			<span class="btn_size btn_light_blue" ng-click="delete_info()" ng-class="current_id?'btn_blue':''">删除单位</span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4">
+		<p class="list_data list_data_head">
+			<span class="set_unit_code">单位编码</span>
+			<span class="set_unit_name">单位名称</span>
+			<span class="set_unit_area">所属区域</span>
+			<span class="set_unit_type">监管等级</span>
+			<span class="set_unit_phone">联系方式</span>
+			<span class="set_unit_add">单位地址</span>
+		</p>
+		<div class="list_data_scroll fix_time_data min_width_967">
+			<p class="list_data" ng-repeat="l in unit_list track by $index" ng-dblclick="go_detail(2,l.id,$index)" ng-click="go_detail(1,l.id,$index)" ng-class="(current_unit==$index)?'list_data_selected':''">
+				<span class="set_unit_code">{{l.code}}</span>
+				<span class="set_unit_name">{{l.name}}</span>
+				<span class="set_unit_area">{{l.regionId | area_filter:net_areas}}</span>
+				<span class="set_unit_type">{{trans(l.supervisionGrade)}}</span>
+				<span class="set_unit_phone">{{l.contactinfo}}</span>
+				<span class="set_unit_add">{{l.address.address}}</span>
+			</p>
+		</div>
+	</div>
+</div>
+

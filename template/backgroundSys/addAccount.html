@@ -1,0 +1,61 @@
+	<div class="check_task_add" ng-init="add_show = false" style="height: 400px;margin-top: -200px;">
+		<div class="check_task_add_top">
+			权限详情
+			<i class="ico_sprite ico_white_close" ui-sref="accountManage"></i>
+		</div>
+		<div class="account_top" style="padding-bottom: 14px;">
+			<ul class="check_task_tab border_radius_4">
+				<li ng-class="(tab==0)?'check_task_selected':''" ng-click="change(0)" ng-show="acc_type.indexOf('fams_org')!=-1">区域<hr class="check_task_tab_line"/></li>
+				<li ng-class="(tab==1)?'check_task_selected':''" ng-click="change(1)">联网单位</li>
+			</ul>
+			<select class="select_text width_140 margin_right_10" ng-model="area_id" ng-change="rsearch_list()" ng-show="tab==1">
+				<option>按区域筛选</option>
+				<option ng-repeat="l in net_areas" value="{{l.id}}">{{l.regionName}}</option>
+			</select>
+			<span class="search_wrap" ng-show="tab==1"><input class="input_text width_200 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="rsearch_list()"></i></span>
+			<span class="fix_time_check" ng-show="tab==1"><i class="ico_sprite check_box_normal" ng-click="chosen()" ng-class="have?'check_box_select':''"></i>已选择</span>
+		</div>
+		<!--<div class="account_top" ng-show="tab==0" style="padding-bottom: 14px;">
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal margin_right_15" ng-click="select_all()" ng-class="all?'check_box_select':''"></i>全选</span>
+		</div>-->
+		<!--单位信息-->
+		<div class="check_task_scroll location_scroll_edit account_con" ng-show="tab==1">
+			<p class="list_data list_data_head">
+				<span class="account_con_code"></span>
+				<span class="account_con_region">单位编码</span>
+				<span class="account_con_name">单位名称</span>
+				<span class="account_con_region">所属区域</span>
+				<span class="account_con_name">单位地址</span>
+				<span class="account_con_phone">消控室电话</span>
+				<span class="account_con_type">单位类别</span>
+			</p>
+			<div class="list_data_scroll fix_time_data">
+				<p class="list_data cursor_normal" ng-repeat="l in unit_list track by $index" ng-click="accounts(l,'site')">
+					<span class="account_con_code"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
+					<span class="account_con_region">
+						<font>{{l.code}}</font>
+					</span>
+					<span class="account_con_name">
+                      	<font>{{l.name}}</font>
+					</span>
+					<span class="account_con_region">
+                      	<font>{{l.regionId | area_filter:net_areas}}</font>
+					</span>
+					<span class="account_con_name">
+						<font>{{l.address.address}}</font>
+					</span>
+					<span class="account_con_phone">
+						<font>{{l.controlRoomContactinfo}}</font>
+					</span>
+					<span class="account_con_type">
+						<font>{{l.siteTypeId | dic_filter:site_type}}</font>
+					</span>
+				</p>
+			</div>
+		</div>
+		<div ng-show="tab==0">
+			<span class="account_region" ng-repeat="l in net_areas track by $index"  ng-click="accounts(l,'region')">
+				<i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''" ng-init="((auth_list.siteRegionIds.length>0)&&(auth_list.siteRegionIds.indexOf(l.id)!=-1))?(l.selected=true):''"></i>{{l.regionName}}
+			</span>
+		</div>
+	</div>

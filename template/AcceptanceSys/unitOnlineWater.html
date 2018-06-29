@@ -1,0 +1,75 @@
+<div class="content_all border_radius_4">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<ul class="check_task_tab border_radius_4">
+				<li ng-class="($index==selected)?'check_task_selected':''" ng-click="go_state(l.id)" ng-repeat="l in alarm_type">{{l.name}}<hr class="check_task_tab_line" ng-if="!$last"/></li>
+			</ul>
+			<span class="btn_size btn_blue" ng-click="download_file()">导出</span>
+			<span class="btn_size btn_light_blue">打印</span>
+			<span class="btn_size btn_light_blue" ng-click="alert_show(0,current_id)" ng-class="current_id?'btn_blue':''" ng-show="system_name == '消防物联网远程监控系统'">填写备注</span>
+			<span class="btn_size btn_light_blue" ng-click="add_test(current_id)" ng-class="current_id?'btn_blue':''" ng-show="system_name == '消防物联网远程监控系统'">加入测试</span>
+		</div>
+		<div class="check_task_wrap unit_online_wrap">
+			<p>
+				<span class="fix_time_check width_56"><i class="ico_sprite check_box_normal" ng-click="get_search(0)" ng-class="done?'check_box_select':''"></i>联网</span>
+				<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search(1)" ng-class="undo?'check_box_select':''"></i>未联网</span>
+				<select class="select_text width_160" ng-model="regions" ng-change="get_search()">
+					<option>区域</option>
+					<option ng-repeat="l in net_areas" value="{{l.id}}">{{l.regionName}}</option>
+				</select>
+				<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search()"></i></span>
+			</p>	
+		</div>
+	</div>
+	<div class="check_task_scroll unit_online_scroll border_radius_4">
+		<p class="list_data list_data_head">
+			<span class="unit_online_status">联网状态</span>
+			<span class="unit_online_code">单位编码</span>
+			<span class="unit_online_name">单位名称</span>
+			<span class="unit_online_add">设备名称</span>
+			<span class="unit_online_code">设备编码</span>
+			<span class="unit_online_code">设备类型</span>
+			<span class="unit_online_device">传输装置状态</span>
+			<span class="unit_online_remark">当前值</span>
+			<span class="unit_online_remark">单位</span>
+		</p>
+		<div class="list_data_scroll fix_time_data min_width_967">
+			<!--<p class="list_data" ng-repeat="l in unit_online track by $index" ng-dblclick="alert_show(1,l.id)" ng-click="alert_show(3,l.id)" ng-class="(current_id==l.id)?'list_data_selected':''">
+				<span class="unit_online_status" ng-class="l.status==0?'':'fix_time_undo'">{{l.status==0?'联网':'未联网'}}</span>
+				<span class="unit_online_code">{{l.famCustomerSite.code}}</span>
+				<span class="unit_online_name">{{l.famCustomerSite.name}}</span>
+				<span class="unit_online_code">{{l.modelTypeId | model_filter:communication_mdl}}</span>
+				<span class="unit_online_add" ng-click="map_show(l);$event.stopPropagation(l.famCustomerSite)"><span class="unit_map_ico"><i class="ico_sprite ico_unit_map"></i></span>{{l.address.address}}</span>
+				<span class="unit_online_phone">{{l.famCustomerSite.controlRoomContactinfo}}</span>
+				<span class="unit_online_time">{{l.updateTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="unit_online_remark"><font ng-click="alert_show(1,l.id)">查看</font></span>
+			</p>-->
+			<p class="list_data">
+				<span class="unit_online_status">联网</span>
+				<span class="unit_online_code">TH00192</span>
+				<span class="unit_online_name">维多利广场</span>
+				<span class="unit_online_add">缆温探测器</span>
+				<span class="unit_online_code">00001</span>
+				<span class="unit_online_code">液压</span>
+				<span class="unit_online_device">断开</span>
+				<span class="unit_online_remark">Mpa</span>
+				<span class="unit_online_remark">Mpa</span>
+			</p>
+			<p class="list_data">
+				<span class="unit_online_status fix_time_undo">未联网</span>
+				<span class="unit_online_code">TH00003</span>
+				<span class="unit_online_name">广州w酒店</span>
+				<span class="unit_online_add">缆温探测器</span>
+				<span class="unit_online_code">00002</span>
+				<span class="unit_online_code">液压</span>
+				<span class="unit_online_device">断开</span>
+				<span class="unit_online_remark">Mpa</span>
+				<span class="unit_online_remark">Mpa</span>
+			</p>
+		</div>
+	</div>
+	<show-remark-alert show-alert="show_alert" type="show_type" ids="current_id" list="remark_list" type-id="type_id" current-page="current_page" total-page="total_page"></show-remark-alert>
+	<device-map-alert show-alert="show_map" locaiton="locaiton" locaiton-temp="locaiton_temp" apply-data="apply_data" type="read_only"></device-map-alert>
+</div>
+
+

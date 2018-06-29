@@ -1,0 +1,40 @@
+<div class="content_all area_statis_bg">
+	<div class="area_statis_cen border_radius_4" style="top: 0;">
+		<div class="online_static_top">
+			<span class="record_search_title">日期区间：</span>
+			<span class="search_wrap vertical_top">
+				<input class="input_text width_118 form_datetime round_select_text" placeholder="开始时间" ng-change="get_online_data()" ng-model="current_time" style="padding-right: 0;" id="start"/>
+				<input type="hidden" id="task_start_time" />
+			</span>
+			<span class="record_search_title" style="margin-right: 7px;">—</span>
+			<span class="search_wrap vertical_top margin_right_20">
+				<input class="input_text width_118 round_select_text" placeholder="结束时间" ng-model="next_time" disabled=""/>
+			</span>
+			<select class="select_text vertical_align_top round_select_text width_118" ng-model="region_id" ng-change="get_online_data()">
+				<option ng-repeat="l in net_areas track by $index" value="{{l.id}}">{{l.regionName}}</option>
+			</select>
+		</div>
+		<div id="area_line" class="unit_statis_full" style="height: 100%;width: 100%;"></div>
+	</div>
+	<div class="area_statis_cen border_radius_4" style="bottom: 0;height: 51.5%;">
+		<div class="online_count_scroll border_radius_4">
+			<p class="list_data list_data_head"><span class="online_count_title">{{region_id | area_filter:net_areas}}{{day_time | date:'yyyy年MM月dd日'}}在线信息统计</span></p>
+			<p class="list_data list_data_head">
+				<span class="online_count_index">序号</span>
+				<span class="online_count_code">单位编码</span>
+				<span class="online_count_name">单位名称</span>
+				<span class="online_count_time">最新在线时间</span>
+			</p>
+			<div class="list_data_scroll fix_time_data min_width_967">
+				<p class="list_data cursor_normal" ng-repeat="l in unit_online track by $index">
+					<span class="online_count_index">{{$index+1}}</span>
+					<span class="online_count_code">{{l.relay.famCustomerSite.code}}</span>
+					<span class="online_count_name">{{l.relay.famCustomerSite.name}}</span>
+					<span class="online_count_time">{{l.relay.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+

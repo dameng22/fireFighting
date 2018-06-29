@@ -1,0 +1,128 @@
+<div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden fire_alarm_gray_bg" style="left: 0;">
+	<div class="fire_alarm_right_top border_radius_top_4" style="height: 81px;">
+		<div class="fire_alarm_right_title">报警单位基本信息</div>
+		<select class="select_text width_168 margin_left_9" ng-model="its_code">
+			<option value="{{l.id}}" ng-repeat="l in left_unit | unique: 'id'">{{l.famCustomerSite.name}}</option>
+		</select>
+	</div>
+	<ul class="fire_alarm_ul fire_alarm_mon_ul" ng-if="its_code">
+		<li>
+			<span>报警传输装置编码：</span><br/>
+			{{its_code | code_filter:left_unit}}
+		</li>
+		<li>
+			<span>报警传输装置名称：</span><br/>
+			{{its_code | name_filter:left_unit}}
+		</li>
+		<li>
+			<span>单位地址：</span><br/>
+			{{its_code | address_filter:left_unit}}
+		</li>
+		<!--<li>
+			<span>消防安全负责人：</span><br/>
+			徐倩倩
+		</li>-->
+		<li>
+			<i class="ico_sprite fire_alarm_mon_tell"></i>
+			<span>联系方式：</span><br/>
+			{{its_code | contact_filter:left_unit}}
+		</li>
+		<li>
+			<i class="ico_sprite fire_alarm_mon_tell"></i>
+			<span>消防控制室电话：</span><br/>
+			{{its_code | ctrl_filter:left_unit}}
+		</li>
+	</ul>
+</div>
+<div class="content_right fire_alarm_center_top border_radius_4 fire_alarm_mon_center" style="margin-left: 206px;" ng-class="show_unit_btn?'monitor_right_show':''">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<span class="fix_time_check"><i class="ico_sprite radio_box_normal" ng-click="get_search('all')" ng-class="all?'radio_box_check':''"></i>全部</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('unhandle')" ng-class="unhandle?'check_box_select':''"></i>未处理</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('handling')" ng-class="handling?'check_box_select':''"></i>待单位确认</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('handled')" ng-class="handled?'check_box_select':''"></i>单位确认</span>
+			<hr class="fire_alarm_sep"/>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('real')" ng-class="real?'check_box_select':''"></i>自动火警</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('fake')" ng-class="fake?'check_box_select':''"></i>确认火警</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('test')" ng-class="test?'check_box_select':''"></i>紧急火警</span>
+			<span class="search_wrap min_1024"><input class="input_text width_143 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search('text')"></i></span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4 check_task_setting min_fire_height">
+		<p class="list_data list_data_head min_width_890">
+			<span class="fire_alarm_checkbox">
+<i class="ico_sprite check_box_normal" ng-click="select_all()" ng-show="unhandle || handling || handled" ng-class="check_all?'check_box_select':''"></i>
+			</span>
+			<span class="fire_alarm_code">单位编码</span>
+			<span class="fire_alarm_name">单位名称</span>
+			<span class="fire_alarm_add">报警位置</span>
+			<span class="fire_alarm_remark">警情概述</span>
+			<span class="fire_alarm_status">警情状态</span>
+			<span class="fire_alarm_time">报警时间</span>
+			<span class="fire_alarm_time">接警时间</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_890">
+			<p class="list_data" ng-repeat="l in fire_list track by $index" ng-class="l.formatStatus.bg" ng-click="get_ids(l)">
+				<span class="fire_alarm_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
+				<span class="fire_alarm_code">{{l.relay.famCustomerSite.code}}</span>
+				<span class="fire_alarm_name" title="{{l.relay.famCustomerSite.name}}">{{l.relay.famCustomerSite.name}}</span>
+				<span class="fire_alarm_add" title="{{l.reportingDevice.address.address}}">{{l.reportingDevice.address.address}}</span>
+				<span class="fire_alarm_remark" title="{{danger_status(l.terminalStatusId)}}">{{danger_status(l.terminalStatusId)}}</span>
+				<span class="fire_alarm_status" ng-class="l.formatStatus.font">{{l.formatStatus.texts}}</span>
+				<span class="fire_alarm_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="fire_alarm_time">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+			</p>
+		</div>	
+	</div>	
+</div>
+<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4 fire_alarm_mon_center" style="margin-left: 206px;" ng-show="!check_all" ng-class="show_unit_btn?'monitor_right_show':''">
+	<div class="fire_alarm_btn_left">
+		<textarea class="fire_alarm_textarea" ng-model="remark" ng-disabled='unit_ids.length<=0 || (!its_true && !its_wait && !its_fake && !its_test)' placeholder="您可在此填写备注内容"></textarea>
+	</div>
+	<div class="fire_alarm_btn_right">
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('true')" ng-class="its_true&&unit_ids.length?'fire_alerm_toconfirm':''"><i class="ico_sprite fire_alerm_disable"></i>真实火警</span>
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('wait')" ng-class="its_wait&&unit_ids.length?'fire_alerm_confirmed':''"><i class="ico_sprite fire_alerm_disable"></i>等待确认</span>
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('fake')" ng-class="its_fake&&unit_ids.length?'fire_alerm_wrong':''"><i class="ico_sprite fire_alerm_towrong"></i>误报火警</span>
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('test')" ng-class="its_test&&unit_ids.length?'fire_alerm_test':''"><i class="ico_sprite fire_alerm_totest"></i>测试火警</span>
+		<div class="fire_alarm_btn_group">
+			<hr class="fire_alarm_line"/>
+			<span class="btn_size btn_light_blue" ng-class="unit_ids.length?'btn_blue':''" ng-click="show_unit_detail()">单位详情</span>
+			<span class="btn_size btn_light_blue margin_top_21" ng-class="unit_ids.length?'btn_blue':''" ng-click="fire_detail()">警情信息</span>
+		</div>
+	</div>
+</div>
+<!--全选-->
+<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4 fire_alarm_mon_center" style="margin-left: 206px;" ng-show="check_all" ng-class="show_unit_btn?'monitor_right_show':''">
+	<div class="fire_alarm_btn_left">
+		<textarea class="fire_alarm_textarea" ng-model="remark" ng-disabled='fire_list.length<=0 || !check_all' placeholder="您可在此填写备注内容"></textarea>
+	</div>
+	<div class="fire_alarm_btn_right">
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('true')" ng-class="check_all&&fire_list.length&&undo_list.length?'fire_alerm_toconfirm':''"><i class="ico_sprite fire_alerm_disable"></i>真实火警</span>
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('wait')" ng-class="check_all&&fire_list.length&&undo_list.length&&(undo_list.indexOf(-1)==-1)?'fire_alerm_confirmed':''"><i class="ico_sprite fire_alerm_disable"></i>等待确认</span>
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('fake')" ng-class="check_all&&fire_list.length&&undo_list.length?'fire_alerm_wrong':''"><i class="ico_sprite fire_alerm_towrong"></i>误报火警</span>
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('test')" ng-class="check_all&&fire_list.length&&undo_list.length?'fire_alerm_test':''"><i class="ico_sprite fire_alerm_totest"></i>测试火警</span>
+		<div class="fire_alarm_btn_group">
+			<hr class="fire_alarm_line"/>
+			<span class="btn_size btn_light_blue">单位详情</span>
+			<span class="btn_size btn_light_blue margin_top_21">警情信息</span>
+		</div>
+	</div>
+</div>
+<div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden fire_alarm_gray_bg" ng-show="!show_unit_btn">
+	<div class="fire_alarm_right_top border_radius_top_4">
+		<div class="fire_alarm_right_title">火灾报警单位列表</div>
+		<span class="search_wrap margin_left_9"><input class="input_text width_168 right_enter_press" placeholder="请输入关键字搜索" ng-model="right_unit_srh"/><i class="ico_sprite search_ico" ng-click="get_right_unit('srh')"></i></span>
+		<span class="fix_time_check margin_left_9" style="line-height: 39px;"><i class="ico_sprite radio_box_normal" ng-class="!right_unit.length?'radio_box_check':''" ng-click="get_right_unit('all')"></i>全部单位</span>
+	</div>
+	<ul class="fire_alarm_ul">
+		<li ng-repeat="l in fire_units" ng-click="select_unit(l)" ng-style="l.selected?{'background':'#ECECEC'}:''"><!--<i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i>-->【{{l.countSum}}】{{l.siteName}}</li>
+	</ul>
+</div>
+<span class="monitor_btn border_radius_4" ng-click="show_unit_func()">
+	<i class="ico_sprite ico_expand" ng-class="show_unit_btn?'ico_retract':''"></i>
+</span>
+<fire-drop-alert show-alert="show_alert" fire-details="fire_details" surface="surface" outside="outside"></fire-drop-alert>
+<unit-detail-alert show-alert="show_unit_alert" info="base_info" id="current_id" selected="current_tab" unit-name="unit_name" device-list="device_list" buildings-info="buildings_info"></unit-detail-alert>
+
+
+

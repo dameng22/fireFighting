@@ -1,0 +1,10 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="delete_confirm">
+		<i class="ico_sprite ico_close" ng-click="$root.delete_now=false"></i>
+		<p class="delete_confirm_title text-center">是否确认删除？</p>
+		<p class="text-center">
+			<span class="btn_size btn_blue" ng-click="$root.delete_func()" style="margin-right: 30px;">确认</span>
+			<span class="btn_size btn_blue" ng-click="$root.delete_now=false">取消</span>
+		</p>
+	</div>
+</div>

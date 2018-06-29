@@ -1,0 +1,70 @@
+		<div class="network_alert_head border_radius_top_4">
+			<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="cancel_btn()" ng-if="add_now">取消</span>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="save_data_btn()">保存修改</span>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="add_data_btn()" ng-if="!add_now&&bigTotalItems">新增一页</span>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="delete_data_btn()" ng-if="!add_now&&bigTotalItems">删除此页</span>
+			<ul uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="3" items-per-page="1" class="pagination-sm list_pagination" boundary-link-numbers="true" rotate="true" ng-click="get_list(currentPage)" ng-show="!add_now&&bigTotalItems"></ul>
+		</div>
+		<div class="network_alert_title" style="height: 20px;"></div>
+		<!--水系统-->
+		<div class="network_alert_content">
+			<!--建筑物-->
+			<table style="width: 100%" ng-repeat="l in info">
+				<tr>
+					<td class="tb_head">单位编码：</td>
+					<td><input type="text" class="input_text input_disabled" ng-model="unit.code" ng-disabled="true"/></td>
+					<td class="tb_head">单位名称：</td>
+					<td><input type="text" class="input_text input_disabled" ng-model="unit.name" ng-disabled="true"/></td>
+				</tr>
+				<tr>
+					<td class="tb_head"><span>*</span>建筑物编号：</td>
+					<td>
+					    <select class="select_text" title=""
+                                ng-options="building.id as building.code for building in buildings"
+                                ng-change="select_build()"
+                                ng-model="l.code">
+                       </select>
+					</td>
+					<td class="tb_head"><span>*</span>建筑物名称：</td>
+					<td><input type="text" class="input_text input_disabled" ng-model="l.name" ng-disabled="true"/></td>
+				</tr>
+				<tr>
+					<td class="tb_head">市政给水管网形式：</td>
+					<td><input type="text" class="input_text" ng-model="l.networkForm" /></td>
+					<td class="tb_head">市政给水管网管径（cm）：</td>
+					<td><input type="number" class="input_text" ng-model="l.outPipeDiameter" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">市政管网进水管数量：</td>
+					<td><input type="number" class="input_text" ng-model="l.inPipeCount" /></td>
+					<td class="tb_head">市政管网进水管管径（cm）：</td>
+					<td><input type="number" class="input_text" ng-model="l.inPipeDiameter" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">消防水池位置：</td>
+					<td><input type="text" class="input_text" ng-model="l.poolPosition" /></td>
+					<td class="tb_head">消防水池容量（m³）：</td>
+					<td><input type="number" class="input_text" ng-model="l.poolCapacity" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">屋顶水箱位置：</td>
+					<td><input type="text" class="input_text" ng-model="l.poolBoxPosition" /></td>
+					<td class="tb_head">屋顶水箱容量（m³）：</td>
+					<td><input type="number" class="input_text" ng-model="l.poolBoxCapacity" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">消防泵房位置：</td>
+					<td><input type="text" class="input_text" ng-model="l.pumpPosition" /></td>
+					<td class="tb_head">水泵数量：</td>
+					<td><input type="number" class="input_text" ng-model="l.pumpCount" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">其他水源形式：</td>
+					<td><input type="text" class="input_text" ng-model="l.other" /></td>
+					<td class="tb_head">其他水源供水量（m³）：</td>
+					<td><input type="number" class="input_text" ng-model="l.otherCapacity" /></td>
+				</tr>
+			</table>
+		</div>
+		

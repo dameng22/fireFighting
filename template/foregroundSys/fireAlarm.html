@@ -1,0 +1,59 @@
+<div class="content_right unit_wrap_top border_radius_4" style="margin-right: 0;">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('real')" ng-class="real?'check_box_select':''"></i>真实火警</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('fake')" ng-class="fake?'check_box_select':''"></i>误报火警</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('test')" ng-class="test?'check_box_select':''"></i>测试火警</span>
+			<span class="search_wrap min_1024"><input class="input_text width_143 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search('text')"></i></span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4 check_task_setting min_fire_height" style="height: calc(100% - 60px);">
+		<p class="list_data list_data_head min_width_890">
+			<span class="fire_alarm_code">设备编码</span>
+			<span class="fire_alarm_name">设备名称</span>
+			<span class="fire_alarm_add">报警位置</span>
+			<span class="fire_alarm_remark">警情概述</span>
+			<span class="fire_alarm_status">警情状态</span>
+			<span class="fire_alarm_time">报警时间</span>
+			<span class="fire_alarm_time">接警时间</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_890">
+			<p class="list_data cursor_normal" ng-repeat="l in fire_list track by $index" ng-class="l.formatStatus.bg">
+				<span class="fire_alarm_code">{{l.relay.code}}</span>
+				<span class="fire_alarm_name" title="{{l.relay.name}}">{{l.relay.name}}</span>
+				<span class="fire_alarm_add" title="{{l.reportingDevice.address.address}}">{{l.reportingDevice.address.address}}</span>
+				<span class="fire_alarm_remark" title="{{danger_status(l.terminalStatusId)}}">{{danger_status(l.terminalStatusId)}}</span>
+				<span class="fire_alarm_status" ng-class="l.formatStatus.font">{{l.formatStatus.texts}}</span>
+				<span class="fire_alarm_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="fire_alarm_time">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+			</p>
+		</div>	
+	</div>	
+</div>
+<div class="content_right fire_alarm_center_btm height_174 border_radius_4" style="margin-right: 0;">
+	<div class="check_task_scroll border_radius_4 check_task_setting unit_wrap_btm">
+		<p class="list_data list_data_head min_width_793">
+			<span class="unit_alarm_status">序号</span>
+			<span class="unit_alarm_type">设备类型</span>
+			<span class="unit_alarm_name">设备名称</span>
+			<span class="unit_alarm_model">设备型号</span>
+			<span class="unit_alarm_status">联网方式</span>
+			<span class="unit_alarm_status">在线状态</span>
+			<span class="unit_alarm_name">最后一次联网时间</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_793">
+			<p class="list_data" ng-repeat="l in device_info track by $index">
+				<span class="unit_alarm_status">{{$index+1}}</span>
+				<span class="unit_alarm_type">传输装置</span>
+				<span class="unit_alarm_name">{{l.name}}</span>
+				<span class="unit_alarm_model">{{l.modelName}}</span>
+				<span class="unit_alarm_status">{{l.modelTypeId | model_filter:communication_mdl}}</span>
+				<span class="unit_alarm_status">{{l.status==0?'在线':'离线'}}</span>
+				<span class="unit_alarm_name">{{l.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+			</p>
+		</div>
+	</div>	
+</div>
+
+
+

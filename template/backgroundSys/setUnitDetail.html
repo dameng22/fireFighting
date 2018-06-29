@@ -1,0 +1,12 @@
+<div class="unit_detail modify_init">
+	<div class="content_left border_radius_4" style="width: 200px;overflow: hidden;">
+		<p class="network_alert_unit">联网单位详细信息</p>
+		<ul class="check_task_ul network_unit_scroll">
+			<li ng-repeat="l in tab_list track by $index" ng-class="(l.links == sub_state)?'check_task_selected':''" ng-click="show_tab($index)">{{l.name}}</li>
+		</ul>
+	</div>
+	<div class="content_right border_radius_4" style="margin-left: 214px;" ui-view="">
+		
+
+	</div>
+</div>

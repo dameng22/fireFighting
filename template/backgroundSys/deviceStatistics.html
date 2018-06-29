@@ -1,0 +1,39 @@
+<div class="content_right fire_alarm_center_top border_radius_4 device_static_wrap">
+	<div class="check_task_wrap">
+		<span class="fix_time_check">设备安装统计</span>
+		<select class="select_text vertical_align_btm round_select_text width_140" ng-model="area_id" ng-change="get_pie_list()">
+			<option>按区域筛选</option>
+			<option ng-repeat="l in net_areas" value="{{l.id}}">{{l.regionName}}</option>
+		</select>
+	</div>
+	<div class="device_pie_wrap">
+		<div class="device_static_block">
+			<div id="device_pie1" style="height: 100%;">
+				
+			</div>
+		</div>
+		<div class="device_static_block">
+			<div id="device_pie2" style="height: 100%;">
+				
+			</div>
+		</div>
+		<div class="device_static_block">
+			<div id="device_pie3" style="height: 100%;">
+				
+			</div>
+		</div>
+		<div class="device_static_block">
+			<div id="device_pie4" style="height: 100%;">
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden">
+	<div class="device_pie_company border_radius_top_4">
+		联网单位
+	</div>
+	<ul class="fire_alarm_ul device_pie_ul list_data_scroll">
+		<li class="cursor_normal" ng-repeat="l in company_list track by $index">{{l.customerSiteName}}</li>
+	</ul>
+</div>

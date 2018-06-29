@@ -1,0 +1,83 @@
+<div class="unit_detail">
+	<div class="content_left border_radius_4" style="width: 200px;overflow: hidden;">
+		<ul class="check_task_ul network_unit_scroll">
+			<li ng-repeat="l in tab_list track by $index" ng-class="check_menu(l.id)?'check_task_selected':''" ng-click="show_tab(l.id)">{{l.name}}</li>
+		</ul>
+	</div>
+	<div class="content_right border_radius_4" style="margin-left: 214px;">
+		<div class="content_all border_radius_4">
+			<div class="check_task_top border_radius_top_4">
+				<div class="check_task_wrap">
+					<span class="search_wrap vertical_top"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_keys" /><i class="ico_sprite search_ico" ng-click="research_list()"></i></span>
+					<select class="select_text width_160" title=""
+                                ng-options="sub.id as sub.name for sub in sub_role"
+                                ng-model="selected" ng-show="sub_role.length>0" ng-change="research_list()">
+                     </select>
+					<span class="btn_size btn_blue vertical_top" ng-click="add_now()" style="margin-top: 2px;">新增账号</span>
+					<span class="fix_time_check unit_numbers" style="margin-right: 6.5%;" ng-show="selected.indexOf('fams_systemuser') != -1">联网单位账户总数：<font>{{item_count}}</font></span>
+				</div>
+			</div>
+			<div class="check_task_scroll account_wrap">
+				<div ui-view="" class="min_width_793" ng-class="real_state=='accountManage.addAccount'?'surface_sub':''">
+				
+				</div>
+				<p class="list_data list_data_head">
+					<span class="account_id">账户ID</span>
+					<span class="account_pwd">密码</span>
+					<span class="account_name">{{(selected.indexOf('fams_systemuser') != -1)?'单位名称':'人员姓名'}}</span>
+					<span class="account_role" ng-if="sub_role.length>0">角色</span>
+					<span class="account_time" ng-class="selected.indexOf('fams_systemuser') != -1?'online_unit_span':''">添加时间</span>
+					<span class="account_detail" ng-show="selected.indexOf('fams_systemuser') != -1 || selected.indexOf('fams_org') != -1">权限</span>
+					<span class="account_operate">操作</span>
+				</p>
+				<div class="list_data_scroll fix_time_data phone_list_wrap min_width_967">
+					<p class="list_data cursor_normal" ng-show="add_show">
+						<span class="account_id"><input type="text" class="input_text" ng-model="add_info.username" /></span>
+						<span class="account_pwd"><input type="text" class="input_text" ng-model="add_info.password" /></span>
+						<span class="account_name"><input type="text" class="input_text" ng-model="add_info.person.givenNameOriental" /></span>
+						<span class="account_role" ng-show="sub_role.length>0">
+							<select class="select_text" title=""
+                                ng-options="sub.id as sub.name for sub in sub_role | limitTo:sub_role.length-1"
+                                ng-model="add_info.roleId">
+                     		</select>
+						</span>
+						<span class="account_time">系统默认</span>
+						<span class="account_detail" ng-show="selected.indexOf('fams_systemuser') != -1 || selected.indexOf('fams_org') != -1"></span>
+						<span class="account_operate location_edit"><font ng-click="modify_acc(add_info,'add')">保存</font> | <font ng-click="add_show=false">取消</font></span>
+					</p>
+					<p class="list_data cursor_normal" ng-repeat="l in account_list track by $index">
+						<span class="account_id">
+							{{l.username}}
+						</span>
+						<span class="account_pwd">
+							<input type="text" class="input_text" ng-model="l.password" ng-if="l.read" placeholder="请输入新密码"/>
+							<font ng-if="!l.read">********</font>
+						</span>
+						<span class="account_name" ng-class="selected.indexOf('fams_systemuser') != -1?'online_unit_name':''" >
+							<input type="text" class="input_text" ng-model="l.person.givenNameOriental" ng-if="l.read"/>
+							<font ng-if="!l.read" title="{{selected.indexOf('fams_systemuser') != -1?l.customerSiteName:l.person.givenNameOriental}}">{{selected.indexOf('fams_systemuser') != -1?l.customerSiteName:l.person.givenNameOriental}}</font>
+		                  	<!--<font ng-if="!l.read" title="{{l.customerSiteName}}">{{l.customerSiteName}}</font>-->
+						</span>
+						<span class="account_role" ng-if="sub_role.length>0">
+							<font ng-if="!l.read">{{l.roleId | dic_filter:sub_role}}</font>
+							<select class="select_text" title=""
+                                ng-options="sub.id as sub.name for sub in sub_role | limitTo:sub_role.length-1"
+                                ng-model="l.roleId" ng-if="l.read">
+                     		</select>
+						</span>
+						<span class="account_time">{{l.dateAdded | date:'yyyyMMdd - HH:mm:ss'}}</span>
+						<span class="account_detail" ng-show="selected.indexOf('fams_systemuser') != -1 || selected.indexOf('fams_org') != -1" ng-click="view_auth(l.accountId,l)" ng-class="!l.read?'account_view':''"><font>详情</font></span>
+						<span class="account_operate" ng-class="l.read?'location_edit':''">
+							<font ng-if="!l.read&&l.isActive" ng-click="modify_btn(l)">修改 | </font><font ng-if="!l.read&&l.isActive" ng-click="del_data(l,$index)">删除 | </font>
+							<font ng-if="l.read&&l.isActive" ng-click="modify_acc(l,'edit')">保存 | </font><font ng-if="l.read&&l.isActive" ng-click="l.read=false">取消</font>
+							<!--<font ng-if="!l.isActive" class="cursor_normal">账户已停用</font>-->
+							<font ng-if="!l.isActive" ng-click="change_suspend_start_btn(l.accountId,l)">启用</font>
+							<font ng-if="l.isActive" ng-click="change_suspend_stop_btn(l.accountId,l)">停用 </font>
+							<!--<font ng-if="l.isActive" ng-click="del_data(l,$index)">停用 </font>-->
+						</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

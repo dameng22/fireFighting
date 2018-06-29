@@ -1,0 +1,42 @@
+<div class="content_all border_radius_4">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<select class="select_text width_140" ng-model="area_id" ng-change="rsearch_list()">
+				<option>按区域筛选</option>
+				<option ng-repeat="l in net_areas" value="{{l.id}}">{{l.regionName}}</option>
+			</select>
+			<select class="select_text width_300" ng-model="type_id" ng-change="rsearch_list()">
+				<option>按单位类别筛选</option>
+				<option ng-repeat="l in site_type" value="{{l.id}}">{{l.name}}</option>
+			</select>
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key" /><i class="ico_sprite search_ico" ng-click="rsearch_list()"></i></span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4">
+		<p class="list_data list_data_head">
+			<span class="network_unit_code">单位编码</span>
+			<span class="network_unit_name">单位名称</span>
+			<span class="network_unit_area">所属区域</span>
+			<span class="network_unit_add">单位地址</span>
+			<span class="network_unit_phone">消控室电话</span>
+			<span class="network_unit_type">单位类别</span>
+		</p>
+		<div class="list_data_scroll fix_time_data min_width_967">
+			<p class="list_data" ng-repeat="l in unit_list track by $index" ng-click="go_detail(l.id)">
+				<span class="network_unit_code">{{l.code}}</span>
+				<span class="network_unit_name">{{l.name}}</span>
+				<span class="network_unit_area">{{l.regionId | area_filter:net_areas}}</span>
+				<span class="network_unit_add" ng-click="map_show(l.id);$event.stopPropagation(l)"><span class="unit_map_ico"><i class="ico_sprite ico_unit_map"></i></span>{{l.address.address}}</span>
+				<span class="network_unit_phone">{{l.controlRoomContactinfo}}</span>
+				<span class="network_unit_type">{{l.siteTypeId | dic_filter:site_type}}</span>
+			</p>
+			
+		</div>
+	</div>
+</div>
+<network-unit-alert show-alert="show_alert" info="base_info" id="current_id" selected="current_tab" unit-name="unit_name" device-list="device_list" buildings-info="buildings_info"></network-unit-alert>
+<device-map-alert show-alert="show_map" locaiton="locaiton" locaiton-temp="locaiton_temp" apply-data="apply_data" type="read_only"></device-map-alert>
+
+
+
+

@@ -1,0 +1,642 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="content_left border_radius_4" style="width: 200px;overflow: hidden;">
+		<p class="network_alert_unit">联网单位详细信息</p>
+		<ul class="check_task_ul network_unit_scroll">
+			<li ng-class="(l.order==$ctrl.selected)?'check_task_selected':''" ng-click="$ctrl.show_tab(l.order)" ng-repeat="l in $ctrl.tab_list">{{l.name}}</li>
+		</ul>
+	</div>
+	<div class="content_right border_radius_4" style="margin-left: 214px;" ng-class="$ctrl.selected==8&&!$ctrl.show_location?'surface_bg':''">
+		<div class="network_alert_head border_radius_top_4">
+			<i class="ico_sprite ico_back" ng-click="$ctrl.alert_cancel()"></i>
+			<ul uib-pagination total-items="$ctrl.bigTotalItems" ng-model="$ctrl.currentPage" items-per-page="1" class="pagination-sm list_pagination" boundary-link-numbers="true" rotate="false" ng-click="$ctrl.get_page_data($ctrl.selected)" ng-show="$ctrl.selected!=0 && $ctrl.selected!=1 && $ctrl.selected!=8 && $ctrl.selected!=9 && $ctrl.selected!=10 && $ctrl.selected!=11 && $ctrl.totalPage>0"></ul>
+		</div>
+		<div class="network_alert_title">{{$ctrl.unitName}}
+			<span class="btn_size btn_blue unit_detail_location" ng-click="$ctrl.get_location()" ng-show="$ctrl.selected==8">编码表</span>
+		</div>
+		<div class="network_alert_title network_alert_tips" ng-if="($ctrl.info.length==0 || JSON.stringify($ctrl.info) == '{}')&& $ctrl.selected!=8 && $ctrl.selected!=10">该联网单位未填写此页</div>
+		<!--基本信息-->
+		<div class="network_alert_content" ng-show="$ctrl.selected==0">
+			<div class="network_alert_top">
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head" style="width: 19.5%;">单位名称：</td>
+						<td colspan="3" style="width: 78%;"><p class="network_alert_hidden">{{$ctrl.info.name}}</p></td>
+					</tr>
+					<tr>
+						<td class="tb_head" style="width: 19.5%;">单位地址：</td>
+						<td colspan="3" style="width: 78%;"><p class="network_alert_hidden">{{$ctrl.info.address.address}}</p></td>
+					</tr>
+					<tr>
+						<td class="tb_head" style="width: 19.5%;">单位类别：</td>
+						<td colspan="3" style="width: 78%;"><p class="network_alert_hidden">{{$ctrl.info.siteTypeId | dic_filter:$ctrl.site_type}}</p></td>
+					</tr>
+				</table>
+				<span class="network_alert_pic">
+					<img ng-src="{{$ctrl.info.famSitePicture[0].qiniuName?($root.qiuNiuUrl+$ctrl.info.famSitePicture[0].qiniuName+'?imageView2/1/w/120/h/120'):'images/icon_building.png'}}" />
+				</span>
+			</div>
+			<table style="width: 100%">
+				<tr>
+					<td class="tb_head">组织机构代码：</td>
+					<td>{{$ctrl.info.orgCode}}</td>
+					<td class="tb_head">所属区域：</td>
+					<td>{{$ctrl.info.regionId | area_filter:$ctrl.net_areas}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">经济所有制：</td>
+					<td>{{$ctrl.info.economicOwnership}}</td>
+					<td class="tb_head">监管等级：</td>
+					<td>{{$ctrl.info.supervisionGrade | dic_filter:$ctrl.resistance_rates}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">所属消防队：</td>
+					<td>{{$ctrl.info.fireBrigade.name}}</td><!-- $ctrl.info.brigadeId -->
+					<td class="tb_head">所属消防大队：</td>
+					<td>{{$ctrl.info.fireBrigade.superiorName}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">联系电话：</td>
+					<td>{{$ctrl.info.contactinfo}}</td>
+					<td class="tb_head">邮政编码：</td>
+					<td>{{$ctrl.info.zipCode}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">消控室电话：</td>
+					<td>{{$ctrl.info.controlRoomContactinfo}}</td>
+					<td class="tb_head">上级主管单位：</td>
+					<td>{{$ctrl.info.competentDepartment}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">管辖单位：</td>
+					<td>{{$ctrl.info.jurisdictionUnit}}</td>
+					<td class="tb_head">职工人数：</td>
+					<td>{{$ctrl.info.employeeNumber}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">固定资产(万元)：</td>
+					<td>{{$ctrl.info.fixedAsset}}</td>
+					<td class="tb_head">占地面积(㎡)：</td>
+					<td>{{$ctrl.info.areaCovered}}</td>
+				</tr>	
+				<tr>
+					<td class="tb_head">建筑面积(㎡)：</td>
+					<td colspan="3">{{$ctrl.info.construction}}</td>
+				</tr>
+			</table>
+			<div class="network_alert_list">
+				<p class="network_alert_list_head base_info_title">
+					<span>联网单位人员信息</span>
+				</p>
+				<p class="network_alert_list_head base_info_sub_title">
+					<span class="network_alert_list_role">角色：</span>
+					<span class="network_alert_list_name">姓名：</span>
+					<span class="network_alert_list_phone">联系方式： </span>
+					<span class="network_alert_list_id">身份证号：</span>
+				</p>
+				<p ng-repeat="person in $ctrl.info.contactPersons">
+					<span class="network_alert_list_role" ng-if="person.typeId==1">法定代表人</span>
+					<span class="network_alert_list_role" ng-if="person.typeId==2">消防安全责任人</span>
+					<span class="network_alert_list_role" ng-if="person.typeId==3">消防安全负责人</span>
+					<span class="network_alert_list_role" ng-if="person.typeId==4">专兼职消防安全管理人</span>
+					<span class="network_alert_list_name">{{person.givenNameOriental}}</span>
+					<span class="network_alert_list_phone">{{person.contactInfos[0].contactInfo}}</span>
+					<span class="network_alert_list_id">{{person.idDocs[0].idNumber}}</span>
+				</p>
+			</div>
+			
+		</div>
+		<!--传输装置信息-->
+		<div class="network_alert_content" ng-show="$ctrl.selected==1">
+			<table style="width: 100%" ng-repeat="l in $ctrl.info">
+				<tr>
+					<td class="tb_head">传输装置编码：</td>
+					<td>{{l.code}}</td>
+					<td class="tb_head">传输装置名称：</td>
+					<td>{{l.name}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">设备型号：</td>
+					<td>{{l.modelName}}</td>
+					<td class="tb_head">装置通讯模式：</td>
+					<td>{{l.modelTypeId | model_filter:$ctrl.communication_mdl}}</td>
+				</tr>
+				<tr ng-if="(l.modelTypeId | model_filter:$ctrl.communication_mdl).indexOf('宽带')!=-1">
+					<td class="tb_head">IP地址：</td>
+					<td>{{l.famCommunicationMode.ipAddress}}</td>
+					<td class="tb_head">子网掩码：</td>
+					<td>{{l.famCommunicationMode.subnetMask}}</td>
+				</tr>
+				<tr ng-if="(l.modelTypeId | model_filter:$ctrl.communication_mdl).indexOf('宽带')!=-1">
+					<td class="tb_head">网关：</td>
+					<td>{{l.famCommunicationMode.gatewayAddress}}</td>
+					<td class="tb_head">DNS：</td>
+					<td>{{l.famCommunicationMode.dnsAddress}}</td>
+				</tr>
+				<tr ng-show="(l.modelTypeId | model_filter:$ctrl.communication_mdl).indexOf('G')!=-1">
+					<td class="tb_head">运营商：</td>
+					<td>{{l.famCommunicationMode.operator | dic_filter:$ctrl.operate_company}}</td>
+					<td class="tb_head">手机号：</td>
+					<td>{{l.famCommunicationMode.phoneNumber}}</td>
+				</tr>
+				<tr ng-if="(l.modelTypeId | model_filter:$ctrl.communication_mdl).indexOf('G')!=-1">
+					<td class="tb_head">手机卡编号：</td>
+					<td colspan="3">{{l.famCommunicationMode.phonecardNumber}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">制造商：</td>
+					<td>{{l.manufacturerName}}</td>
+					<td class="tb_head">制造商联系方式：</td>
+					<td>{{l.manufacturerId | manu_contact:$ctrl.manufacturer}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">火灾报警控制器品牌：</td>
+					<td>{{l.facuManufacturerId | dic_filter:$ctrl.ctrl_manu}}</td>
+					<td class="tb_head">型号：</td>
+					<td>{{l.famModel.name}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">连接接口类型：</td>
+					<td>{{l.facuApitypeId | api_filter:$ctrl.api_types}}</td>
+					<td class="tb_head">安装时间：</td>
+					<td>{{l.installDate}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">安装地址：</td>
+					<td colspan="3">{{l.address.address}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">经纬度：</td>
+					<td colspan="3">{{l.address.longitude}};{{l.address.lattitude}}</td>
+				</tr>
+			</table>
+		</div>
+		<!--建筑物信息-->
+		<div class="network_alert_content" ng-show="$ctrl.selected==2">
+			<div ng-repeat="l in $ctrl.info">
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head">建筑物编号：</td>
+						<td>{{l.code}}</td>
+						<td class="tb_head">建筑物名称：</td>
+						<td>{{l.name}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">所属单位：</td>
+						<td>{{l.companyName}}</td>
+						<td class="tb_head">建筑物结构类型：</td>
+						<td>{{l.buildingType | dic_filter:$ctrl.building_structure}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">建筑物使用性质：</td>
+						<td>{{l.usingType | dic_filter:$ctrl.using_types}}</td>
+						<td class="tb_head">耐火等级：</td>
+						<td>{{l.resistanceRate | dic_filter:$ctrl.fire_rates}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">消控室位置：</td>
+						<td>{{l.fireControlPosition}}</td>
+						<td class="tb_head">建筑物类别：</td>
+						<td>{{l.buildingCategory | dic_filter:$ctrl.building_categorys}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">火灾危险性：</td>
+						<td>{{l.fireRisk | dic_filter:$ctrl.fire_risks}}</td>
+						<td class="tb_head">建造时间：</td>
+						<td>{{l.buildTime}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">建筑高度（m）：</td>
+						<td>{{l.buildingHeight}}</td>
+						<td class="tb_head">建筑面积（㎡）：</td>
+						<td>{{l.buildingArea}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">地上层数（层）：</td>
+						<td>{{l.floorUpQuantity}}</td>
+						<td class="tb_head">地上层面积（㎡）：</td>
+						<td>{{l.floorUpArea}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">地下层数（层）：</td>
+						<td>{{l.floorDownQuantity}}</td>
+						<td class="tb_head">地下层面积（㎡）：</td>
+						<td>{{l.floorDownArea}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">隧道高度（m）：</td>
+						<td>{{l.tunnelHeight}}</td>
+						<td class="tb_head">隧道长度（m）：</td>
+						<td>{{l.tunnelLength}}</td>
+					</tr>
+				</table>
+				<!--安全出口-->
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head">安全出口位置：</td>
+						<td>{{l.safeExitPosition}}</td>
+						<td class="tb_head">安全出口形式：</td>
+						<td>{{l.safeExitForm}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">安全出口数量：</td>
+						<td colspan="3">{{l.safeExitQuantity}}</td>
+					</tr>
+				</table>
+				<!--防火门-->
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head">防火卷帘门数量：</td>
+						<td>{{l.fireShutterDoorQuantity}}</td>
+						<td class="tb_head">防火门类型：</td>
+						<td>{{l.fireProofDoorTypes | dic_filter:$ctrl.fire_door_types}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">防火门数量：</td>
+						<td colspan="3">{{l.fireProofDoorQuantity}}</td>
+					</tr>
+				</table>
+				<!--避难层-->
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head">避难层数量：</td>
+						<td>{{l.refugeQuantity}}</td>
+						<td class="tb_head">避难层面积（㎡）：</td>
+						<td>{{l.refugeArea}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">避难层位置：</td>
+						<td colspan="3">{{l.refugePosition}}</td>
+					</tr>
+				</table>
+				<!--楼梯-->
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head">楼梯名称：</td>
+						<td>{{l.stairName}}</td>
+						<td class="tb_head">楼梯形式：</td>
+						<td>{{l.stairForm | dic_filter:$ctrl.stair_forms}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">楼梯数量：</td>
+						<td colspan="3">{{l.stairQuantity}}</td>
+					</tr>
+				</table>
+				<!--其他-->
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head">消防电梯数量：</td>
+						<td>{{l.fireElevatorsQuantity}}</td>
+						<td class="tb_head">可容纳总质量（t）：</td>
+						<td>{{l.accommodableQuality}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">建筑物日常工作人数：</td>
+						<td>{{l.buildWorkPeopleQuantity}}</td>
+						<td class="tb_head">建筑物最大容纳人数：</td>
+						<td>{{l.buildWorkPeopleBigQuantity}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">主要储存物名称：</td>
+						<td>{{l.mainStorageName}}</td>
+						<td class="tb_head">总质量（t）：</td>
+						<td>{{l.mainStorageWeight}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">主要储存物性质：</td>
+						<td>{{l.mainStorageNature}}</td>
+						<td class="tb_head">主要储存物形态：</td>
+						<td>{{l.mainStorageForm}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">主要储存物容积：</td>
+						<td>{{l.mainStorageVolume}}</td>
+						<td class="tb_head">主要原料：</td>
+						<td>{{l.mainMaterial}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">主要产品：</td>
+						<td>{{l.mainProducts}}</td>
+						<td class="tb_head">毗邻建筑情况：</td>
+						<td>{{l.adjacentBuildings}}</td>
+					</tr>
+				</table>	
+			</div>
+		</div>
+		<!--火灾控制器信息-->
+		<div class="network_alert_content"  ng-show="$ctrl.selected==3">
+			<div ng-repeat="l in $ctrl.info">
+				<!--建筑物-->
+				<table style="width: 100%">
+					<tr>
+						<td class="tb_head">建筑物编号：</td>
+						<td>{{l.siteBuildingInfoId | bulding_filter:$ctrl.buildingsInfo}}</td>
+						<td class="tb_head">建筑物名称：</td>
+						<td>{{l.siteBuildingInfoName}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">设置部位：</td>
+						<td>{{l.position}}</td>
+						<td class="tb_head">系统形式：</td>
+						<td>{{l.type}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">投入使用时间：</td>
+						<td>{{l.useTime|date:'yyyy/MM/dd'}}</td>
+						<td class="tb_head">服务状态：</td>
+						<td>{{l.status | dic_filter:$ctrl.service_state}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">维保单位：</td>
+						<td>{{l.maintenanceUnit}}</td>
+						<td class="tb_head">维保单位联系方式：</td>
+						<td>{{l.contactinfo}}</td>
+					</tr>
+				</table>
+			</div>
+			<div ng-repeat="n in $ctrl.sub">
+			<!--控制器1-->
+				<table style="width: 100%" >
+					<tr>
+						<td class="tb_head">传输装置编码：</td>
+						<td>{{n.relayId | bulding_filter:$ctrl.deviceList}}</td>
+						<td class="tb_head">传输装置名称：</td>
+						<td>{{n.relayId | dic_filter:$ctrl.deviceList}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">控制分类：</td>
+						<td>{{n.deviceCategoryId | dic_filter:$ctrl.fam_facus_type}}</td>
+						<td class="tb_head">控制器编码：</td>
+						<td>{{n.code}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">控制器类型：</td>
+						<td>{{n.name}}</td>
+						<td class="tb_head">控制器型号：</td>
+						<td>{{n.modelName}}</td>
+					</tr>
+					<tr>
+						<td class="tb_head">控制器制造商：</td>
+						<td>{{n.manufacturer}}</td>
+						<td class="tb_head">制造商联系方式：</td>
+						<td>{{n.manufacturerContact}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--水系统-->
+		<div class="network_alert_content" ng-show="$ctrl.selected==4">
+			<!--建筑物-->
+			<table style="width: 100%" ng-repeat="l in $ctrl.info">
+				<tr>
+					<td class="tb_head">建筑物编号：</td>
+					<td>{{l.code | bulding_filter:$ctrl.buildingsInfo}}</td>
+					<td class="tb_head">建筑物名称：</td>
+					<td>{{l.name}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">市政给水管网形式：</td>
+					<td>{{l.networkForm}}</td>
+					<td class="tb_head">市政给水管网管径（cm）：</td>
+					<td>{{l.outPipeDiameter}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">市政管网进水管数量：</td>
+					<td>{{l.inPipeCount}}</td>
+					<td class="tb_head">市政管网进水管管径（cm）：</td>
+					<td>{{l.inPipeDiameter}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">消防水池位置：</td>
+					<td>{{l.poolPosition}}</td>
+					<td class="tb_head">消防水池容量（m³）：</td>
+					<td>{{l.poolCapacity}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">屋顶水箱位置：</td>
+					<td>{{l.poolBoxPosition}}</td>
+					<td class="tb_head">屋顶水箱容量（m³）：</td>
+					<td>{{l.poolBoxCapacity}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">消防泵房位置：</td>
+					<td>{{l.pumpPosition}}</td>
+					<td class="tb_head">水泵数量：</td>
+					<td>{{l.pumpCount}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">其他水源形式：</td>
+					<td>{{l.other}}</td>
+					<td class="tb_head">其他水源供水量（m³）：</td>
+					<td>{{l.otherCapacity}}</td>
+				</tr>
+			</table>
+		</div>
+		<!--室外设施-->
+		<div class="network_alert_content"  ng-show="$ctrl.selected==5">
+			<!--建筑物室外-->
+			<table style="width: 100%" ng-repeat="l in $ctrl.info">
+				<tr>
+					<td class="tb_head">建筑物编号：</td>
+					<td>{{l.code | bulding_filter:$ctrl.buildingsInfo}}</td>
+					<td class="tb_head">建筑物名称：</td>
+					<td>{{l.name}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">管网管径（mm）：</td>
+					<td>{{l.pipeDiameter}}</td>
+					<td class="tb_head">室外管网形式：</td>
+					<td>{{l.networkForm}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">室外消火栓数量：</td>
+					<td>{{l.hydrantCount}}</td>
+					<td class="tb_head">室外水池容量（m³）：</td>
+					<td>{{l.poolCapacity}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">管网供水状态：</td>
+					<td>{{l.supplyCondition}}</td>
+					<td class="tb_head">天然水源情况：</td>
+					<td>{{l.sourceCondition}}</td>
+				</tr>
+			</table>
+		</div>
+		<!--室内消防栓信息-->
+		<div class="network_alert_content"  ng-show="$ctrl.selected==6">
+			<!--建筑物室内-->
+			<table style="width: 100%" ng-repeat="l in $ctrl.info">
+				<tr>
+					<td class="tb_head">建筑物编号：</td>
+					<td>{{l.code | bulding_filter:$ctrl.buildingsInfo}}</td>
+					<td class="tb_head">建筑物名称：</td>
+					<td>{{l.name}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">室内消火栓管网形式：</td>
+					<td>{{l.networkForm}}</td>
+					<td class="tb_head">室内消火栓管网管径（mm）：</td>
+					<td>{{l.pipeDiameter}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">屋顶水箱容量（m³）：</td>
+					<td>{{l.poolBoxCapacity}}</td>
+					<td class="tb_head">室内消火栓数量：</td>
+					<td>{{l.hydrantCount}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">消防泵房设置位置：</td>
+					<td>{{l.pumpPosition}}</td>
+					<td class="tb_head">消防泵数量：</td>
+					<td>{{l.pumpCount}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">消防泵流量（l/s）：</td>
+					<td>{{l.pumpFlow}}</td>
+					<td class="tb_head">消防泵扬程（m）：</td>
+					<td>{{l.pumpLift}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">水泵接合器数量：</td>
+					<td>{{l.adapterCount}}</td>
+					<td class="tb_head">水泵接合器位置：</td>
+					<td>{{l.adapterPosition}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">竖管管径（mm）：</td>
+					<td>{{l.standpipeDiameter}}</td>
+					<td class="tb_head">稳压泵数量：</td>
+					<td>{{l.pressurePumpCount}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">稳压泵流量（l/s）：</td>
+					<td>{{l.pressurePumpFlow}}</td>
+					<td class="tb_head">稳压泵扬程（m）：</td>
+					<td>{{l.pressurePumpLift}}</td>
+				</tr>
+				<tr>
+					<td class="tb_head">气压罐容量（m³）：</td>
+					<td>{{l.pressureTank}}</td>
+					<td class="tb_head">消防水喉数量：</td>
+					<td>{{l.fireHoseCount}}</td>
+				</tr>
+			</table>
+		</div>
+		<!--平面图 - 点位信息-->
+		<div class="network_location_scroll" ng-show="$ctrl.show_location">
+			<p class="list_data list_data_head min_width_793 network_location_top" ng-if="$ctrl.info.length">
+				<span class="network_alert_code">设备编码</span>
+				<span class="network_alert_name">设备类型</span>
+				<span class="network_alert_type">子系统类型</span>
+				<span class="network_alert_code">传输设备编码</span>
+				<span class="network_alert_add">设备位置</span>
+			</p>
+			<div class="list_data_scroll fix_time_data min_width_793">
+				<p class="list_data cursor_normal" ng-repeat="l in $ctrl.info">
+					<span class="network_alert_code">{{l.code}}</span>
+					<span class="network_alert_name">{{l.deviceCategoryId | dic_filter:$ctrl.device_type}}</span>
+					<span class="network_alert_type">火灾报警子系统</span>
+					<span class="network_alert_code">{{l.relayId | bulding_filter:$ctrl.deviceList}}</span>
+					<span class="network_alert_add">{{l.address.address}}</span>
+				</p>
+			</div>
+		</div>
+		<!--灭火预案-->
+		<div class="list_data_scroll fix_time_data pic_scroll" ng-show="$ctrl.selected==9">
+			<div class="pic_wrap" ng-repeat="l in $ctrl.info track by $index">
+				<div class="pic_fixed">
+					<p class="pic_display bg_blue_pic" ng-if="!$ctrl.show_pic(l.famExtingtishingPlanAttachment).id">{{l.extinguishingTitle}}</p>
+					<img ng-src="{{$root.qiuNiuUrl+$ctrl.show_pic(l.famExtingtishingPlanAttachment).fileName+'?imageView2/1/w/160/h/160'}}" ng-if="$ctrl.show_pic(l.famExtingtishingPlanAttachment).id"/>
+					<div class="text-left" title="{{l.extinguishingTitle}}">{{l.extinguishingTitle}}</div>
+				</div>
+			</div>
+		</div>
+		<!--平面图-->
+		<div class="surface_bg_scroll" ng-show="($ctrl.selected==8&&!$ctrl.show_location)"> 
+			<div class="fix_time_data min_width_550">
+				<div class="surface_big_pic">
+					<p class="surface_big_title" ng-show="$ctrl.re_floor.placeName">{{$ctrl.re_floor.placeName}}：地上{{$ctrl.re_floor.floorUpQuantity?$ctrl.re_floor.floorUpQuantity:0}}层 |  地下{{$ctrl.re_floor.floorDownQuantity?$ctrl.re_floor.floorDownQuantity:0}}层</p>
+					<a href="{{$root.qiuNiuUrl+$ctrl.info[0].qiniuName}}" data-lightbox="roadtrip">
+						<img ng-src="{{$ctrl.info[0].qiniuName?($root.qiuNiuUrl+$ctrl.info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" /> <!-- images/add_pic.png -->
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--道路及外观-->
+		<div class="fix_time_data pic_scroll" ng-show="$ctrl.selected==10">
+			<div class="clearfix">
+				<div class="pic_wrap" ng-repeat="l in $ctrl.info track by $index">
+					<div class="pic_fixed">
+						<a href="{{$root.qiuNiuUrl+l.qiniuName}}" data-lightbox="roadtrip">
+							<img ng-src="{{l.qiniuName?($root.qiuNiuUrl+l.qiniuName+'?imageView2/1/w/160/h/160'):'images/add_pic.png'}}" />
+						</a>
+						<div title="{{l.pictureName}}">{{l.pictureName}}</div>
+						<div class="pic_edit">{{(l.pictureType||l.pictureType==0)?(l.pictureType | dic_filter:$ctrl.picture_type):'未定义属性'}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="pic_building">
+				<div class="pic_building_block">
+					<div class="pic_building_detail">
+						<span class="pic_building_img">北</span>
+						<div class="pic_building_road">
+							<p class="text_eliips">道路名称：<font title="{{$ctrl.north[0].roadName}}">{{$ctrl.north[0].roadName}}</font></p>
+							<p>道路宽度：{{$ctrl.north[0].roadWidth}}</p>
+							<p class="margin_btm_8" class="text_eliips">显现建筑：<font title="{{$ctrl.north[0].appearanceBuilding}}">{{$ctrl.north[0].appearanceBuilding}}</font></p>
+						</div>
+					</div>
+				</div>
+				<div class="pic_building_block">
+					<div class="pic_building_detail">
+						<span class="pic_building_img">西</span>
+						<div class="pic_building_road">
+							<p class="text_eliips">道路名称：<font title="{{$ctrl.west[0].roadName}}">{{$ctrl.west[0].roadName}}</font></p>
+							<p>道路宽度：{{$ctrl.west[0].roadWidth}}</p>
+							<p class="margin_btm_8 text_eliips">显现建筑：<font title="{{$ctrl.west[0].appearanceBuilding}}">{{$ctrl.west[0].appearanceBuilding}}</font></p>
+						</div>
+					</div>
+				</div>
+				<div class="pic_building_block">
+					<div class="pic_building_detail">
+						<span class="pic_building_img">南</span>
+						<div class="pic_building_road">
+							<p class="text_eliips">道路名称：<font title="{{$ctrl.sourth[0].roadName}}">{{$ctrl.sourth[0].roadName}}</font></p>
+							<p>道路宽度：{{$ctrl.sourth[0].roadWidth}}</p>
+							<p class="margin_btm_8 text_eliips">显现建筑：<font title="{{$ctrl.sourth[0].appearanceBuilding}}">{{$ctrl.sourth[0].appearanceBuilding}}</font></p>
+						</div>
+					</div>
+				</div>
+				<div class="pic_building_block">
+					<div class="pic_building_detail">
+						<span class="pic_building_img">东</span>
+						<div class="pic_building_road">
+							<p class="text_eliips">道路名称：<font title="{{$ctrl.east[0].roadName}}">{{$ctrl.east[0].roadName}}</font></p>
+							<p>道路宽度：{{$ctrl.east[0].roadWidth}}</p>
+							<p class="margin_btm_8 text_eliips">显现建筑：<font title="{{$ctrl.east[0].appearanceBuilding}}">{{$ctrl.east[0].appearanceBuilding}}</font></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="check_task_scroll" ng-show="$ctrl.selected==11">
+			<div id="unitMap" class="full_map unit_full_map"></div>
+		</div>
+	</div>
+	<!--平面图-->
+	<div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden fire_alarm_gray_bg" ng-show="($ctrl.selected==8&&!$ctrl.show_location)">
+		<div class="fire_alarm_right_top surface_bg_top border_radius_top_4">
+			<select class="select_text margin_btm_15"
+                    ng-options="build.id as build.name for build in $ctrl.buildings_info"
+                    ng-model="$ctrl.build_id" ng-change="$ctrl.get_cell()">
+          	</select>	
+			<select class="select_text"
+                    ng-options="floor.id as floor.placeName for floor in $ctrl.floors"
+                    ng-model="$ctrl.floor_id" ng-change="$ctrl.get_floor()">
+          	</select>	
+		</div>
+		<ul class="fire_alarm_ul">
+			<li ng-repeat="l in $ctrl.floor_list track by $index" ng-click="$ctrl.show_surface(l.index)" ng-style="l.index == $ctrl.sur_selected?{'background':'#ECECEC'}:''">
+				{{l.name}}
+			</li>
+		</ul>
+	</div>
+</div>

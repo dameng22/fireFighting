@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="login">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>消防物联网远程监控系统</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="css/lib/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/lib/loading-bar.min.css">
+    <link rel="stylesheet" href="css/lib/ui-dialog.css">
+	<link rel="stylesheet" href="css/main.css?pro=35">
+	<link rel="stylesheet" href="css/template.css?pro=35">
+    <script src="js/jquery/jquery-1.11.0.js"></script>
+    <script src="js/jquery/md5.min.js"></script>
+    <script src="js/dialog-plus-min.js"></script>
+    <script src="js/angular/angular.js"></script>
+    <script src="js/angular/angular-animate.min.js"></script>
+    <script src="js/angular/angular-touch.min.js"></script>
+    <script src="js/angular/angular-ui-router.js"></script>
+    <script src="js/angular/ocLazyLoad.min.js"></script>
+    <script src="js/angular/angular-resource.min.js"></script>
+    <script src="js/angular/ui-bootstrap-tpls.min.js"></script>
+    <script src="js/angular/loading-bar.min.js"></script>
+    <script src="./config.js?pro=35"></script>
+    <script src="./routers.js?pro=35"></script>
+    <script src="./services.js?pro=35"></script>
+    <script src="./components.js?pro=35"></script>
+    <script src="./controllers/loginController.js?pro=35"></script>
+    <script src="https://cdn.bootcss.com/angular-base64/2.0.5/angular-base64.min.js"></script>
+</head>
+<body ng-controller="loginController" ng-keydown="enter_login($event)" class="bg">
+	<div  class="login">
+	    <div class="login-title text-center">消防物联网远程监控系统</div>
+	        <form id="loginForm">
+	                <div class="form-group">
+	                    <input name="name" class="form-control" set-focus ng-model="username" placeholder="用户名" required/>
+	                </div>
+	                <div class="form-group">
+	                    <input type="password" name="password" class="form-control" ng-model="pwd" placeholder="密码" required/>
+	                </div>
+	                <p class="login_tips">{{error_tips}}</p>
+	                <div class="form-group">
+	                    <button class="btn login-btn" type="submit" ng-disabled="form.$invalid" ng-click="login()">登 录<span class="fire-icon icon_arrow"></span></button>
+	                    <a href="javascript:;">忘记密码？</a>
+	                </div>
+	        </form>
+	    <div class="login-bottom">请自觉维护公共消防安全,发现火灾迅速拨打<span class="violet"> 119 </span>电话报警</div>
+	</div>
+</body>
+</html>

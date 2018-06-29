@@ -1,0 +1,17 @@
+	<div ng-class="$ctrl.is_or_no_alert()" class="border_radius_4 bg_white">	
+		<div class="network_alert_head border_radius_top_4">
+			<i class="ico_sprite ico_back" ng-click="$ctrl.alert_cancel()"></i>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="$ctrl.save_plan()">确定上传</span>
+		</div>
+		<!--灭火预案-->
+		<div class="plan_alert_wrap">
+			<input class="plan_input border_radius_4" placeholder="请输入标题内容" ng-model="$ctrl.addData.extinguishingTitle"/>
+			<div class="plan_input plan_area_wrap border_radius_4" style="padding: 0;">
+				<textarea class="plan_area"  placeholder="请输入正文内容" ng-model="$ctrl.addData.extingtishingContent"/>
+				<p class="plan_alert_round border_radius_4 notice_upload"><i class="ico_sprite ico_relias"></i>添加附件
+					<input type="file" id="upload_material" style="width: 100%;"/>
+				</p>
+			</div>
+			<p class="plan_alert_round cursor_normal border_radius_4" ng-repeat="l in $ctrl.addData.famExtingtishingPlanAttachment track by $index"><i class="ico_sprite ico_relias"></i>{{l.originalName}}</p>
+		</div>
+	</div>

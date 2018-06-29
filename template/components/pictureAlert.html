@@ -1,0 +1,35 @@
+<div ng-class="$ctrl.is_or_no_alert()" class="border_radius_4">
+	<p class="remark_alert_title"><i class="ico_sprite ico_close" ng-click="$ctrl.alert_cancel()"></i>{{$ctrl.type == 'add'?'添加':'修改'}}图片</p>
+	<div class="picture_alert_left">
+		<img ng-src="{{$ctrl.picUrl?($ctrl.picUrl):'images/add_pic.png'}}" ng-if="$ctrl.type == 'add'"/>
+		<img ng-src="{{$ctrl.picUrl?($ctrl.flag?($ctrl.picUrl):($root.qiuNiuUrl+$ctrl.picUrl+'?imageView2/1/w/200/h/200')):'images/add_pic.png'}}" ng-if="$ctrl.type == 'edit'"/>
+		<span class="btn_size btn_blue notice_upload" ng-show="$ctrl.types==0||$ctrl.types==1||$ctrl.types==2||$ctrl.types==10"><input type="file" class="btn_size" id="pic_upload" />选择图片</span>
+	</div>
+	<div class="picture_alert_right">
+		<p><span class="pic_needed">*</span>图片名称：</p>
+		<input class="input_text picture_alert_input" ng-model="$ctrl.titles"/>
+		<p><span class="pic_needed">*</span>属性：</p>
+		<select class="select_text" title=""
+                ng-options="type.id as type.name for type in $parent.picture_select"
+                ng-model="$ctrl.types">
+      	</select>
+      	<div ng-show="$ctrl.types==3||$ctrl.types==4||$ctrl.types==5||$ctrl.types==6">
+	      	<p><span class="pic_needed">*</span>道路名称：</p>
+			<input class="input_text picture_alert_input" ng-model="$ctrl.bulid.roadName" placeholder="请输入道路名称"/>
+			<div class="picture_alert_road">
+				<div class="picture_road_width">
+					<p>道路宽度：</p>
+					<input class="input_text picture_alert_input" ng-model="$ctrl.bulid.roadWidth"/>
+				</div>
+				<div class="picture_road_builds">
+					<p>显现建筑：</p>
+					<input class="input_text picture_alert_input" ng-model="$ctrl.bulid.appearanceBuilding"/>
+				</div>
+			</div>
+		</div>
+		<p class="pic_btn" ng-style="$ctrl.types==3||$ctrl.types==4||$ctrl.types==5||$ctrl.types==6?{'margin-top':'10px'}:{}">
+			<span class="btn_size btn_blue" ng-click="$ctrl.alert_cancel()" style="margin-right: 10px;">取消</span>
+			<span class="btn_size btn_blue" ng-click="$ctrl.alert_true()">保存</span>
+		</p>
+	</div>
+</div>

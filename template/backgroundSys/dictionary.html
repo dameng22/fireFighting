@@ -1,0 +1,6 @@
+			<ul class="check_task_tab dic_tab border_radius_4">
+				<li ng-class="(l.links == sub_state)?'check_task_selected':''" ng-click="go_sub(l.links)" ng-repeat="l in dic_list track by $index">{{l.name}}<hr class="check_task_tab_line" ng-if="!$last"/></li>
+			</ul>
+			<div ui-view="" class="content_all border_radius_4">
+
+			</div>

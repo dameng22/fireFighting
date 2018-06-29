@@ -1,0 +1,22 @@
+<div ng-class="$ctrl.is_or_no_alert()" class="border_radius_4">
+	<table width="100%">
+		<tr>
+			<td class="tb_head"><span>*</span>标题：</td>
+			<td>
+				<input type="text" class="input_text_edit" ng-model="$ctrl.title"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="tb_head">内容：</td>
+			<td>
+				<textarea class="textarea_input"ng-model="$ctrl.remark"></textarea>
+			</td>
+		</tr>
+	</table>
+	<p class="notice_file" ng-repeat="l in $ctrl.file_list track by $index">{{l.name}}<span ng-click="$ctrl.del_file($index)">删除</span></p>
+	<p class="text-right" style="margin-top:18px;">
+		<span class="btn_size btn_blue notice_upload"><input type="file" class="btn_size" id="notice_upload" />添加文件</span>
+		<span class="btn_size notice_pub_btn" ng-click="$ctrl.alert_true()">发布</span>
+		<span class="btn_size notice_cancel_btn" ng-click="$ctrl.alert_cancel()">取消</span>
+	</p>
+</div>

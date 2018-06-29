@@ -1,0 +1,26 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="build_alert">
+		<p class="build_alert_top">
+			新增楼栋
+			<i class="ico_sprite ico_close" ng-click="$ctrl.alert_cancel()"></i>
+		</p>
+		<p class="build_alert_tips">楼名</p>
+		<input type="text" ng-model="$ctrl.item.placeName"/>
+		<div class="build_alert_btm">
+			<div style="margin-right: 14px;">
+				<p class="build_alert_tips">地上层数</p>
+				<input type="number" ng-model="$ctrl.item.floorUpQuantity"/>
+				<font class="build_alert_floor">层</font>
+			</div>
+			<div>
+				<p class="build_alert_tips">地下层数</p>
+				<input type="number" ng-model="$ctrl.item.floorDownQuantity"/>
+				<font class="build_alert_floor">层</font>
+			</div>
+		</div>
+		<p class="text-center" style="margin-top: 16px;">
+			<span class="btn_size btn_blue margin_right_10" ng-click="$ctrl.alert_true()">保存</span>
+			<span class="btn_size btn_blue" ng-click="$ctrl.alert_cancel()">取消</span>
+		</p>
+	</div>
+</div>

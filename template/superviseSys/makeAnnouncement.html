@@ -1,0 +1,33 @@
+<div class="content_all border_radius_4 notice_scrolls">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<span class="btn_size btn_blue btn_light_blue" ng-click="add_notice()">发布通知</span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4">
+		<p class="list_data list_data_head min_width_793">
+			<span class="notice_index">序号</span>
+			<span class="notice_title">通知名称</span>
+			<span class="notice_time">发布时间</span>
+			<span class="notice_from">发布人</span>
+			<span class="notice_files">附件个数</span>
+			<span class="notice_operate">操作</span>
+		</p>
+		<div class="list_data_scroll fix_time_data min_width_793">
+			<p class="list_data cursor_pointer min_width_793" ng-repeat="l in notice_list track by $index" ng-dblclick="view_notice(l.id,l)">
+				<span class="notice_index">{{$index+1}}</span>
+				<span class="notice_title" title="{{l.noticeTitle}}">{{l.noticeTitle}}</span>
+				<span class="notice_time">{{l.noticeDate}}</span>
+				<span class="notice_from">{{l.person.givenNameOriental}}</span>
+				<span class="notice_files">{{l.isHaveAttachment}}</span>
+				<span class="account_operate">
+					<font ng-click="delete_msg(l.id)" style="color:#4786FF;">删除</font>
+				</span>
+			</p>
+			
+		</div>
+	</div>
+</div>
+
+<announcement-alert show-alert="show_alert" get-list="get_search()"></announcement-alert>
+<notice-detail-alert show-alert="notice_show" notice-detail="notice_detail" notice-item="notice_item"></notice-detail-alert>

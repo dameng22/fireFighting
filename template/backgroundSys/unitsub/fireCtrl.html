@@ -1,0 +1,160 @@
+		<div class="network_alert_head border_radius_top_4">
+			<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="cancel_btn()" ng-if="add_main">取消</span>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="save_data_btn()">保存修改</span>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="add_data_btn()" ng-show="!add_main&&bigTotalItems">新增一页</span>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="delete_data_btn()" ng-if="!add_main&&bigTotalItems">删除此页</span>
+			<ul uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="3" items-per-page="1" class="pagination-sm list_pagination" boundary-link-numbers="true" rotate="true" ng-click="get_list(currentPage)" ng-show="!add_main&&bigTotalItems"></ul>
+		</div>
+		<!--火灾控制器信息-->
+		<div class="network_alert_content trans_device_con trans_device_margin" style="padding: 0;">
+			<div ng-repeat="l in info">
+				<div class="trans_device_margin border_radius_4">
+					<div class="trans_device_wrap border_radius_4">
+					<!--建筑物-->
+						<table style="width: 100%">
+							<tr>
+								<td class="tb_head">单位编码：</td>
+								<td><input type="text" class="input_text input_disabled" ng-model="unit.code" ng-disabled="true"/></td>
+								<td class="tb_head">单位名称：</td>
+								<td><input type="text" class="input_text input_disabled" ng-model="unit.name" ng-disabled="true"/></td>
+							</tr>
+							<tr>
+								<td class="tb_head"><span>*</span>建筑物编号：</td>
+								<td>
+									<select class="select_text" title=""
+			                                ng-options="building.id as building.code for building in buildings"
+			                                ng-model="l.siteBuildingInfoId">
+			                       	</select>
+								</td>
+								<td class="tb_head"><span>*</span>建筑物名称：</td>
+								<td>
+									<p class="input_text input_disabled" style="line-height: 32px;">{{l.siteBuildingInfoId | dic_filter:buildings}}</p>
+								</td>
+							</tr>
+							<tr>
+								<td class="tb_head">设置部位：</td>
+								<td><input type="text" class="input_text" ng-model="l.position" /></td>
+								<td class="tb_head">系统形式：</td>
+								<td><input type="text" class="input_text" ng-model="l.type" /></td>
+							</tr>
+							<tr>
+								<td class="tb_head">投入使用时间：</td>
+								<td><input type="text" class="input_text" ng-model="l.useTime" /></td>
+								<td class="tb_head">服务状态：</td>
+								<td>
+									<select class="select_text" title=""
+			                                ng-options="service.id as service.name for service in service_state"
+			                                ng-model="l.status">
+			                       </select>
+								</td>
+							</tr>
+							<tr>
+								<td class="tb_head">维保单位：</td>
+								<td><input type="text" class="input_text" ng-model="l.maintenanceUnit" /></td>
+								<td class="tb_head">维保单位联系方式：</td>
+								<td><input type="text" class="input_text" ng-model="l.contactinfo" /></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="trans_device_margin" style="height: 14px;"></div>
+			</div>
+			<!--控制器1-->
+			<div class="trans_device_margin border_radius_4" ng-if="sub.length>0" ng-repeat="n in sub">
+				<div class="trans_device_wrap border_radius_4">
+					<table style="width: 100%">
+						<tr>
+							<td class="tb_head"><span>*</span>传输装置编码：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="trans.id as trans.code for trans in trans_info"
+		                                ng-change="select_build(n.relayId)"
+		                                ng-model="n.relayId">
+		                      	</select>
+							</td>
+							<td class="tb_head"><span>*</span>传输装置名称：</td>
+							<td>
+								<p class="input_text input_disabled" style="line-height: 32px;">{{n.relayId | dic_filter:trans_info}}</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head"><span>*</span>控制器分类：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="facus.id as facus.name for facus in fam_facus_type"
+		                                ng-model="n.deviceCategoryId">
+		                      	</select>
+							</td>
+							<td class="tb_head"><span>*</span>控制器编码：</td>
+							<td><input type="text" class="input_text" ng-model="n.code" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">控制器类型：</td>
+							<td><input type="text" class="input_text" ng-model="n.name" /></td>
+							<td class="tb_head">控制器型号：</td>
+							<td><input type="text" class="input_text" ng-model="n.modelName" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">控制器制造商：</td>
+							<td><input type="text" class="input_text" ng-model="n.manufacturer" /></td>
+							<td class="tb_head">制造商联系方式：</td>
+							<td><input type="text" class="input_text" ng-model="n.manufacturerContact" /></td>
+						</tr>
+					</table>
+					<p class="text-right"><span class="btn_size btn_blue btn_light_blue" ng-click="delete_sub_ctrl(n.id)">删除设备</span></p>
+				</div>
+				<div class="trans_device_margin" style="height: 14px;"></div>
+			</div>
+			<!--控制器1-->
+			<div class="trans_device_margin border_radius_4" ng-show="add_sub">
+				<div class="trans_device_wrap border_radius_4">
+					<table style="width: 100%">
+						<tr>
+							<td class="tb_head"><span>*</span>传输装置编码：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="trans.id as trans.code for trans in trans_info"
+		                                ng-change="select_build(add_info_sub.relayId)"
+		                                ng-model="add_info_sub.relayId">
+		                      	</select>
+							</td>
+							<td class="tb_head"><span>*</span>传输装置名称：</td>
+							<td>
+		                      	<p class="input_text input_disabled" style="line-height: 32px;">{{add_info_sub.relayId | dic_filter:trans_info}}</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head"><span>*</span>控制器分类：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="facus.id as facus.name for facus in fam_facus_type"
+		                                ng-model="add_info_sub.deviceCategoryId">
+		                      	</select>
+							</td>
+							<td class="tb_head"><span>*</span>控制器编码：</td>
+							<td><input type="text" class="input_text" ng-model="add_info_sub.code" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">控制器类型：</td>
+							<td><input type="text" class="input_text" ng-model="add_info_sub.name" /></td>
+							<td class="tb_head">控制器型号：</td>
+							<td><input type="text" class="input_text" ng-model="add_info_sub.modelName" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">控制器制造商：</td>
+							<td><input type="text" class="input_text" ng-model="add_info_sub.manufacturer" /></td>
+							<td class="tb_head">制造商联系方式：</td>
+							<td><input type="text" class="input_text" ng-model="add_info_sub.manufacturerContact" /></td>
+						</tr>
+					</table>
+					<p class="text-right">
+						<span class="btn_size btn_blue btn_light_blue" ng-click="add_sub=false">取消</span>
+						<span class="btn_size btn_blue btn_light_blue" ng-click="add_sub_btn()">保存</span>
+					</p>
+				</div>
+				<div class="trans_device_margin" style="height: 14px;"></div>
+			</div>
+			<span class="trans_device_btn" ng-click="add_sub=true" ng-show="!add_sub">新增设备</span>
+		</div>
+		

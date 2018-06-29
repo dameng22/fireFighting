@@ -1,0 +1,45 @@
+<div class="content_all border_radius_4 online_count_all">
+	<div class="online_count_block margin_btm_20">
+		<p class="online_count_date"><em ng-click="toggle_month('pre')" ng-show="pre_show()"><</em>{{year}}年{{month}}月<em ng-click="toggle_month('next')" ng-show="next_show()">></em></p>
+		<div class="online_count_week">
+			<div>一</div>
+			<div>二</div>
+			<div>三</div>
+			<div>四</div>
+			<div>五</div>
+			<div>六</div>
+			<div>日</div>
+		</div>
+		<div class="online_count_day">
+			<div ng-repeat="l in month_days track by $index" ng-class="l.dayFormatTime?'cursor_pointer':''" ng-click="show_current(l.dayFormatTime,l.dates)">
+				<p class="online_count_days" ng-if="l.dayFormatTime">{{l.dayFormatTime}}</p>
+				<p class="online_count_tips" ng-if="l.dayFormatTime">在线：<em>{{l.newOnlineCount}}</em>&nbsp;&nbsp;&nbsp;离线：<i>{{l.newOutlineCount}}</i></p>
+			</div>
+		</div>
+	</div>
+	<div class="online_count_block margin_btm_20">
+		<p class="online_count_select"><span>日期：</span>{{day_time | date:'yyyy/MM/dd'}}</p>
+		<div id="area_bar" class="unit_statis_full" style="height: 294px;width: 100%;"></div>
+	</div>
+	<div class="online_count_block" style="height: 270px;" ng-show="unit_online.length>0">
+		<div class="online_count_scroll border_radius_4">
+			<p class="list_data list_data_head"><span class="online_count_title">{{region_names}}{{day_time | date:'yyyy年MM月dd日'}}在线信息统计</span></p>
+			<p class="list_data list_data_head">
+				<span class="online_count_index">序号</span>
+				<span class="online_count_code">单位编码</span>
+				<span class="online_count_name">单位名称</span>
+				<span class="online_count_time">最新在线时间</span>
+			</p>
+			<div class="list_data_scroll fix_time_data min_width_967">
+				<p class="list_data cursor_normal" ng-repeat="l in unit_online track by $index">
+					<span class="online_count_index">{{$index+1}}</span>
+					<span class="online_count_code">{{l.relay.famCustomerSite.code}}</span>
+					<span class="online_count_name">{{l.relay.famCustomerSite.name}}</span>
+					<span class="online_count_time">{{l.relay.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+

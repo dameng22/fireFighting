@@ -1,0 +1,34 @@
+<div class="content_all border_radius_4">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search()"></i></span>
+			<span class="btn_size btn_light_blue" ng-click="alert_show(0,current_id)" ng-class="current_id?'btn_blue':''">填写备注</span>
+			<span class="btn_size btn_light_blue" ng-click="remove_test(current_id)" ng-class="current_id?'btn_blue':''">移除测试</span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4">
+		<p class="list_data list_data_head">
+			<span class="test_unit_code">单位编码</span>
+			<span class="test_unit_name">单位名称</span>
+			<span class="test_unit_code">设备编码</span>
+			<span class="test_unit_add">单位地址</span>
+			<span class="test_unit_phone">消控室电话</span>
+			<span class="test_unit_time">开始测试时间</span>
+			<span class="test_unit_remark">备注</span>
+		</p>
+		<div class="list_data_scroll fix_time_data min_width_967">
+			<p class="list_data" ng-repeat="l in unit_test track by $index" ng-dblclick="alert_show(1,l.id)" ng-click="alert_show(3,l.id)" ng-class="(current_id==l.id)?'list_data_selected':''">
+				<span class="test_unit_code">{{l.famCustomerSite.code}}</span>
+				<span class="test_unit_name">{{l.famCustomerSite.name}}</span>
+				<span class="test_unit_code">{{l.code}}</span>
+				<span class="test_unit_add">{{l.address.address}}</span>
+				<span class="test_unit_phone">{{l.famCustomerSite.controlRoomContactinfo}}</span>
+				<span class="test_unit_time">{{l.testingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="test_unit_remark"><font ng-click="alert_show(1,l.id)">查看</font></span>
+			</p>
+		</div>
+	</div>
+	<show-remark-alert show-alert="show_alert" type="show_type" ids="current_id" list="remark_list" type-id="type_id" current-page="current_page" total-page="total_page"></show-remark-alert>
+</div>
+
+

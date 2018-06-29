@@ -1,0 +1,82 @@
+	<div class="check_task_add" ng-init="add_show = false" style="height: 400px;margin-top: -200px;">
+		<div class="check_task_add_top">
+			报警点编码表
+			<i class="ico_sprite ico_white_close" ui-sref="setUnitDetail.surface({'token':sys_token,'unit':sys_unit,'sys':sys_role})"></i>
+		</div>
+		<div class="network_alert_head border_radius_top_4">
+<!--			<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>-->
+			<span class="btn_size btn_blank" ng-click="add_show=true" ng-show="!add_show">新增一条</span>
+			<span class="btn_size btn_blank">导入</span>
+		</div>
+		<!--点位信息-->
+		<div class="check_task_scroll location_scroll_edit">
+			<p class="list_data list_data_head">
+				<span class="loaction_code">设备编码</span>
+				<span class="loaction_type">设备类型</span>
+				<span class="loaction_type">子系统类型</span>
+				<span class="loaction_code">传输设备编码</span>
+				<span class="loaction_add">设备位置</span>
+				<span class="loaction_operate">操作</span>
+			</p>
+			<div class="list_data_scroll fix_time_data">
+				<p class="list_data cursor_normal" ng-show="add_show">
+					<span class="loaction_code"><input type="text" class="input_text" ng-model="add_info.code" /></span>
+					<span class="loaction_type">
+						<select class="select_text" title=""
+                                ng-options="type.id as type.name for type in device_type"
+                                ng-model="add_info.deviceCategoryId">
+                      	</select>
+					</span>
+					<span class="loaction_type">
+						<select class="select_text" title=""
+                                ng-options="sub.id as sub.name for sub in sub_system"
+                                ng-model="systemSub">
+                      	</select>
+					</span>
+					<span class="loaction_code">
+						<select class="select_text" title=""
+                                ng-options="device.id as device.code for device in device_list"
+                                ng-model="add_info.relayId">
+                      	</select>
+                    </span>
+					<span class="loaction_add"><input type="text" class="input_text" ng-model="add_info.address.address" /></span>
+					<span class="loaction_operate location_edit"><font ng-click="save_data_btn(add_info,'add');add_show=false">保存</font> | <font ng-click="add_show=false">取消</font></span>
+				</p>
+				<p class="list_data cursor_normal" ng-repeat="l in info track by $index">
+					<span class="loaction_code">
+						<input type="text" class="input_text" ng-model="l.code" ng-if="l.read"/>
+						<font ng-if="!l.read">{{l.code}}</font>
+					</span>
+					<span class="loaction_type">
+						<select class="select_text" title=""
+                                ng-options="type.id as type.name for type in device_type"
+                                ng-model="l.deviceCategoryId" ng-if="l.read">
+                      	</select>
+                      	<font ng-if="!l.read">{{l.categoryName}}</font>
+					</span>
+					<span class="loaction_type">
+						<select class="select_text" title=""
+                                ng-options="sub.id as sub.name for sub in sub_system"
+                                ng-model="systemSub" ng-if="l.read">
+                      	</select>
+                      	<font ng-if="!l.read">{{systemSub | dic_filter:sub_system}}</font>
+					</span>
+					<span class="loaction_code">
+						<select class="select_text" title=""
+                                ng-options="device.id as device.code for device in device_list"
+                                ng-model="l.relayId" ng-if="l.read">
+                      	</select>
+						<font ng-if="!l.read">{{l.relayId | bulding_filter:device_list}}</font>
+					</span>
+					<span class="loaction_add">
+						<input type="text" class="input_text" ng-model="l.address.address" ng-if="l.read"/>
+						<font ng-if="!l.read">{{l.address.address}}</font>
+					</span>
+					<span class="loaction_operate" ng-class="l.read?'location_edit':''">
+						<font ng-if="!l.read" ng-click="l.read=true">修改</font><font ng-if="l.read" ng-click="save_data_btn(l,'edit')">保存</font> | 
+						<font ng-if="l.read" ng-click="l.read=false">取消</font></font><font ng-if="!l.read" ng-click="del_data(l.id)">删除</font>
+					</span>
+				</p>
+			</div>
+		</div>
+	</div>

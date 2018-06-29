@@ -1,0 +1,239 @@
+		<div class="network_alert_head border_radius_top_4">
+			<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="save_data_btn('edit')" ng-if="!add_show&&info.length">保存修改</span>
+		</div>
+		<!--传输装置信息-->
+		<div class="network_alert_content trans_device_con trans_device_margin" style="padding: 0;">
+			<div ng-repeat="l in info track by $index" class="trans_device_margin border_radius_4">
+				<div class="trans_device_wrap border_radius_4">
+					<table style="width: 100%">
+						<tr>
+							<td class="tb_head">单位编码：</td>
+							<td><input type="text" class="input_text input_disabled" ng-model="unit.code" ng-disabled="true"/></td>
+							<td class="tb_head">单位名称：</td>
+							<td><input type="text" class="input_text input_disabled" ng-model="unit.name" ng-disabled="true"/></td>
+						</tr>
+						<tr>
+							<td class="tb_head"><span>*</span>传输装置编码：</td>
+							<td><input type="text" class="input_text" ng-model="l.code" /></td>
+							<td class="tb_head"><span>*</span>传输装置名称：</td>
+							<td><input type="text" class="input_text" ng-model="l.name" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">制造商：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="facturer.id as facturer.name for facturer in manufacturer"
+		                                ng-model="l.manufacturerId" ng-change="get_modal(l)">
+		                      	</select>
+							</td>
+							<td class="tb_head">制造商联系方式：</td>
+							<td>
+								<p class="input_text input_disabled ng-binding" style="line-height: 32px;">{{l.manufacturerId | manu_contact:manufacturer}}</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head">设备型号：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="modal.id as modal.name for modal in l.modal_list"
+		                                ng-model="l.modelId">
+		                       </select>
+<!--								<input type="text" class="input_text" ng-model="l.modelName" /></td>-->
+							<td class="tb_head">装置通讯模式：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="commu.id as commu.modeName for commu in communication_mdl"
+		                                ng-model="l.modelTypeId">
+		                       </select>
+							</td>
+						</tr>
+						<tr ng-if="(l.modelTypeId | model_filter:communication_mdl).indexOf('宽带')!=-1">
+							<td class="tb_head">IP地址：</td>
+							<td><input type="text" class="input_text" ng-model="l.famCommunicationMode.ipAddress" /></td>
+							<td class="tb_head">子网掩码：</td>
+							<td><input type="text" class="input_text" ng-model="l.famCommunicationMode.subnetMask" /></td>
+						</tr>
+						<tr ng-if="(l.modelTypeId | model_filter:communication_mdl).indexOf('宽带')!=-1">
+							<td class="tb_head">网关：</td>
+							<td><input type="text" class="input_text" ng-model="l.famCommunicationMode.gatewayAddress" /></td>
+							<td class="tb_head">DNS：</td>
+							<td><input type="text" class="input_text" ng-model="l.famCommunicationMode.dnsAddress" /></td>
+						</tr>
+						<tr ng-if="(l.modelTypeId | model_filter:communication_mdl).indexOf('G')!=-1">
+							<td class="tb_head">运营商：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="operate.id as operate.name for operate in operate_company"
+		                                ng-model="l.famCommunicationMode.operator">
+		                      	</select>
+							</td>
+							<td class="tb_head">手机号：</td>
+							<td><input type="text" class="input_text" ng-model="l.famCommunicationMode.phoneNumber" /></td>
+						</tr>
+						<tr ng-if="(l.modelTypeId | model_filter:communication_mdl).indexOf('G')!=-1">
+							<td class="tb_head">手机卡编号：</td>
+							<td colspan="3"><input type="text" class="input_text" ng-model="l.famCommunicationMode.phonecardNumber" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">火灾报警控制器品牌：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="ctrl.id as ctrl.name for ctrl in ctrl_manu"
+		                                ng-model="l.facuManufacturerId" ng-change="get_ctrl_modal(l)">
+		                      	</select>
+							</td>
+							<td class="tb_head">型号：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="modal.id as modal.name for modal in l.ctrl_modal_list"
+		                                ng-model="l.facuModeId">
+		                      	</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head">连接接口类型：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="api.id as api.typeName for api in api_types"
+		                                ng-model="l.facuApitypeId">
+		                      	</select>
+							</td>
+							<td class="tb_head">安装时间：</td>
+							<td>
+								<input type="text" class="input_text" ng-model="l.installDate"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head"><span>*</span>安装地址：</td>
+							<td colspan="3" style="position: relative;"><input type="text" class="input_text" ng-model="l.address.address" /><i class="ico_sprite ico_map" ng-click="map_show(l)"></i></td>
+						</tr>
+						<tr>
+							<td class="tb_head">经纬度：</td>
+							<td colspan="3"><input type="text" class="input_text width_160 input_disabled" ng-model="l.address.longitude" ng-disabled="true"/><input type="text" class="input_text width_160 input_disabled" ng-model="l.address.lattitude" ng-disabled="true"/></td>
+						</tr>
+					</table>
+					<p class="text-right"><span class="btn_size btn_blue btn_light_blue" ng-click="delete_data_btn(l.id)">删除设备</span></p>
+				</div>
+				<div class="trans_device_margin" style="height: 14px;"></div>
+			</div>
+			<!--新增-->
+			<div class="trans_device_margin border_radius_4" ng-show="add_show">
+				<div class="trans_device_wrap border_radius_4">
+					<table style="width: 100%">
+						<tr>
+							<td class="tb_head">单位编码：</td>
+							<td><input type="text" class="input_text input_disabled" ng-model="unit.code" ng-disabled="true"/></td>
+							<td class="tb_head">单位名称：</td>
+							<td><input type="text" class="input_text input_disabled" ng-model="unit.name" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head"><span>*</span>传输装置编码：</td>
+							<td><input type="text" class="input_text" ng-model="add_info.code" /></td>
+							<td class="tb_head"><span>*</span>传输装置名称：</td>
+							<td><input type="text" class="input_text" ng-model="add_info.name" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">制造商：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="facturer.id as facturer.name for facturer in manufacturer"
+		                                ng-model="add_info.manufacturerId" ng-change="get_modal(add_info)">
+		                      	</select>
+							</td>
+							<td class="tb_head">制造商联系方式：</td>
+							<td>
+								<p class="input_text input_disabled ng-binding" style="line-height: 32px;">{{add_info.manufacturerId | manu_contact:manufacturer}}</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head">设备型号：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="modal.id as modal.name for modal in add_info.modal_list"
+		                                ng-model="add_info.modelId">
+		                       </select>
+							</td>
+							<td class="tb_head">装置通讯模式：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="commu.id as commu.modeName for commu in communication_mdl"
+		                                ng-model="add_info.modelTypeId">
+		                       </select>
+							</td>
+						</tr>
+						<tr ng-if="(add_info.modelTypeId | model_filter:communication_mdl).indexOf('宽带')!=-1">
+							<td class="tb_head">IP地址：</td>
+							<td><input type="text" class="input_text" ng-model="add_info.famCommunicationMode.ipAddress" /></td>
+							<td class="tb_head">子网掩码：</td>
+							<td><input type="text" class="input_text" ng-model="add_info.famCommunicationMode.subnetMask" /></td>
+						</tr>
+						<tr ng-if="(add_info.modelTypeId | model_filter:communication_mdl).indexOf('宽带')!=-1">
+							<td class="tb_head">网关：</td>
+							<td><input type="text" class="input_text" ng-model="add_info.famCommunicationMode.gatewayAddress" /></td>
+							<td class="tb_head">DNS：</td>
+							<td><input type="text" class="input_text" ng-model="add_info.famCommunicationMode.dnsAddress" /></td>
+						</tr>
+						<tr ng-if="(add_info.modelTypeId | model_filter:communication_mdl).indexOf('G')!=-1">
+							<td class="tb_head">运营商：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="operate.id as operate.name for operate in operate_company"
+		                                ng-model="add_info.famCommunicationMode.operator">
+		                      	</select>
+							</td>
+							<td class="tb_head">手机号：</td>
+							<td><input type="text" class="input_text" ng-model="add_info.famCommunicationMode.phoneNumber" /></td>
+						</tr>
+						<tr ng-if="(add_info.modelTypeId | model_filter:communication_mdl).indexOf('G')!=-1">
+							<td class="tb_head">手机卡编号：</td>
+							<td colspan="3"><input type="text" class="input_text" ng-model="add_info.famCommunicationMode.phonecardNumber" /></td>
+						</tr>
+						<tr>
+							<td class="tb_head">火灾报警控制器品牌：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="ctrl.id as ctrl.name for ctrl in ctrl_manu"
+		                                ng-model="add_info.facuManufacturerId" ng-change="get_ctrl_modal(add_info)">
+		                      	</select>
+							</td>
+							<td class="tb_head">型号：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="modal.id as modal.name for modal in add_info.ctrl_modal_list"
+		                                ng-model="add_info.facuModeId">
+		                      	</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head">接口类型：</td>
+							<td>
+								<select class="select_text" title=""
+		                                ng-options="api.id as api.typeName for api in api_types"
+		                                ng-model="add_info.facuApitypeId">
+		                      	</select>
+							</td>
+							<td class="tb_head">安装时间：</td>
+							<td>
+								<input type="text" class="input_text" ng-model="add_info.installDate"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="tb_head"><span>*</span>安装地址：</td>
+							<td colspan="3" style="position: relative;"><input type="text" class="input_text" ng-model="add_info.address.address" /><i class="ico_sprite ico_map" ng-click="map_show(add_info)"></i></td>
+						</tr>
+						<tr>
+							<td class="tb_head">经纬度：</td>
+							<td colspan="3"><input type="text" class="input_text width_160 input_disabled" ng-model="add_info.address.longitude" ng-disabled="true"/><input type="text" class="input_text width_160 input_disabled" ng-model="add_info.address.lattitude" ng-disabled="true"/></td>
+						</tr>
+					</table>
+					<p class="text-right">
+						<span class="btn_size btn_blue btn_light_blue" ng-click="add_show=false">取消</span>
+						<span class="btn_size btn_blue btn_light_blue" ng-click="save_data_btn('add')">保存</span>
+					</p>
+				</div>
+			</div>
+			<div class="trans_device_margin" style="height: 14px;"></div>
+			<span class="trans_device_btn" ng-click="add_show=true" ng-show="!add_show">新增设备</span>
+		</div>
+		<device-map-alert show-alert="show_map" locaiton="locaiton" locaiton-temp="locaiton_temp" apply-data="apply_data"></device-map-alert>

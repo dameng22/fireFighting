@@ -1,0 +1,82 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="check_task_add_top text-center">
+		火灾报警信息详情
+		<i class="ico_sprite ico_white_close" ng-click="$ctrl.alert_cancel()"></i>
+	</div>
+	<div class="fire_alert_content">
+		<div class="network_alert_title record_alert_title">火灾报警单位基本信息</div>
+		<table width="100%" class="margin_btm_20">
+			<tr>
+				<td class="tb_head">单位编码：</td>
+				<td>{{$ctrl.fireDetails.site.code}}</td>
+				<td class="tb_head">单位名称：</td>
+				<td>{{$ctrl.fireDetails.site.name}}</td>
+			</tr>
+			<tr>
+				<td class="tb_head">所属区域：</td>
+				<td>{{$ctrl.fireDetails.site.regionId | area_filter:$parent.net_areas}}</td>
+				<td class="tb_head">所属消防队：</td>
+				<td>{{$ctrl.fireDetails.site.fireBrigade.name}}</td>
+			</tr>
+			<tr>
+				<td class="tb_head">消防安全负责人：</td>
+				<td>{{$ctrl.fireDetails.site.contactPersons[1].givenNameOriental}}</td>
+				<td class="tb_head">联系方式：</td>
+				<td>{{$ctrl.fireDetails.site.contactPersons[1].contactInfos[0].contactInfo}}</td>
+			</tr>
+			<tr>
+				<td class="tb_head">消控室电话：</td>
+				<td>{{$ctrl.fireDetails.site.controlRoomContactinfo}}</td>
+				<td class="tb_head">单位类别：</td>
+				<td>{{$ctrl.fireDetails.site.siteTypeId  | dic_filter:$parent.site_type}}</td>
+			</tr>
+			<tr>
+				<td class="tb_head">报警位置：</td>
+				<td colspan="3">{{$ctrl.fireDetails.reportingDevice.address.address}}</td>
+			</tr>
+			<tr>
+				<td class="tb_head">单位地址：</td>
+				<td colspan="3">{{$ctrl.fireDetails.site.address.address}}</td>
+			</tr>
+		</table>
+		<table style="width: 100%" class="record_alert_deal margin_btm_20">
+			<tr>
+				<td class="tb_head text-center">处理时间</td>
+				<td class="fire_alert_td">处理详情</td>
+			</tr>
+			<tr>
+				<td class="tb_head">{{$ctrl.fireDetails.alertTime | date:'yyyyMMdd-HH:mm:ss'}}</td>
+				<td class="fire_alert_td">联网单位报警</td>
+			</tr>
+			<tr>
+				<td class="tb_head">{{$ctrl.fireDetails.receivingTime | date:'yyyyMMdd-HH:mm:ss'}}</td>
+				<td class="fire_alert_td">平台接到警情信息</td>
+			</tr>
+			<tr ng-repeat="l in $ctrl.fireDetails.processingRecords track by $index">
+				<td class="tb_head">{{l.processingTime | date:'yyyyMMdd-HH:mm:ss'}}</td>
+				<td class="fire_alert_td">
+					<div>
+						<font>警情处理为：</font>{{$parent.$parent.statusCheck(l.statusId,l.endStateId).texts}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font>处理人：</font>{{l.person.nameOriental}}<br/>
+						<font>备注：</font>{{l.remarks || '无'}}
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="fire_alert_wrap" ng-if="$ctrl.surface.length>0">
+			<p class="fire_alert_title">平面图</p>
+			<a href="{{$root.qiuNiuUrl+$ctrl.surface[0].qiniuName}}" data-lightbox="roadtrip">
+				<img ng-src="{{$ctrl.surface[0].qiniuName?($root.qiuNiuUrl+$ctrl.surface[0].qiniuName):''}}" class="fire_alert_img"/>
+			</a>
+		</div>
+		<div class="fire_alert_wrap" ng-if="$ctrl.outside.length>0">
+			<p class="fire_alert_title">外观图</p>
+			<!--<a href="{{$root.qiuNiuUrl+$ctrl.outside[0].qiniuName}}" data-lightbox="roadtrip">-->
+				<img ng-src="{{$ctrl.outside[0].qiniuName?($root.qiuNiuUrl+$ctrl.outside[0].qiniuName):''}}" class="fire_alert_img"/>
+			<!--</a>-->
+		</div>
+		<div class="fire_alert_wrap">
+			<p class="fire_alert_title">地理图</p>
+			<div id="fireMap" style="width: 100%;height:420px;"></div>
+		</div>
+	</div>
+</div>

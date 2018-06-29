@@ -1,0 +1,130 @@
+		<div class="network_alert_head border_radius_top_4">
+			<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="save_data_btn()">保存修改</span>
+		</div>
+		<div class="network_alert_title" style="height: 20px;"></div>
+		<!--基本信息-->
+		<div class="network_alert_content">
+			<table style="width: 100%">
+				<tr>
+					<td class="tb_head"><span>*</span>单位编码：</td>
+					<td style="position: relative;">
+						<p class="input_text input_disabled modify_base_disable">{{info.regionId | area_code:net_areas}}</p>
+						<input type="text" class="input_text modify_base_input" ng-model="info.code" />
+					</td>
+					<td class="tb_head">组织机构代码：</td>
+					<td><input type="text" class="input_text" ng-model="info.orgCode" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head"><span>*</span>单位名称：</td>
+					<td><input type="text" class="input_text" ng-model="info.name" /></td>
+					<td class="tb_head"><span>*</span>单位简称：</td>
+					<td><input type="text" class="input_text" ng-model="info.shortName" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head"><span>*</span>所属区域：</td>
+					<td>
+						<select class="select_text" title=""
+                                ng-options="areas.id as areas.regionName for areas in net_areas"
+                                ng-model="info.regionId">
+                      	</select>
+					</td>
+					<td class="tb_head">联网状态：</td>
+					<td>
+						<select class="select_text" title=""
+                                ng-options="state.id as state.name for state in network_state"
+                                ng-model="info.networkingState">
+                      	</select>
+                    </td>
+				</tr>
+				<tr>
+					<td class="tb_head">经济所有制：</td>
+					<td><input type="text" class="input_text" ng-model="info.economicOwnership" /></td>
+					<td class="tb_head">监管等级：</td>
+					<td>
+                      	<select class="select_text" title=""
+                                ng-options="rates.id as rates.name for rates in resistance_rates"
+                                ng-model="info.supervisionGrade">
+                      	</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="tb_head">所属消防大队：</td>
+					<td>
+<!--						<p class="input_text input_disabled ng-binding" style="line-height: 32px;">{{info.brigadeId | fams_filter:fire_bridge}}</p>-->
+						<select class="select_text" title=""
+                                ng-options="super for super in super_bridge"
+                                ng-model="info.fireBrigade.superiorName" ng-change="get_sub_brigade()">
+                      	</select>
+					</td>
+					<td class="tb_head">所属消防队：</td>
+					<td>
+						<select class="select_text" title=""
+                                ng-options="bridge.id as bridge.name for bridge in fire_bridge"
+                                ng-model="info.brigadeId">
+                      	</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="tb_head"><span>*</span>单位类别：</td>
+					<td colspan="3">
+						<select class="select_text" title=""
+                                ng-options="site.id as site.name for site in site_type"
+                                ng-model="info.siteTypeId">
+                      	</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="tb_head">单位地址：</td>
+					<td colspan="3"><input type="text" class="input_text" ng-model="info.address.address" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head"><span>*</span>联系电话：</td>
+					<td><input type="text" class="input_text" ng-model="info.contactinfo" /></td>
+					<td class="tb_head">邮政编码：</td>
+					<td><input type="text" class="input_text" ng-model="info.zipCode" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head"><span>*</span>消控室电话：</td>
+					<td colspan="3"><input type="text" class="input_text" ng-model="info.controlRoomContactinfo" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">上级主管单位：</td>
+					<td><input type="text" class="input_text" ng-model="info.competentDepartment" /></td>
+					<td class="tb_head">管辖单位：</td>
+					<td><input type="text" class="input_text" ng-model="info.jurisdictionUnit" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">职工人数：</td>
+					<td><input type="text" class="input_text" ng-model="info.employeeNumber" /></td>
+					<td class="tb_head">固定资产(万元)：</td>
+					<td><input type="text" class="input_text" ng-model="info.fixedAsset" /></td>
+				</tr>
+				<tr>
+					<td class="tb_head">占地面积(㎡)：</td>
+					<td><input type="text" class="input_text" ng-model="info.areaCovered" /></td>
+					<td class="tb_head">建筑面积(㎡)：</td>
+					<td colspan="3"><input type="text" class="input_text" ng-model="info.construction" /></td>
+				</tr>
+			</table>
+			<div class="network_alert_list">
+				<p class="network_alert_list_head base_info_title">
+					<span>联网单位人员信息</span>
+				</p>
+				<p class="network_alert_list_head base_info_sub_title">
+					<span class="network_alert_list_role">角色：</span>
+					<span class="network_alert_list_name">姓名：</span>
+					<span class="network_alert_list_phone">联系方式： </span>
+					<span class="network_alert_list_id">身份证号：</span>
+				</p>
+				<p ng-repeat="person in info.contactPersons" ng-init="person.idDocs?'':person.idDocs=[];person.contactInfos?'':person.contactInfos=[]">
+					<span class="network_alert_list_role" ng-if="person.typeId==1">法定代表人</span>
+					<span class="network_alert_list_role" ng-if="person.typeId==2">消防安全责任人</span>
+					<span class="network_alert_list_role" ng-if="person.typeId==3">消防安全负责人</span>
+					<span class="network_alert_list_role" ng-if="person.typeId==4">专兼职消防安全管理人</span>
+					<span class="network_alert_list_name"><input type="text" class="input_text" ng-model="person.givenNameOriental" /></span>
+					<span class="network_alert_list_phone"><input type="text" class="input_text" ng-model="person.contactInfos[0].contactInfo" /></span>
+					<span class="network_alert_list_id" style="padding-right: 5px;"><input type="text" class="input_text" ng-model="person.idDocs[0].idNumber" /></span>
+				</p>
+			</div>
+		</div>

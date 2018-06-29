@@ -1,0 +1,10 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="relieve_guard_alert">
+		<i class="ico_sprite ico_close" ng-click="$ctrl.alert_cancel()"></i>
+		<p>用户名：</p>
+		<input type="text" ng-model="$ctrl.new_user"/>
+		<p>密码：</p>
+		<input type="password" ng-model="$ctrl.new_pwd"/>
+		<span class="btn_size btn_blue" ng-click="$ctrl.alert_true()">确认换岗</span>
+	</div>
+</div>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="mainController">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title ng-bind="system_name"></title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="css/lib/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/lib/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/lib/loading-bar.min.css">
+    <link rel="stylesheet" href="css/lib/ui-dialog.css">
+    <link rel="stylesheet" href="css/lib/lightbox.css">
+    <link rel="stylesheet" href="css/lib/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" href="css/main.css?pro=35">
+	<link rel="stylesheet" href="css/template.css?pro=35">
+    <script src="js/jquery/jquery-1.11.0.js"></script>
+    <script src="js/jquery/md5.min.js"></script>
+    <script src="js/jquery/echarts.min.js"></script>
+    <script src="js/jquery/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/jquery/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="js/jquery/jquery.mCustomScrollbar.min.js"></script>
+    <script src="js/jquery/FileSaver.min.js"></script>
+    <script src="js/jquery/lightbox.min.js"></script>
+    <script src="js/dialog-plus-min.js"></script>
+    <script src="js/angular/angular.js"></script>
+    <script src="js/angular/angular-animate.min.js"></script>
+    <script src="js/angular/angular-touch.min.js"></script>
+    <script src="js/angular/angular-ui-router.js"></script>
+    <script src="js/angular/ocLazyLoad.min.js"></script>
+    <script src="js/angular/angular-resource.min.js"></script>
+    <script src="js/angular/ui-bootstrap-tpls.min.js"></script>
+    <script src="js/angular/loading-bar.min.js"></script>
+    <script src="js/angular/angular-locale_zh-cn.js"></script>
+    <script src="js/angular/angular-base64.min.js"></script>
+    <script src="./config.js?pro=35"></script>
+    <script src="./routers.js?pro=36"></script>
+    <script src="./filters.js?pro=35"></script>
+    <script src="./services.js?pro=35"></script>
+    <script src="./components.js?pro=35"></script>
+    <script src="./app.js?pro=35"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=91a8f5eb6d0785332c16df8307143a02&services=&t=20171014112628"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+	<script src="https://open.ys7.com/sdk/js/1.3/ezuikit.js"></script>
+</head>
+<body>
+    <div class="nav_top">
+		<div class="nav_title" ng-if="router_state!='fireAlarmMonitor'">
+			<i class="ico_sprite logo"></i>
+			{{system_name}}
+		</div>
+		<div class="nav_title" ng-if="router_state=='fireAlarmMonitor'"><i class="ico_sprite logo"></i>火灾受理系统</div>
+		<div class="nav_operate" ng-if="router_state!='fullScreenMap'&&!view_contact&&router_state!='fireAlarmMonitor'">
+			<div class="nav_right_new" ng-click="log_out()">
+				<p><i class="ico_sprite log_out_ico"></i></p>
+				<p>退出</p>
+			</div>
+			<div class="nav_right_line"></div>
+			<div class="nav_right_new" ng-click="show_relieve_guard()" ng-if="Acceptance_show">
+				<p><i class="ico_sprite change_ico" style="left: 27px;"></i></p>
+				<p>换岗</p>
+			</div>
+			<div class="nav_right_new" ng-click="show_modify_pwd()" style="position:relative;">
+				<p><i class="ico_sprite user_ico"></i></p>
+				<p>{{users_name}}</p>
+				<div ng-if="modify_pwd_show" style="" ng-class="foreground_show?'user_pwd_pos_account':'user_pwd_pos'">
+					<hr class="modfiy_pwd_hr"/>
+					<ul class="nav_right_new_pwd">
+						<li ng-click="show_pwd_revise()">修改密码</li>
+					</ul>
+				</div>
+			</div>
+			<div class="nav_right_line" ng-if="Acceptance_show"></div>
+			<div class="nav_right_new" ng-click="open_window('contact')" ng-if="Acceptance_show">
+				<p><i class="ico_sprite phone_ico" style="left: 27px;"></i></p>
+				<p>电话簿</p>
+			</div>
+			<div class="nav_right_new" ng-if="background_show" ui-sref="logs({'token':sys_token,'unit':sys_unit,'sys':sys_role})" ng-class="router_state == 'logs'?'log_select':''">
+				<p><i class="ico_sprite logs_ico" style="left: 27px;"></i></p>
+				<p>日志</p>
+			</div>
+			<div ng-if="foreground_show" ui-sref="notice({'token':sys_token,'unit':sys_unit,'sys':sys_role})" ng-class="router_state == 'notice'?'log_select':''" class="nav_right_new">
+				<p><i class="ico_sprite tips_ico" style="left: 34px;"></i></p>
+				<p>通知</p>
+			</div>
+			<div class="nav_right_line" ng-if="background_show"></div>
+			<div ng-click="open_window('map')" ng-if="!foreground_show" class="nav_right_new">
+				<p><i class="ico_sprite map_ico"></i></p>
+				<p>地图</p>
+			</div>
+			<div class="nav_right_line"></div>
+			<div ng-if="foreground_show || background_show" ui-sref="downloads({'token':sys_token,'unit':sys_unit,'sys':sys_role})" ng-class="router_state == 'downloads'?'log_select':''" class="nav_right_new">
+				<p><i class="ico_sprite qrs_ico"></i></p>
+				<p>帮助</p>
+			</div>
+			<div class="nav_right_line" ng-if="foreground_show || background_show"></div>
+			<div class="nav_right_new cursor_normal" ng-if="foreground_show">
+				<p class="nav_right_unit">{{cus_unit_name}}</p>
+			</div>
+			<div class="nav_right_line" ng-if="foreground_show"></div>
+		</div>
+		<div class="weather_style" ng-if="router_state!='fullScreenMap'&&!view_contact&&router_state!='fireAlarmMonitor'">
+			<span>{{wea_city}} <i class="weather_ico {{wea_tyle}}"></i>{{wea_detail}}</span>
+		</div>
+		<div class="nav_operate nav_operate_monitor" ng-if="router_state=='fireAlarmMonitor'">
+			<span class="border_none">测试火警：<br/><font>{{monitor_num.todayTestFire}}</font></span>
+			<span class="border_none">误报火警：<br/><font>{{monitor_num.todayFalseFire}}</font></span>
+			<span class="border_none">真实火警：<br/><font>{{monitor_num.todayActualFire}}</font></span>
+			<span class="padd_left_20">未处理：<br/><font>{{monitor_num.untreated}}</font></span>
+			<span class="border_none">今日火警：<br/><font>{{monitor_num.todayFireNumber}}</font></span>
+		</div>
+	</div>
+    <div class="nav_left" ng-if="router_state!='fullScreenMap'&&!view_contact&&router_state!='fireAlarmMonitor'">
+    	<div class="nav_scroll">
+    		<ul>
+				<li ng-repeat="l in unitList" ng-click="current_menu(l.links)" ng-class="(router_state.indexOf(l.links)!=-1)?'nav_select':''"><i class="ico_sprite {{l.links}}"></i>{{l.name}}<span ng-if="show_notes(l.links)" class="border_radius_4 {{l.links}}Notes" title="{{show_counts(l.links)}}">{{show_counts(l.links)}}</span></li>
+    		</ul>
+    	</div>
+    	<div class="fire_now_alert" ng-show="fire_alert&&(sys_role.indexOf('fams_famadmin')>=0)">
+    		<div class="fire_now_title blink">
+    			<i class="ico_sprite ico_light"></i>
+    			<i class="ico_sprite ico_white_close" ng-click="fire_cancel()"></i>
+    		</div>
+			<div class="fire_now_alert_text">
+				<p class="font-shines">{{count_tips.newFireName}}</p>
+				<p>发生报警！</p>
+				<p>当前有 <span>{{count_tips.alertCount}}</span> 条</p>
+				<p>新的火灾报警信息！</p>
+			</div>
+			<span class="btn_size blink-btns cursor_pointer" ng-click="fire_true()">查看详情</span>
+			<audio src="images/alarm.mp3" controls="controls" id="fire_alarm_voice" loop="loop"></audio>
+		</div>
+	</div>
+    <div ui-view="" class="main" ng-class="(router_state=='fullScreenMap' || view_contact || router_state=='fireAlarmMonitor')?'left_14':''">
+		
+    </div>
+    <p class="nav_edition">消防远程监控平台&nbsp;v2.2</p>
+    <!--换岗弹框-->
+    <relieve-guard-alert show-alert="guard_show"></relieve-guard-alert>
+    <!--处理中-->
+    <loading-alert show-alert="loading_show"></loading-alert>
+    <!--是否确认删除-->
+    <delete-confirm show-alert="delete_now"></delete-confirm>
+    <!--确认火警-->
+    <fire-confirm show-alert="fire_now"></fire-confirm>
+	<!--修改密码弹框-->
+	<revise-pwd-alert show-alert="pwd_show"></revise-pwd-alert>
+</body>
+</html>

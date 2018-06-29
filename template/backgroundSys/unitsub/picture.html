@@ -1,0 +1,68 @@
+		<div class="network_alert_head border_radius_top_4">
+			<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
+			<span class="btn_size btn_blue" ng-click="edit_pic('add')">添加</span>
+		</div>
+		<!--图片信息-->
+		<div class="check_task_scroll">
+			<div class="fix_time_data min_width_793">
+				<div class="clearfix">
+					<div class="pic_wrap" ng-repeat="l in info track by $index">
+						<div class="pic_fixed">
+							<i class="ico_sprite pic_del" ng-click="del_data(l.id)"></i>
+							<a href="{{qiuNiuUrl+l.qiniuName}}" data-lightbox="roadtrip">
+								<img ng-src="{{l.qiniuName?(qiuNiuUrl+l.qiniuName+'?imageView2/1/w/160/h/160'):'images/add_pic.png'}}" />
+							</a>
+							<div title="{{l.pictureName}}">{{l.pictureName}}</div>
+							<div class="pic_edit">{{(l.pictureType||l.pictureType==0)?(l.pictureType | dic_filter:picture_type):'未定义属性'}}<font ng-click="edit_pic('edit',l)">编辑</font></div>
+						</div>
+					</div>
+				</div>
+				<div class="pic_building">
+					<div class="pic_building_block">
+						<div class="pic_building_detail">
+							<span class="pic_building_img">北</span>
+							<div class="pic_building_road">
+								<p class="text_eliips">道路名称：<font title="{{north[0].roadName}}">{{north[0].roadName}}</font></p>
+								<p>道路宽度：{{north[0].roadWidth}}</p>
+								<p class="margin_btm_8" class="text_eliips">显现建筑：<font title="{{north[0].appearanceBuilding}}">{{north[0].appearanceBuilding}}</font></p>
+								<p class="pic_building_edit" ng-click="road_pic('edit',north[0],6)">编辑</p>
+							</div>
+						</div>
+					</div>
+					<div class="pic_building_block">
+						<div class="pic_building_detail">
+							<span class="pic_building_img">西</span>
+							<div class="pic_building_road">
+								<p class="text_eliips">道路名称：<font title="{{west[0].roadName}}">{{west[0].roadName}}</font></p>
+								<p>道路宽度：{{west[0].roadWidth}}</p>
+								<p class="margin_btm_8 text_eliips">显现建筑：<font title="{{west[0].appearanceBuilding}}">{{west[0].appearanceBuilding}}</font></p>
+								<p class="pic_building_edit" ng-click="road_pic('edit',west[0],4)">编辑</p>
+							</div>
+						</div>
+					</div>
+					<div class="pic_building_block">
+						<div class="pic_building_detail">
+							<span class="pic_building_img">南</span>
+							<div class="pic_building_road">
+								<p class="text_eliips">道路名称：<font title="{{sourth[0].roadName}}">{{sourth[0].roadName}}</font></p>
+								<p>道路宽度：{{sourth[0].roadWidth}}</p>
+								<p class="margin_btm_8 text_eliips">显现建筑：<font title="{{sourth[0].appearanceBuilding}}">{{sourth[0].appearanceBuilding}}</font></p>
+								<p class="pic_building_edit" ng-click="road_pic('edit',sourth[0],5)">编辑</p>
+							</div>
+						</div>
+					</div>
+					<div class="pic_building_block">
+						<div class="pic_building_detail">
+							<span class="pic_building_img">东</span>
+							<div class="pic_building_road">
+								<p class="text_eliips">道路名称：<font title="{{east[0].roadName}}">{{east[0].roadName}}</font></p>
+								<p>道路宽度：{{east[0].roadWidth}}</p>
+								<p class="margin_btm_8 text_eliips">显现建筑：<font title="{{east[0].appearanceBuilding}}">{{east[0].appearanceBuilding}}</font></p>
+								<p class="pic_building_edit" ng-click="road_pic('edit',east[0],3)">编辑</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<picture-alert show-alert="show_alert" unit-id="unit_ids" get-list="research_list()" types="types" titles="title" pic-url="pic_url" pic-id="pic_id" type="type" flag="flag" bulid="bulid"></picture-alert>

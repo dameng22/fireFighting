@@ -1,0 +1,67 @@
+<div class="ranking_statis_cen border_radius_4">
+	<div id="ranking_bar" class="unit_statis_full"></div>
+</div>
+<div class="ranking_statis_btm border_radius_4">
+	<div class="ranking_statis_block" ng-click="init_lines(fire_top,0)">
+		<div class="ranking_statis_inline border_radius_4">
+			<p ng-class="selected == 0?'ranking_select':''">本月火灾报警数排名</p>
+			<ul>
+				<li title="{{l.siteName}}" ng-repeat="l in fire_top track by $index" ng-click="unit_click(l,0,1);$event.stoppropagation()"><span ng-class="top_ranking($index+1)">{{$index+1}}</span>{{l.siteName}}</li>
+			</ul>
+		</div>
+	</div>
+	<div class="ranking_statis_block" ng-click="init_lines(trouble_top,1)">
+		<div class="ranking_statis_inline border_radius_4">
+			<p ng-class="selected == 1?'ranking_select':''">本月故障信息数排名</p>
+			<ul>
+				<li title="{{l.siteName}}" ng-repeat="l in trouble_top track by $index" ng-click="unit_click(l,1,2);$event.stoppropagation()"><span ng-class="top_ranking($index+1)">{{$index+1}}</span>{{l.siteName}}</li>
+			</ul>
+		</div>
+	</div>
+	<div class="ranking_statis_block" ng-click="init_lines(rate_in_top,2)">
+		<div class="ranking_statis_inline border_radius_4">
+			<p ng-class="selected == 2?'ranking_select':''">本月查岗在岗率排名</p>
+			<ul>
+				<li title="{{l.newName}}" ng-repeat="l in rate_in_top track by $index" ng-click="unit_click(l,2,3);$event.stoppropagation()"><span ng-class="top_ranking($index+1)">{{$index+1}}</span>{{l.newName}}</li>
+			</ul>
+		</div>
+	</div>
+	<div class="ranking_statis_block" style="margin-right: 0;" ng-click="init_lines(rate_out_top,3)">
+		<div class="ranking_statis_inline border_radius_4">
+			<p ng-class="selected == 3?'ranking_select':''">本月查岗脱岗率排名</p>
+			<ul>
+				<li title="{{l.newName}}" ng-repeat="l in rate_out_top track by $index" ng-click="unit_click(l,1,4);$event.stoppropagation()"><span ng-class="top_ranking($index+1)">{{$index+1}}</span>{{l.newName}}</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!--弹窗-->
+<div class="ranking_info_detail" ng-show="detail_show"> 
+	<div class="ranking_info_title">
+		{{unit.siteName || unit.newName}}&nbsp;&nbsp;<span>|</span>&nbsp;&nbsp;{{type_name()}}{{all_count}}起
+		<i class="ico_sprite ico_close" ng-click="detail_show = false"></i>
+	</div>
+	<div class="check_task_scroll border_radius_4 ranking_info_scroll">
+		<p class="list_data list_data_head min_width_440">
+			<span class="ranking_info_index">序号</span>
+			<span class="ranking_info_time">{{(check_type==1||check_type==2)?'报警时间':'消控室电话'}}</span>
+			<span class="ranking_info_position">{{(check_type==1||check_type==2)?'报警位置':'任务开始时间'}}</span>
+			<span class="ranking_info_describ" ng-if="check_type == 1">警情概述</span>
+			<span class="ranking_info_status">{{(check_type==1||check_type==2)?'警情状态':'回复时间'}}</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_440">
+			<p class="list_data cursor_normal" ng-repeat="l in unit_list track by $index">
+				<span class="ranking_info_index">{{$index+1}}</span>
+				<span class="ranking_info_time">{{(l.receivingTime | date:'yyyy-MM-dd HH:mm:ss') || l.controlRoomContactinfo}}</span>
+				<span class="ranking_info_position" title="{{l.reportingDevice.address.address || (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}">{{l.reportingDevice.address.address || (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}</span>
+				<span class="ranking_info_describ" ng-if="check_type == 1">{{danger_status(l.terminalStatusId)}}</span>
+				<span class="ranking_info_status">{{status_format(l.processingStatusId,l.endStateId) || (l.receivingTime | date:'yyyy-MM-dd HH:mm:ss')}}</span>
+			</p>
+		</div>	
+	</div>
+	<p class="ranking_info_btn text-right">
+		<span class="btn_size btn_blue margin_right_10 vertical_top" ng-click="download_file()">导出</span>
+		<span class="btn_size btn_green vertical_top">打印</span>
+	</p>
+</div>
+

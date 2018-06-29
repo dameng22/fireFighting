@@ -1,0 +1,88 @@
+<div class="content_right fire_alarm_center_top border_radius_4">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap trouble_alarm_group">
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('undo')" ng-class="undo?'check_box_select':''"></i>未处理</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('done')" ng-class="done?'check_box_select':''"></i>已处理</span>
+			<select class="select_text width_140" ng-model="device_types" ng-change="get_search();get_drop()" style="width: 100px;">
+				<option>设备类型</option>
+				<option ng-repeat="l in trouble_type" value="{{l.id}}">{{l.name}}</option>
+			</select>
+			<select class="select_text width_140" ng-model="trouble_item" ng-change="get_search()" style="width: 193px;">
+				<option>故障类型</option>
+				<option ng-repeat="l in trouble_drop" value="{{l.id}}">&nbsp;{{l.name}}</option>
+			</select>
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search('text')"></i></span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4 check_task_setting">
+		<p class="list_data list_data_head min_width_976">
+			<span class="trouble_alarm_checkbox">
+				<i class="ico_sprite check_box_normal" ng-click="select_all()" ng-show="undo&&!done&&touble_list.length>0" ng-class="check_all?'check_box_select':''"></i>
+			</span>
+			<span class="trouble_alarm_code">单位编码</span>
+			<span class="trouble_alarm_name">单位名称</span>
+			<span class="trouble_alarm_remark">设备类型</span>
+			<span class="trouble_alarm_type">故障类型</span>
+			<span class="trouble_alarm_add">故障位置</span>
+			<span class="trouble_alarm_status">警情状态</span>
+			<span class="trouble_alarm_time">报警时间</span>
+			<span class="trouble_alarm_time">接警时间</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_976">
+			<p class="list_data" ng-repeat="l in touble_list track by $index" ng-class="l.processingStatusId==0?'trouble_alarm_danger':''" ng-click="get_ids(l)">
+				<span class="trouble_alarm_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
+				<span class="trouble_alarm_code">{{l.relay.famCustomerSite.code}}</span>
+				<span class="trouble_alarm_name" title="{{l.relay.famCustomerSite.name}}">{{l.relay.famCustomerSite.name}}</span>
+				<!--<span class="trouble_alarm_remark" title="{{l.reportingDevice.name}}">{{l.reportingDevice.name}}</span>-->
+				<span class="trouble_alarm_remark" title="{{device_broke(l)}}">{{device_broke(l)}}</span>
+				<span class="trouble_alarm_type" title="{{l.reportingDevice.name}}-{{l.faultTypeId | dic_filter:trouble_drop}}">{{l.reportingDevice.name}}-{{l.faultTypeId | dic_filter:trouble_drop}}</span>
+				<span class="trouble_alarm_add" title="{{l.reportingDevice.address.address}}">{{l.reportingDevice.address.address}}</span>
+				<span class="trouble_alarm_status">{{l.processingStatusId==0?'未处理':'已处理'}}</span>
+				<span class="trouble_alarm_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="trouble_alarm_time">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+			</p>
+		</div>	
+	</div>	
+</div>
+<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4" ng-show="!check_all">
+	<div class="fire_alarm_btn_left">
+		<textarea class="fire_alarm_textarea" ng-model="remark" ng-disabled='unit_ids.length<=0 || !dealt' placeholder="您可在此填写备注内容"></textarea>
+	</div>
+	<div class="fire_alarm_btn_right">
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('true')" ng-class="dealt&&unit_ids.length?'trouble_alarm_deal':''"><i class="ico_sprite trouble_alarm_todeal"></i>故障处理</span>
+		<div class="fire_alarm_btn_group">
+			<hr class="fire_alarm_line"/>
+			<span class="btn_size btn_light_blue" ng-class="unit_ids.length?'btn_blue':''" ng-click="show_unit_detail()">单位详情</span>
+			<span class="btn_size btn_light_blue margin_top_21" ng-class="unit_ids.length?'btn_blue':''" ng-click="fire_detail()">警情信息</span>
+		</div>
+	</div>
+</div>
+<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4" ng-show="check_all">
+	<div class="fire_alarm_btn_left">
+		<textarea class="fire_alarm_textarea" ng-model="remark" ng-disabled='touble_list.length<=0 || !check_all' placeholder="您可在此填写备注内容"></textarea>
+	</div>
+	<div class="fire_alarm_btn_right">
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('true')" ng-class="check_all&&touble_list.length?'trouble_alarm_deal':''"><i class="ico_sprite trouble_alarm_todeal"></i>故障处理</span>
+		<div class="fire_alarm_btn_group">
+			<hr class="fire_alarm_line"/>
+			<span class="btn_size btn_light_blue">单位详情</span>
+			<span class="btn_size btn_light_blue margin_top_21">警情信息</span>
+		</div>
+	</div>
+</div>
+<div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden fire_alarm_gray_bg">
+	<div class="fire_alarm_right_top border_radius_top_4">
+		<div class="fire_alarm_right_title">故障信息单位列表</div>
+		<span class="search_wrap margin_left_9"><input class="input_text width_168 right_enter_press" placeholder="请输入关键字搜索" ng-model="right_unit_srh"/><i class="ico_sprite search_ico" ng-click="get_right_unit('srh')"></i></span>
+		<span class="fix_time_check margin_left_9" style="line-height: 39px;"><i class="ico_sprite radio_box_normal" ng-class="!right_unit.length?'radio_box_check':''" ng-click="get_right_unit('all')"></i>全部单位</span>
+	</div>
+	<ul class="fire_alarm_ul">
+		<li ng-repeat="l in fire_units" ng-click="select_unit(l)" ng-style="l.selected?{'background':'#ECECEC'}:''"><!--<i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i>-->【{{l.countSum}}】{{l.siteName}}</li>
+	</ul>
+</div>
+
+<fire_detail_alert show-alert="show_alert" fire-info="fire_details" type="trouble"></fire_detail_alert>
+<unit-detail-alert show-alert="show_unit_alert" info="base_info" id="current_id" selected="current_tab" unit-name="unit_name" device-list="device_list" buildings-info="buildings_info"></unit-detail-alert>
+
+
+

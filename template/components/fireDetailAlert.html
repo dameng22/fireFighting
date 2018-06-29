@@ -1,0 +1,33 @@
+<div ng-class="$ctrl.is_or_no_alert()" class="border_radius_4">
+	<p class="remark_alert_title fire_detail_height"><i class="ico_sprite ico_close" ng-click="$ctrl.alert_cancel()" style="right: -30px;"></i>火灾报警信息详情</p>
+	<table width="100%">
+		<tr class="table_title">
+			<td class="tb_head">处理时间</td>
+			<td>
+				<p class="fire_detail_text">处理详情</p>
+			</td>
+		</tr>
+		<tr  ng-if="$ctrl.fireInfo.alertTime">
+			<td class="tb_head">{{$ctrl.fireInfo.alertTime | date:'yyyyMMdd HH:mm:ss'}}</td>
+			<td>
+				<p class="fire_detail_text">联网单位报警</p>
+			</td>
+		</tr>
+		<tr ng-if="$ctrl.fireInfo.receivingTime">
+			<td class="tb_head">{{$ctrl.fireInfo.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</td>
+			<td>
+				<p class="fire_detail_text">平台接到警情信息</p>
+			</td>
+		</tr>
+		<!--循环开始-->
+		<tr ng-repeat="l in $ctrl.fireInfo.processingRecords">
+			<td class="tb_head">{{l.processingTime | date:'yyyyMMdd HH:mm:ss'}}</td>
+			<td>
+				<p class="fire_detail_text">
+					<font>警情处理为：</font>{{$ctrl.status_format(l.statusId,l.endStateId)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font>处理人：</font>{{l.person.nameOriental}}<br/>
+					<font>备注：</font>{{l.remarks || '无'}}
+				</p>
+			</td>
+		</tr>
+	</table>
+</div>

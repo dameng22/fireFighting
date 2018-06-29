@@ -1,0 +1,16 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<span class="device_map_close" ng-click="$ctrl.alert_cancel()">
+		<i class="ico_sprite ico_close"></i>
+	</span>
+	<div id="deviceMap" style="height:380px;"></div>
+    <p class="device_map_wrap margin_top_21" ng-show="$ctrl.type != 'read_only'">
+    	<span class="device_map_title">安装地址：</span>
+    	<input type="text" class="device_map_input" ng-model="$ctrl.locaitonTemp.address.address"/>
+    	<span class="btn_size btn_blue" ng-click="$parent.searchLocation($ctrl.locaitonTemp);">检索</span>
+    </p>
+    <p class="device_map_wrap margin_btm_15" ng-show="$ctrl.type != 'read_only'">
+    	<span class="device_map_title">经纬度：</span>
+    	<span class="device_map_input device_map_disabled">{{$ctrl.locaitonTemp.address.longitude}} ; {{$ctrl.locaitonTemp.address.lattitude}}</span>
+    	<span class="btn_size btn_blue" ng-click="$ctrl.alert_true()">确认</span>
+    </p>
+</div>

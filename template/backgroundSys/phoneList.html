@@ -1,0 +1,70 @@
+<div class="content_all border_radius_4 phone_wrap" ng-class="view_contact?'contact_list_wrap':''">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<ul class="contact_list_tab">
+				<li ng-click="show_tab(2)" ng-class="tab_now==2?'contact_list_select':''">联网单位</li>
+				<li class="contact_list_li_center" ng-click="show_tab(0)" ng-class="tab_now==0?'contact_list_select':''">常用人员</li>
+				<li ng-click="show_tab(1)" ng-class="tab_now==1?'contact_list_select':''">协助单位</li>
+			</ul>
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search()"></i></span>
+			<span class="btn_size btn_blue btn_light_blue" ng-click="add_show=true" ng-show="tab_now!=2">新增用户</span>
+		</div>
+	</div>
+	<div class="check_task_scroll">
+		<p class="list_data list_data_head min_width_793" ng-if="tab_now!=2">
+			<span class="phone_unit_name">单位名称</span>			
+			<span class="phone_name">姓名</span>
+			<span class="phone_job">职位</span>
+			<span class="phone_contact">联系方式</span>
+			<span class="phone_operate">操作</span>
+		</p>
+		<p class="list_data list_data_head min_width_793" ng-if="tab_now==2">
+			<span class="phone_name">单位编码</span>			
+			<span class="phone_unit_name">单位名称</span>
+			<span class="phone_job">消控室电话</span>
+			<span class="phone_contact">消防安全负责人</span>
+			<span class="phone_operate">联系方式</span>
+		</p>
+		<div class="list_data_scroll fix_time_data phone_list_wrap min_width_793">
+			<p class="list_data cursor_normal min_width_793" ng-show="add_show&&tab_now!=2">
+				<span class="phone_unit_name"><input type="text" class="input_text" ng-model="add_info.orgName" /></span>
+				<span class="phone_name"><input type="text" class="input_text" ng-model="add_info.givenNameOriental" /></span>
+				<span class="phone_job"><input type="text" class="input_text" ng-model="add_info.orgJob" /></span>
+				<span class="phone_contact"><input type="text" class="input_text" ng-model="add_info.contactInfos[0].contactInfo" /></span>
+				<span class="phone_operate location_edit"><font ng-click="save_data_btn(add_info,'add')">保存</font> | <font ng-click="add_show=false">取消</font></span>
+			</p>
+			<p class="list_data cursor_normal min_width_793" ng-repeat="l in contact_list track by $index" ng-if="tab_now!=2">
+				<span class="phone_unit_name">
+					<input type="text" class="input_text" ng-model="l.orgName" ng-if="l.read"/>
+					<font ng-if="!l.read">{{l.orgName}}</font>
+				</span>
+				<span class="phone_name">
+					<input type="text" class="input_text" ng-model="l.givenNameOriental" ng-if="l.read"/>
+                  	<font ng-if="!l.read">{{l.givenNameOriental}}</font>
+				</span>
+				<span class="phone_job">
+					<input type="text" class="input_text" ng-model="l.orgJob" ng-if="l.read"/>
+                  	<font ng-if="!l.read">{{l.orgJob}}</font>
+				</span>
+				<span class="phone_contact">
+					<input type="text" class="input_text" ng-model="l.contactInfos[0].contactInfo" ng-if="l.read"/>
+					<font ng-if="!l.read">{{l.contactInfos[0].contactInfo}}</font>
+				</span>
+				<span class="phone_operate" ng-class="l.read?'location_edit':''">
+					<font ng-if="!l.read" ng-click="l.read=true">修改</font><font ng-if="l.read" ng-click="save_data_btn(l,'edit')">保存</font> | 
+					<font ng-if="l.read" ng-click="l.read=false">取消</font></font><font ng-if="!l.read" ng-click="del_data(l.id,$index)">删除</font>
+				</span>
+			</p>
+			<p class="list_data cursor_normal min_width_793" ng-repeat="l in contact_list track by $index" ng-if="tab_now==2">
+				<span class="phone_name">{{l.code}}</span>
+				<span class="phone_unit_name">{{l.name}}</span>
+				<span class="phone_job">{{l.controlRoomContactinfo}}</span>
+				<span class="phone_contact">{{l.contactPersons[0].givenNameOriental}}</span>
+				<span class="phone_operate">{{l.contactPersons[0].contactInfos[0].contactInfo}}</span>
+			</p>
+		</div>
+	</div>
+</div>
+
+
+		

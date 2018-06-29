@@ -1,0 +1,60 @@
+<div class="content_all border_radius_4" ng-init="add_show = false">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap padd_left_280">
+			<span class="btn_size btn_blue btn_light_blue" ng-click="add_show=true" style="margin-left: 188px;">新增</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="undo = !undo;get_search(1)" ng-class="undo?'check_box_select':''"></i>显示禁用</span>
+		</div>
+	</div>
+	<div class="check_task_scroll">
+		<p class="list_data list_data_head min_width_793">
+			<span class="dic_code">编码</span>
+			<span class="dic_contact">名称</span>
+			<span class="dic_name">制造商</span>
+			<span class="dic_disabled">是否禁用</span>
+			<span class="dic_operate">操作</span>
+		</p>
+		<div class="list_data_scroll fix_time_data phone_list_wrap min_width_793">
+			<p class="list_data cursor_normal" ng-show="add_show">
+				<span class="dic_code"><input type="text" class="input_text" ng-model="add_info.code" /></span>
+				<span class="dic_contact"><input type="text" class="input_text" ng-model="add_info.name" /></span>
+				<span class="dic_name">
+					<select class="select_text" title=""
+                            ng-options="manu.id as manu.name for manu in manu_list"
+                            ng-model="add_info.manufacturerId">
+                  </select>
+				</span>
+				<span class="dic_disabled">
+					<i class="ico_sprite check_box_normal margin_left_16" ng-class="add_info.isdisable?'check_box_select':''" ng-click="add_info.isdisable = !add_info.isdisable"></i>
+				</span>
+				<span class="dic_operate location_edit"><font ng-click="save_data_btn(add_info,'add')">保存</font> | <font ng-click="add_show=false">取消</font></span>
+			</p>
+			<p class="list_data cursor_normal" ng-repeat="l in type_list track by $index">
+				<span class="dic_code">
+					<input type="text" class="input_text" ng-model="l.code" ng-if="l.read"/>
+					<font ng-if="!l.read">{{l.code}}</font>
+				</span>
+				<span class="dic_contact">
+					<input type="text" class="input_text" ng-model="l.name" ng-if="l.read"/>
+                  	<font ng-if="!l.read">{{l.name}}</font>
+				</span>
+				<span class="dic_name">
+					<select class="select_text" title=""
+                            ng-options="manu.id as manu.name for manu in manu_list"
+                            ng-model="l.manufacturerId" ng-if="l.read">
+                  	</select>
+					<font>{{l.manufacturerId | dic_filter:manu_list}}</font>
+				</span>
+				<span class="dic_disabled">
+					<i class="ico_sprite check_box_normal margin_left_16" ng-class="l.isdisable?'check_box_select':''"  ng-click="disabled(l)"></i>
+				</span>
+				<span class="dic_operate" ng-class="l.read?'location_edit':''">
+					<font ng-if="!l.read" ng-click="l.read=true">修改</font><font ng-if="l.read" ng-click="save_data_btn(l,'edit')">保存</font> | 
+					<font ng-if="l.read" ng-click="l.read=false">取消</font></font><font ng-if="!l.read" ng-click="del_data(l.id)">删除</font>
+				</span>
+			</p>
+		</div>
+	</div>
+</div>
+
+
+		

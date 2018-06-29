@@ -1,0 +1,102 @@
+<div class="content_all border_radius_4 online_count_all">
+	<div class="alarm_statis_new_top border_radius_4">
+		<div class="alarm_statis_block">
+			<div class="alarm_statis_inline border_radius_4">
+				<p>本日报警数</p>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.todayActualFire.length">真实火警</span>
+					<span ng-repeat="l in count_number.todayActualFire track by $index">
+						<i ng-class="colorful(l,$index,count_number.todayActualFire,0)">{{l}}</i>
+					</span>
+				</div>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.todayFalseFire.length">误报火警</span>
+					<span ng-repeat="l in count_number.todayFalseFire track by $index">
+						<i ng-class="colorful(l,$index,count_number.todayFalseFire,1)">{{l}}</i>
+					</span>
+				</div>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.todayAlert.length">故障信息</span>
+					<span ng-repeat="l in count_number.todayAlert track by $index">
+						<i ng-class="colorful(l,$index,count_number.todayAlert,2)">{{l}}</i>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="alarm_statis_block text-center">
+			<div class="alarm_statis_inline border_radius_4">
+				<p>本月报警数</p>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.monthActualFire.length">真实火警</span>
+					<span ng-repeat="l in count_number.monthActualFire track by $index">
+						<i ng-class="colorful(l,$index,count_number.monthActualFire,0)">{{l}}</i>
+					</span>
+				</div>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.monthFalseFire.length">误报火警</span>
+					<span ng-repeat="l in count_number.monthFalseFire track by $index">
+						<i ng-class="colorful(l,$index,count_number.monthFalseFire,1)">{{l}}</i>
+					</span>
+				</div>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.monthAlert.length">故障信息</span>
+					<span ng-repeat="l in count_number.monthAlert track by $index">
+						<i ng-class="colorful(l,$index,count_number.monthAlert,2)">{{l}}</i>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="alarm_statis_block text-right">
+			<div class="alarm_statis_inline border_radius_4">
+				<p>本年报警数</p>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.yearActualFire.length">真实火警</span>
+					<span ng-repeat="l in count_number.yearActualFire track by $index">
+						<i ng-class="colorful(l,$index,count_number.yearActualFire,0)">{{l}}</i>
+					</span>
+				</div>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.yearFalseFire.length">误报火警</span>
+					<span ng-repeat="l in count_number.yearFalseFire track by $index">
+						<i ng-class="colorful(l,$index,count_number.yearFalseFire,1)">{{l}}</i>
+					</span>
+				</div>
+				<div class="alarm_statis_number">
+					<span ng-if="count_number.yearAlert.length">故障信息</span>
+					<span ng-repeat="l in count_number.yearAlert track by $index">
+						<i ng-class="colorful(l,$index,count_number.yearAlert,2)">{{l}}</i>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="alarm_statis_new_cen border_radius_4">
+		<select class="select_text width_114 statis_select" ng-model="current_year" ng-change="get_year_data()">
+			<option value="{{l}}" ng-repeat="l in year">{{l}}年</option>
+		</select>
+		<div id="alarm_line" class="unit_statis_full"></div>
+	</div>
+	<div class="alarm_statis_new_cen border_radius_4" ng-show="region_list.length>0">
+		<div class="online_count_scroll border_radius_4">
+			<p class="list_data list_data_head min_width_793">
+				<span class="online_count_title">{{current_year}}年{{current_month}}月警情统计
+					<em class="btn_size btn_blue float_right" ng-click="download_file()" style="margin-top: 9px;margin-right: 42px;">导出</em>
+				</span>
+			</p>
+			<p class="list_data list_data_head min_width_793">
+				<span class="alarm_statiss_index">区域</span>
+				<span class="alarm_statiss_code">火警</span>
+				<span class="alarm_statiss_name">误报</span>
+				<span class="alarm_statiss_time">故障</span>
+			</p>
+			<div class="list_data_scroll fix_time_data min_width_793">
+				<p class="list_data cursor_normal min_width_793" ng-repeat="l in region_list track by $index">
+					<span class="alarm_statiss_index">{{l.regionName}}</span>
+					<span class="alarm_statiss_code">{{l.monthActualFire}}</span>
+					<span class="alarm_statiss_name">{{l.monthFalseFire}}</span>
+					<span class="alarm_statiss_time">{{l.monthAlert}}</span>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

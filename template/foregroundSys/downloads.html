@@ -1,0 +1,68 @@
+<div class="content_all border_radius_4">
+	<div class="downloads_scroll border_radius_4">
+		<p>
+			<span class="btn_size btn_blue btn_light_blue downloads_edit" ng-click="can_edit = true" ng-show="!can_edit&&system_name=='后台管理系统'">编辑</span>
+			<span class="btn_size btn_blue btn_light_blue downloads_edit_save" ng-click="save()" ng-show="can_edit">保存修改</span>
+			<span class="btn_size btn_blue btn_light_blue downloads_edit" ng-click="can_edit = false" ng-show="can_edit">取消</span>
+		</p>
+		<div class="downloads_wrap">
+			<p class="downloads_title">消防远程监控中心电话</p>
+			<div class="downloads_detail margin_btm_8">
+				<span>传输设备故障保修电话：</span>
+				<div ng-show="!can_edit">
+					<font ng-repeat="l in telephone track by $index">{{l.value}}</font>
+				</div>
+				<div ng-show="can_edit">
+					<p ng-repeat="l in telephone track by $index" class="downloads_edit_wrap margin_btm_8">
+						<input type="text" ng-model="l.value"/>
+						<i class="ico_sprite ico_small_delete" ng-click="delete_contact($index,l.id,0)"></i>
+					</p>
+					<p class="downloads_edit_wrap">
+						<i class="ico_sprite ico_small_add" ng-click="add_contact(0,add_phone);"></i>
+					</p>
+				</div>
+			</div>
+			<div class="downloads_detail">
+				<span>消防远程监控中心电话：</span>
+				<div ng-show="!can_edit">
+					<font ng-repeat="l in cellphone track by $index">{{l.value}}</font>
+				</div>
+				<div ng-show="can_edit">
+					<p ng-repeat="l in cellphone track by $index" class="downloads_edit_wrap margin_btm_8">
+						<input type="text" ng-model="l.value"/>
+						<i class="ico_sprite ico_small_delete" ng-click="delete_contact($index,l.id,1)"></i>
+					</p>
+					<p class="downloads_edit_wrap">
+						<i class="ico_sprite ico_small_add" ng-click="add_contact(1,add_mobile);"></i>
+					</p>
+				</div>
+			</div>
+			<p class="downloads_title">消防远程监控中心APP下载</p>
+			<div class="pad_top_8 font_size_0">
+				<div class="downloads_code text-right">
+					<div class="downloads_inside float_right" style="margin-right: -91px;">
+						<p class="user_two_code">用户版</p>
+						<img ng-src="{{ios.length?(qiuNiuUrl+ios[0].value+'?imageView2/1/w/182/h/182'):''}}" width="182" height="182"/>
+						<!--<p>IOS系统用户</p>-->
+						<p>
+							<span class="btn_size btn_blue btn_light_blue notice_upload" ng-show="can_edit">选择图片
+								<input type="file" id="upload_ios" style="width: 100%;"/>
+							</span>
+						</p>	
+					</div>
+				</div>
+				<!--<div class="downloads_code">
+					<div class="downloads_inside float_left" style="margin-left: 19px;">
+						<img ng-src="{{android.length?(qiuNiuUrl+android[0].value+'?imageView2/1/w/182/h/182'):''}}" width="182" height="182"/>
+						<p>Android系统用户</p>
+						<p>
+							<span class="btn_size btn_blue btn_light_blue notice_upload" ng-show="can_edit">选择图片
+								<input type="file" id="upload_android" style="width: 100%;"/>
+							</span>
+						</p>	
+					</div>
+				</div>-->
+			</div>	
+		</div>
+	</div>
+</div>

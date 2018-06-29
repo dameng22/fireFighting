@@ -1,0 +1,12 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="modify_pwd_alert">
+		<i class="ico_sprite ico_close" ng-click="$ctrl.alert_cancel()"></i>
+		<p>旧密码：</p>
+		<input type="text" ng-model="$ctrl.old_pwd"/>
+		<p>新密码：</p>
+		<input type="password" ng-model="$ctrl.new_pwd"/>
+		<p>确认密码：</p>
+		<input type="password" ng-model="$ctrl.rewrite_pwd"/>
+		<span class="btn_size btn_blue" ng-click="$ctrl.alert_true()">确认提交</span>
+	</div>
+</div>

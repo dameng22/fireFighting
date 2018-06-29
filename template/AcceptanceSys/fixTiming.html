@@ -1,0 +1,38 @@
+<div class="content_all border_radius_4">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap">
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search(0)" ng-class="done?'check_box_select':''"></i>已完成</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search(1)" ng-class="undo?'check_box_select':''"></i>未完成</span>
+			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search(2)" ng-class="success?'check_box_select':''"></i>未成功</span>
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search()"></i></span>
+			<span class="search_wrap">
+				<input class="input_text width_240 form_datetime form-control" placeholder="巡检任务开始时间" ng-change="get_search()" ng-model="begintime" style="padding: 0;"/>
+				<input type="hidden" id="task_start_time" />
+			</span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4">
+		<p class="list_data list_data_head">
+			<span class="fix_time_status">校时状态</span>
+			<span class="fix_time_code">单位编码</span>
+			<span class="fix_time_name">单位名称</span>
+			<span class="fix_time_code">设备编码</span>
+			<span class="fix_time_name">设备名称</span>
+			<span class="fix_time_phone">消控室电话</span>
+			<span class="fix_time_time">巡检任务开始时间</span>
+		</p>
+		<div class="list_data_scroll fix_time_data min_width_967">
+			<p class="list_data cursor_normal" ng-repeat="l in task_online track by $index">
+				<span class="fix_time_status" ng-class="l.checkStatus==1?'fix_time_undo':''">{{show_status(l.checkStatus)}}</span>
+				<span class="fix_time_code">{{l.customerSite.code}}</span>
+				<span class="fix_time_name" title="{{l.customerSite.name}}">{{l.customerSite.name}}</span>
+				<span class="fix_time_code">{{l.device.code}}</span>
+				<span class="fix_time_name">{{l.device.name}}</span>
+				<span class="fix_time_phone">{{l.customerSite.controlRoomContactinfo}}</span>
+				<span class="fix_time_time">{{l.requestTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+			</p>
+		</div>
+	</div>
+</div>
+
+

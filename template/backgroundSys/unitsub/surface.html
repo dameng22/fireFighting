@@ -1,0 +1,47 @@
+		<div class="surface_con_bg">
+			<div class="network_alert_head border_radius_top_4">
+				<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
+				<span class="btn_size btn_blue" ui-sref="setUnitDetail.surface.location({'token':sys_token,'unit':sys_unit,'sys':sys_role})">编码表</span>
+				<span class="btn_size btn_blue" ng-click="del_build()" ng-show="floor_id">删除楼栋</span>
+				<span class="btn_size btn_blue" ng-click="modify_build('add')" ng-show="build_id">新增楼栋</span>
+			</div>
+			<!--图片信息-->
+			<div class="surface_bg_scroll" style="background: #FFFFFF;"> 
+				<div class="fix_time_data min_width_550">
+					<div class="surface_big_pic">
+						<p class="surface_big_title" ng-show="re_floor.placeName">{{re_floor.placeName}}：地上{{re_floor.floorUpQuantity?re_floor.floorUpQuantity:0}}层 |  地下{{re_floor.floorDownQuantity?re_floor.floorDownQuantity:0}}层</p>
+						<p class="surface_big_title" ng-show="!re_floor.placeName">请选择建筑物及楼栋</p>
+						<a href="{{qiuNiuUrl+info[0].qiniuName}}" data-lightbox="roadtrip">
+							<img ng-src="{{info[0].qiniuName?(qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" /> <!-- images/add_pic.png -->
+						</a>
+					</div>
+				</div>
+				<p class="surface_btn">
+					<span class="btn_size btn_blue margin_right_20" ng-click="edit_pic('add')" ng-show="!info[0]&&selected">添加图片</span>
+					<span class="btn_size surface_delete" ng-click="del_pic(info[0].id)" ng-show="info[0]">删除图片</span>
+				</p>
+			</div>
+			
+		</div>
+		<div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden fire_alarm_gray_bg">
+			<div class="fire_alarm_right_top surface_bg_top border_radius_top_4">
+				<select class="select_text margin_btm_15"
+                        ng-options="build.id as build.name for build in buildings_info"
+                        ng-model="build_id" ng-change="get_cell()">
+              	</select>	
+				<select class="select_text"
+                        ng-options="floor.id as floor.placeName for floor in floors"
+                        ng-model="floor_id" ng-change="get_floor()">
+              	</select>	
+			</div>
+			<ul class="fire_alarm_ul">
+				<li ng-repeat="l in floor_list track by $index" ng-click="show_surface(l.index)" ng-style="l.index == selected?{'background':'#ECECEC'}:''">
+					{{l.name}}
+				</li>
+			</ul>
+		</div>
+		<div ui-view="" class="min_width_550" ng-class="real_state=='setUnitDetail.surface.location'?'surface_sub':''" style="top:0">
+					
+		</div>
+		<picture-alert show-alert="show_alert" unit-id="unit_ids" get-list="research_list()" types="types" titles="title" pic-url="pic_url" pic-id="pic_id" type="type" flag="flag" floor="selected" place="floor_id" bulid="bulid"></picture-alert>
+		<building-alert show-alert="show_build" build-id="build_id" get-cell="get_cell()" item="buliding"></building-alert>		

@@ -1,0 +1,67 @@
+<div class="content_right unit_wrap_top border_radius_4" style="margin-right: 0;">
+	<div class="check_task_top border_radius_top_4">
+		<div class="check_task_wrap trouble_alarm_group">
+			<select class="select_text width_140" ng-model="device_types" ng-change="get_search();get_drop()" style="width: 100px;">
+				<option>设备类型</option>
+				<option ng-repeat="l in trouble_type" value="{{l.id}}">{{l.name}}</option>
+			</select>
+			<select class="select_text" ng-model="trouble_item" ng-change="get_search()" style="width: 193px;">
+				<option>故障类型</option>
+				<option ng-repeat="l in trouble_drop" value="{{l.id}}">&nbsp{{l.name}}</option>
+			</select>
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search('text')"></i></span>
+			<span class="btn_size vertical_top float_right" ng-click="deal_alarm('true')" style="margin-top: 2px;" ng-class="unit_ids.length>0?'btn_blue':'btn_light_blue'">已修复</span>
+		</div>
+	</div>
+	<div class="check_task_scroll border_radius_4 check_task_setting">
+		<p class="list_data list_data_head min_width_976">
+			<span class="trouble_alarm_checkbox"></span>
+			<span class="trouble_alarm_code">设备编码</span>
+			<span class="trouble_alarm_name">设备名称</span>
+			<!--<span class="trouble_alarm_remark">故障终端设备</span>-->
+			<span class="trouble_alarm_remark">设备类型</span>
+			<span class="trouble_alarm_type">故障类型</span>
+			<span class="trouble_alarm_add">故障位置</span>
+			<span class="trouble_alarm_status">警情状态</span>
+			<span class="trouble_alarm_time">报警时间</span>
+			<span class="trouble_alarm_time">接警时间</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_976">
+			<p class="list_data" ng-repeat="l in touble_list track by $index" ng-class="l.processingStatusId==0?'trouble_alarm_danger':''" ng-click="get_ids(l)">
+				<span class="trouble_alarm_checkbox">
+					<i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i>
+				</span>
+				<span class="trouble_alarm_code">{{l.relay.code}}</span>
+				<span class="trouble_alarm_name" title="{{l.relay.name}}">{{l.relay.name}}</span>
+				<!--<span class="trouble_alarm_remark" title="{{l.relay.name}}">{{l.relay.name}}</span>-->
+				<span class="trouble_alarm_remark" title="{{device_broke(l)}}">{{device_broke(l)}}</span>
+				<span class="trouble_alarm_type" title="{{l.reportingDevice.name}}-{{l.faultTypeId | dic_filter:trouble_drop}}">{{l.reportingDevice.name}}-{{l.faultTypeId | dic_filter:trouble_drop}}</span>
+				<span class="trouble_alarm_add" title="{{l.reportingDevice.address.address}}">{{l.reportingDevice.address.address}}</span>
+				<span class="trouble_alarm_status">{{l.processingStatusId==0?'未处理':'已处理'}}</span>
+				<span class="trouble_alarm_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="trouble_alarm_time">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+			</p>
+		</div>	
+	</div>	
+</div>
+<div class="content_right fire_alarm_center_btm height_174 border_radius_4" style="margin-right: 0;">
+	<div class="check_task_scroll border_radius_4 check_task_setting unit_wrap_btm">
+		<p class="list_data list_data_head min_width_793">
+			<span class="unit_alarm_type">设备类型</span>
+			<span class="unit_alarm_name">设备名称</span>
+			<span class="unit_alarm_code">设备型号</span>
+			<span class="unit_alarm_status">设备状态</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_793">
+			<p class="list_data" ng-repeat="l in device_info track by $index">
+				<span class="unit_alarm_type">传输装置</span>
+				<span class="unit_alarm_name">{{l.name}}</span>
+				<span class="unit_alarm_code">{{l.modelName}}</span>
+				<span class="unit_alarm_status">{{l.status==0?'在线':'离线'}}</span>
+			</p>
+		</div>	
+	</div>	
+</div>
+
+
+

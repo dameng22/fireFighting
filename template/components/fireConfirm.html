@@ -1,0 +1,9 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="fire_confirm">
+		<p class="fire_confirm_title text-center">是否确认为<span>{{$root.confirm_type}}</span>?</p>
+		<p class="text-center">
+			<span class="btn_size btn_blue" ng-click="$root.fire_func()" style="margin-right: 30px;">确认</span>
+			<span class="btn_size fire_confirm_cancel" ng-click="$root.fire_now=false">取消</span>
+		</p>
+	</div>
+</div>
