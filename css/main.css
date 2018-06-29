@@ -1,4 +1,4 @@
-*{
+﻿*{
 	padding: 0;
 	margin: 0;
 }
@@ -27,6 +27,7 @@ ul,li{
 	line-height: 26px!important;
 	max-width: none!important;
 }
+textarea{resize: none;}
 /*登录*/
 .login {
   position: relative;
@@ -1331,6 +1332,7 @@ ul,li{
 	vertical-align: top;
 	padding-top: 50px;
 	position: relative;
+	border: none;
 }
 .fire_alarm_textarea[disabled]{
 	background: #F4F4F4;

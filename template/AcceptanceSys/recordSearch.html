@@ -62,9 +62,9 @@
 		<div class="list_data_scroll fix_check_task min_width_1100">
 			<p class="list_data min_width_1100" ng-repeat="l in record_list track by $index" ng-click="go_detail(l.siteId,l.alertId)">
 				<span class="record_search_code">{{selected!=2?l.siteCode:l.relay.famCustomerSite.code}}</span>
-				<span class="record_search_name">{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}</span>
+				<span class="record_search_name" title="{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}">{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}</span>
 				<span class="record_search_code">{{selected!=2?l.deviceCode:l.relay.code}}</span>
-				<span class="record_search_name">{{selected!=2?l.deviceName:l.relay.name}}</span>
+				<span class="record_search_name" title="{{selected!=2?l.deviceName:l.relay.name}}">{{selected!=2?l.deviceName:l.relay.name}}</span>
 				<span class="record_search_type" ng-if="selected==0">{{l.endStateId | dic_filter:fire_states}}</span>
 				<span class="record_search_type" ng-if="selected==1">{{device_broke(l)}}</span>
 				<span class="record_search_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
@@ -93,7 +93,7 @@
 				<span class="keep_watch_code">{{l.customerSite.code}}</span>
 				<span class="keep_watch_name" title="{{l.customerSite.name}}">{{l.customerSite.name}}</span>
 				<span class="keep_watch_code">{{l.device.code}}</span>
-				<span class="keep_watch_name">{{l.device.name}}</span>
+				<span class="keep_watch_name" title="{{l.device.name}}">{{l.device.name}}</span>
 				<span class="keep_watch_phone">{{l.customerSite.controlRoomContactinfo}}</span>
 				<span class="keep_watch_time">{{l.requestTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="keep_watch_time">{{l.replyTime | date:'yyyyMMdd HH:mm:ss'}}</span>
@@ -114,7 +114,7 @@
 		<div class="list_data_scroll fix_check_task min_width_1100">
 			<p class="list_data min_width_1100" ng-repeat="l in record_list track by $index">
 				<span class="record_search_code">{{l.famCustomerSite.code}}</span>
-				<span class="record_search_name">{{l.famCustomerSite.name}}</span>
+				<span class="record_search_name" title="{{l.famCustomerSite.name}}">{{l.famCustomerSite.name}}</span>
 				<span class="record_search_code">{{l.famDevice.code}}</span>
 				<span class="record_search_name">{{l.famDevice.name}}</span>
 				<span class="record_search_time">{{l.testBeginTime | date:'yyyyMMdd HH:mm:ss'}}</span>

@@ -142,6 +142,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				}
 			}
 		}
+		//console.log($filter("date")(start,'yyyy-MM-dd'));
 		if($scope.selected == 0){ //火警报警记录
 			var end_state = angular.copy($scope.end_state);
 			if(exp_tool.is_chinese(end_state)){
@@ -300,6 +301,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 			}
 			params = {beginUpdateTime:start,lastUpdateTime:end,endStateId:end_state,codeOrName:$scope.search_key,regionId:region};
 			filenames = "火灾报警记录";
+			console.log($filter("date")(start,'yyyy-MM-dd'));
 		}else if($scope.selected == 1){
 			var device_type = angular.copy($scope.device_type);
 			if(exp_tool.is_chinese(device_type)){

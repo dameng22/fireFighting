@@ -45,10 +45,13 @@
 		<textarea class="fire_alarm_textarea" ng-model="remark" ng-disabled='unit_ids.length<=0 || (!its_true && !its_wait && !its_fake && !its_test)' placeholder="您可在此填写备注内容"></textarea>
 	</div>
 	<div class="fire_alarm_btn_right">
-		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('true')" ng-class="its_true&&unit_ids.length?'fire_alerm_toconfirm':''"><i class="ico_sprite fire_alerm_disable"></i>真实火警</span>
-		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('wait')" ng-class="its_wait&&unit_ids.length?'fire_alerm_confirmed':''"><i class="ico_sprite fire_alerm_disable"></i>等待确认</span>
-		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('fake')" ng-class="its_fake&&unit_ids.length?'fire_alerm_wrong':''"><i class="ico_sprite fire_alerm_towrong"></i>误报火警</span>
-		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('test')" ng-class="its_test&&unit_ids.length?'fire_alerm_test':''"><i class="ico_sprite fire_alerm_totest"></i>测试火警</span>
+		<button class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('true')" ng-class="its_true&&unit_ids.length?'fire_alerm_toconfirm':''"
+			ng-disabled='unit_ids.length<=0 || (!its_true && !its_wait && !its_fake && !its_test)'><i class="ico_sprite fire_alerm_disable"></i>真实火警</button>
+		<button class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('wait')" ng-class="its_wait&&unit_ids.length?'fire_alerm_confirmed':''"><i class="ico_sprite fire_alerm_disable"></i>等待确认</button>
+		<button class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('fake')" ng-class="its_fake&&unit_ids.length?'fire_alerm_wrong':''"
+			ng-disabled='unit_ids.length<=0 || (!its_true && !its_wait && !its_fake && !its_test)'><i class="ico_sprite fire_alerm_towrong"></i>误报火警</button>
+		<button class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm('test')" ng-class="its_test&&unit_ids.length?'fire_alerm_test':''"
+			ng-disabled='unit_ids.length<=0 || (!its_true && !its_wait && !its_fake && !its_test)'><i class="ico_sprite fire_alerm_totest"></i>测试火警</button>
 		<div class="fire_alarm_btn_group">
 			<hr class="fire_alarm_line"/>
 			<span class="btn_size btn_light_blue" ng-class="unit_ids.length?'btn_blue':''" ng-click="show_unit_detail()">单位详情</span>
