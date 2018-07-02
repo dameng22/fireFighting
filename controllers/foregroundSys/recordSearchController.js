@@ -248,8 +248,13 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	//导出文件
 	$scope.download_file = function(){
 		var urls,params,filenames;
+//		if($("#start").val()!=''){
+//			start = new Date($("#start").val()+format).getTime();
+//		}else{
+//			start = null;
+//		}
 		if($("#start").val()!=''){
-			start = new Date($("#start").val()+format).getTime();
+				start = new Date($("#start").val()+" "+'00:00:00').getTime();
 		}else{
 			start = null;
 		}
