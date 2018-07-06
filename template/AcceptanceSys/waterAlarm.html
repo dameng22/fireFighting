@@ -1,4 +1,9 @@
-<div class="content_right fire_alarm_center_top border_radius_4">
+<div class="content_all border_radius_4 water_alarm_wrap">
+	<p>该系统暂未接入监控平台</p>
+</div>
+
+
+<!--<div class="content_right fire_alarm_center_top border_radius_4">
 	<div class="check_task_top border_radius_top_4">
 		<div class="check_task_wrap">
 			<span class="fix_time_check"><i class="ico_sprite radio_box_normal radio_box_check" ng-click="get_search('all')" ng-class="all?'radio_box_check':''"></i>全部</span>
@@ -25,8 +30,9 @@
 			<span class="fire_alarm_time">报警时间</span>
 			<span class="fire_alarm_time">接警时间</span>
 		</p>
-		<div class="list_data_scroll fix_check_task min_width_890">
-			<!--<p class="list_data" ng-repeat="l in fire_list track by $index" ng-class="l.formatStatus.bg" ng-click="get_ids(l)" ng-style="l.selected?{'background':'#ECECEC'}:''">
+		<div class="list_data_scroll fix_check_task min_width_890">-->
+			
+			<!--xy<p class="list_data" ng-repeat="l in fire_list track by $index" ng-class="l.formatStatus.bg" ng-click="get_ids(l)" ng-style="l.selected?{'background':'#ECECEC'}:''">
 				<span class="fire_alarm_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
 				<span class="fire_alarm_code">{{l.relay.famCustomerSite.code}}</span>
 				<span class="fire_alarm_name" title="{{l.relay.famCustomerSite.name}}">{{l.relay.famCustomerSite.name}}</span>
@@ -35,10 +41,10 @@
 				<span class="fire_alarm_status" ng-class="l.formatStatus.font">{{l.formatStatus.texts}}</span>
 				<span class="fire_alarm_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="fire_alarm_time">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
-			</p>-->
+			</p>xy-->
 			
 			
-			<p class="list_data fire_alerm_danger">
+			<!--<p class="list_data fire_alerm_danger">
 				<span class="fire_alarm_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
 				<span class="fire_alarm_code">TH00192</span>
 				<span class="fire_alarm_name" title="维多利广场">维多利广场</span>
@@ -67,12 +73,12 @@
 				<span class="fire_alarm_status" ng-class="l.formatStatus.font">未处理</span>
 				<span class="fire_alarm_time">20180401 15:40:35</span>
 				<span class="fire_alarm_time">20180401 15:40:37</span>
-			</p>
+			</p>-->
 			
-		</div>	
+		<!--</div>	
 	</div>	
-</div>
-<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4" ng-show="!check_all">
+</div>-->
+<!--<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4" ng-show="!check_all">
 	<div class="fire_alarm_btn_left">
 		<textarea class="fire_alarm_textarea" ng-model="remark" ng-disabled='unit_ids.length<=0 || (!its_true && !its_wait && !its_fake && !its_test)' placeholder="您可在此填写备注内容"></textarea>
 	</div>
@@ -87,9 +93,9 @@
 			<span class="btn_size btn_light_blue margin_top_21" ng-class="unit_ids.length?'btn_blue':''" ng-click="fire_detail()">警情信息</span>
 		</div>
 	</div>
-</div>
+</div>-->
 <!--全选-->
-<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4"  ng-show="check_all">
+<!--<div class="content_right fire_alarm_center_btm fire_alarm_btm_bg border_radius_4"  ng-show="check_all">
 	<div class="fire_alarm_btn_left">
 		<textarea class="fire_alarm_textarea" ng-model="remark" ng-disabled='fire_list.length<=0 || !check_all' placeholder="您可在此填写备注内容"></textarea>
 	</div>
@@ -111,15 +117,15 @@
 		<span class="search_wrap margin_left_9"><input class="input_text width_168 right_enter_press" placeholder="请输入关键字搜索" ng-model="right_unit_srh"/><i class="ico_sprite search_ico" ng-click="get_right_unit('srh')"></i></span>
 		<span class="fix_time_check margin_left_9" style="line-height: 39px;"><i class="ico_sprite radio_box_normal" ng-class="!right_unit.length?'radio_box_check':''" ng-click="get_right_unit('all')"></i>全部单位</span>
 	</div>
-	<ul class="fire_alarm_ul">
-<!--		<li ng-repeat="l in fire_units" ng-click="select_unit(l)" ng-style="l.selected?{'background':'#ECECEC'}:''">【{{l.countSum}}】{{l.siteName}}</li>-->
-			<li>【13】维多利广场</li>
+	<ul class="fire_alarm_ul">-->
+<!--xy		<li ng-repeat="l in fire_units" ng-click="select_unit(l)" ng-style="l.selected?{'background':'#ECECEC'}:''">【{{l.countSum}}】{{l.siteName}}</li>xy-->
+			<!--<li>【13】维多利广场</li>
 			<li>【5】广交会威斯汀酒店</li>
 	</ul>
 </div>
 
 <fire_detail_alert show-alert="show_alert" fire-info="fire_details" type="trouble"></fire_detail_alert>
-<unit-detail-alert show-alert="show_unit_alert" info="base_info" id="current_id" selected="current_tab" unit-name="unit_name" device-list="device_list" buildings-info="buildings_info"></unit-detail-alert>
+<unit-detail-alert show-alert="show_unit_alert" info="base_info" id="current_id" selected="current_tab" unit-name="unit_name" device-list="device_list" buildings-info="buildings_info"></unit-detail-alert>-->
 
 
 
