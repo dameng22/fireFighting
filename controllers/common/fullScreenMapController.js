@@ -16,7 +16,7 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 		var point = new BMap.Point(113.11, 23.05);
 	};
     map.centerAndZoom(point, 13);
-//  map.setCurrentCity("广州");
+	//map.setCurrentCity("广州");
     map.enableScrollWheelZoom(true);
     
 	var markerClusterer = new BMapLib.MarkerClusterer(map);
@@ -63,7 +63,10 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 	                var marker = new BMap.Marker(pt, {icon: myIcon});	    
 	                
 	                //mengzhu chen add
-					marker.setLabel(label);
+	                var map_zoom = map.getZoom(); // 定义地图缩放等级的变量
+         			if (map_zoom >= 15) {   // 如果缩放等级大于等于15 默认为13
+         				marker.setLabel(label);
+					}
 					
 	                map.addOverlay(marker);			                
 	                

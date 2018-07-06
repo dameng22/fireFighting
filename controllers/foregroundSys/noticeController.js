@@ -3,8 +3,9 @@
  */
 app.controller('noticeController', ['$scope','superivse_http','$timeout', function($scope,superivse_http,$timeout){
 	//查看通知
-	$scope.view_notice = function(id){
+	$scope.view_notice = function(id,l){
 		$scope.notice_show = true;
+		$scope.notice_item = l;
 		superivse_http.get_notice_file({noticeId:id},function(result){
 			$scope.notice_detail = result;
 		})

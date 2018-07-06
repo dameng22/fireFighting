@@ -363,9 +363,9 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
     $scope.initMap = function (info) {
         var map = new BMap.Map("fireMap");
         if($base64.decode($stateParams.unit) == 'ANLITAI_2017_FAKE'){
-			var point = new BMap.Point(113.269616, 23.15995);
+			var point = new BMap.Point(113.269616, 23.15995);//113.36691,23.139894   原113.269616, 23.15995
 		}else{
-			var point = new BMap.Point(113.11, 23.05);
+			var point = new BMap.Point(113.11, 23.05);//113.207294,23.070056 原113.11, 23.05
 		};
         map.centerAndZoom(point, 15);
 //      map.setCurrentCity("广州");
@@ -376,6 +376,10 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
             map.panTo(point2);
             var marker = new BMap.Marker(point2, {icon: myIcon});
             map.addOverlay(marker);
+            
+			map.addEventListener('zoomend', function(){    //地图更改缩放级别结束时触发触发此事件
+                marker.setPosition(map.getCenter());
+          	});
         }
    	};
   	//警情状态  terminalStatusId：0自动火警  1确认火警  2紧急火警 

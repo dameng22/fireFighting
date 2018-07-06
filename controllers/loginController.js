@@ -43,12 +43,13 @@ app.controller('loginController', ['$scope','$http','login','$base64','$rootScop
 						location.href = "./index.html#/fireAlarm/"+trans;
 					}else if(sys_role.indexOf('fams_systemuser')!=-1){
 						login.unit({accountId:result.accounts[0].accountId}, function(res){
-							localStorage.unit_id = res[0].customerSiteId;
-							location.href = "./index.html#/unitCount/"+trans;
+							localStorage.unit_id = res[0].customerSiteId;	
+							login.unit_info({accountId:result.accounts[0].accountId,roleName:result.accounts[0].roleIdentifiers[0]}, function(res){
+								localStorage.cus_unit_name = res[0].customerSite.name;
+								location.href = "./index.html#/unitCount/"+trans;
+							});
 						});
-						login.unit_info({accountId:result.accounts[0].accountId,roleName:result.accounts[0].roleIdentifiers[0]}, function(res){
-							localStorage.cus_unit_name = res[0].customerSite.name;
-						});
+						
 					}else if(sys_role.indexOf('fams_org')!=-1){
 						location.href = "./index.html#/alarmStatistics/"+trans;
 					}else if(sys_role.indexOf('fams_systemadmin')!=-1){

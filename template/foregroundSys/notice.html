@@ -8,7 +8,7 @@
 			<span class="notice_files">附件个数</span>
 		</p>
 		<div class="list_data_scroll fix_time_data min_width_793">
-			<p class="list_data cursor_normal min_width_793" ng-repeat="l in notice_list track by $index">
+			<p class="list_data cursor_normal min_width_793" ng-repeat="l in notice_list track by $index" ng-dblclick="view_notice(l.id,l)">
 				<span class="notice_index">{{$index+1}}</span>
 				<span class="notice_title" title="{{l.noticeTitle}}">{{l.noticeTitle}}</span>
 				<span class="notice_time">{{l.noticeDate}}</span>
@@ -19,4 +19,5 @@
 	</div>
 </div>
 
-<notice-detail-alert show-alert="notice_show" notice-detail="notice_detail"></notice-detail-alert>
+<!--<notice-detail-alert show-alert="notice_show" notice-detail="notice_detail"></notice-detail-alert>-->
+<notice-detail-alert show-alert="notice_show" notice-detail="notice_detail" notice-item="notice_item"></notice-detail-alert>

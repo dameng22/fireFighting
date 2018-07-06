@@ -230,6 +230,10 @@ components.component('networkUnitAlert', {
 						        var marker = new BMap.Marker(pt, {icon: myIcon});
 						        map.addOverlay(marker);
 						        map.panTo(pt);
+						        
+						        map.addEventListener('zoomend', function(){    //地图更改缩放级别结束时触发触发此事件
+				                	marker.setPosition(map.getCenter());
+				          		});
 					       }
 					    })
 					});
@@ -841,6 +845,10 @@ components.component('unitDetailAlert', {
 						        var marker = new BMap.Marker(pt, {icon: myIcon});
 						        map.addOverlay(marker);
 						        map.panTo(pt);
+						        
+						        map.addEventListener('zoomend', function(){    //地图更改缩放级别结束时触发触发此事件
+				                	marker.setPosition(map.getCenter());
+				          		});
 					       }
 					    })
 					});
