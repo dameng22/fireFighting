@@ -178,6 +178,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 			}
 		}
 		if(typeof(get_data) == "function"){
+			$scope.$emit("loading", true);
 			get_data(param,function(result){
 				if(result.results){
 					$scope.record_list = $scope.record_list.concat(result.results);
@@ -187,6 +188,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				end = null;
 				$scope.counts = result.count;
 				total_page = result.totalPage;
+				$scope.$emit("loading", false);
 			})
 		}
 	};
@@ -224,6 +226,9 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	};
 	//切换菜单
 	$scope.show_tab=function(index){
+		$scope.end_state = "警情类型";
+		$scope.begintime = "";
+		$scope.endtime = "";
 		$scope.selected = index;
 		$scope.search_key = null;
 		page_num = 0;

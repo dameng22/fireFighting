@@ -403,7 +403,7 @@ components.component('relieveGuardAlert', {
     bindings:{
         showAlert:'='
     },
-    controller:function(login,myself_alert,$state,$base64,$rootScope){
+    controller:function(login,myself_alert,$http,$state,$base64,$rootScope,$scope,navData){
         var self = this;
         self.alert_true = function(){
         	if (!self.new_user){
@@ -418,18 +418,22 @@ components.component('relieveGuardAlert', {
 	            username:self.new_user,
 	            password:md5(self.new_pwd).toUpperCase(),
 	        }
-
-			var normal_id = angular.copy(localStorage.fams_token);
 	        login.entry(data,function(res,transfer){
 				if(transfer.status == 200){
-					localStorage.fams_token = res.tokenType + ' ' + res.token;
 				    login.user({}, function(result){
 						var sys_role = result.accounts[0].roleIdentifiers[0];
 						var trans = $base64.encode(res.tokenType + ' ' + res.token)+'/'+$base64.encode(result.accounts[0].customerId)+'/'+sys_role;
 						if(sys_role.indexOf('fams_famadmin')!=-1){
-							//$rootScope.users_name = self.new_user;
-							location.href = "./index.html#/fireAlarm/"+trans;
+							$rootScope.users_name = self.new_user;
+							//location.href = "./index.html#/fireAlarm/"+trans;
+							$rootScope.sys_token = $base64.encode(res.tokenType + ' ' + res.token);
+							$rootScope.sys_unit = $base64.encode(result.accounts[0].customerId);
+							navData.data = null;
+							$state.go("fireAlarm",{token:$base64.encode(res.tokenType + ' ' + res.token),unit:$base64.encode(result.accounts[0].customerId),sys:sys_role},{reload:true});
 							self.showAlert = false;
+							self.new_user = "";
+							self.new_pwd = "";
+							//$scope.$apply();
 						}else{
 							myself_alert.dialog_show("您没有访问权限!");
 						}
@@ -1231,23 +1235,14 @@ components.component('planDetailAlert', {
 //处理中
 components.component('loadingAlert', {
     bindings:{
-        showAlert:'='
+        showAlert:'=',
+        tips:'@'
     },
     controller:function(login,myself_alert){
         var self = this;
         self.alert_cancel = function(){
             self.showAlert = false;
         };
-        self.is_or_no_alert = function(){
-            if(typeof(self.showAlert) == 'undefined'){
-                return 'relieve_guard_wrap';
-            }
-            if(self.showAlert){
-            	return 'relieve_guard_wrap fams_alert_enter';
-            }else{
-            	return 'relieve_guard_wrap fams_alert_none';
-            }
-        }
     },
     templateUrl:'./template/components/loadingAlert.html'
 });

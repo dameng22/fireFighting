@@ -56,6 +56,16 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		}
 		if(typeof(get_data) == "function"){
 			get_data(param,function(result){
+				//
+//				var record_data = result.results;
+//				if(record_data.length>0){
+//					for(var i=0;i<record_data.length;i++){
+//						$scope.tasks_ids.push(record_data[i].id);
+//						task_status.push(record_data[i].runFlag);
+//					}
+//				}
+				
+				
 				if(result.results){
 					$scope.task_list = $scope.task_list.concat(result.results);
 				}
@@ -101,9 +111,13 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		for(var i=0;i<$scope.task_list.length;i++){
 			if($scope.all_task){
 				$scope.task_list[i].selected = true;
+				$scope.tasks_ids.push($scope.task_list[i].id);
+				task_status.push($scope.task_list[i].runFlag);
 			}else{
 				$scope.task_list[i].selected = false;
-			}
+				$scope.tasks_ids = [];
+				task_status = [];
+			}	
 		}
 	};
 	//删除任务
@@ -148,6 +162,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
     	$scope.can_start = false;
 		$scope.can_end = false;
 		l.selected = !l.selected;
+		if(!l.selected){
+			$scope.all_task = false;
+		}
 		if($scope.tasks_ids.length == 0){
 			$scope.can_start = false;
 			$scope.can_end = false;
@@ -168,6 +185,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
     	}
     	if(start&&$scope.tasks_ids.length){
     		$scope.can_start = true;
+    		console.log($scope.tasks_ids)
     	}
     	if(end&&$scope.tasks_ids.length){
     		$scope.can_end = true;

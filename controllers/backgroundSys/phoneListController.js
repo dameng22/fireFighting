@@ -23,10 +23,12 @@ app.controller('phoneListController', ['$scope','background_http','$timeout','my
 			param = {customerId:$base64.decode($stateParams.unit),pageNum:page_num,pageSize:page_size,phoneBookType:$scope.tab_now,nameAndJob:$scope.search_key};
 		}
 		if(typeof(get_data) == "function"){
+			$scope.$emit("loading", true);
 			get_data(param,function(result){
 				$scope.contact_list = $scope.contact_list.concat(result.results);
 				limits = true;
 				total_page = result.totalPage;
+				$scope.$emit("loading", false);
 			})
 		}
 	}
