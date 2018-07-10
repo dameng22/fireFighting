@@ -30,10 +30,10 @@
 				<td class="tb_head">单位类别：</td>
 				<td>{{$ctrl.fireDetails.site.siteTypeId  | dic_filter:$parent.site_type}}</td>
 			</tr>
-			<tr>
+			<!--<tr>
 				<td class="tb_head">报警位置：</td>
 				<td colspan="3">{{$ctrl.fireDetails.reportingDevice.address.address}}</td>
-			</tr>
+			</tr>-->
 			<tr>
 				<td class="tb_head">单位地址：</td>
 				<td colspan="3">{{$ctrl.fireDetails.site.address.address}}</td>
@@ -46,11 +46,11 @@
 			</tr>
 			<tr>
 				<td class="tb_head">{{$ctrl.fireDetails.alertTime | date:'yyyyMMdd-HH:mm:ss'}}</td>
-				<td class="fire_alert_td">联网单位报警</td>
+				<td class="fire_alert_td">联网单位报警</td>	
 			</tr>
 			<tr>
 				<td class="tb_head">{{$ctrl.fireDetails.receivingTime | date:'yyyyMMdd-HH:mm:ss'}}</td>
-				<td class="fire_alert_td">平台接到警情信息</td>
+				<td class="fire_alert_td">平台接到警情信息<br><span style="font-weight: bold;" ng-show="$ctrl.fireDetails.reportingDevice.address.address">报警位置：</span>{{$ctrl.fireDetails.reportingDevice.address.address}}</td>
 			</tr>
 			<tr ng-repeat="l in $ctrl.fireDetails.processingRecords track by $index">
 				<td class="tb_head">{{l.processingTime | date:'yyyyMMdd-HH:mm:ss'}}</td>

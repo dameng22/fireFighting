@@ -209,8 +209,23 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 		});
 	};
 	$timeout(scrollDate, 10);
-   	//查询
-	$scope.research_list=function(type){
+   	//查询xy
+//	$scope.research_list=function(type){
+//		if(type==0){
+//			$scope.done = !$scope.done;
+//		}else if(type==1){
+//			$scope.undo = !$scope.undo;
+//		}else if(type==2){
+//			$scope.success = !$scope.success;
+//		}
+//		page_num = 0;
+//		total_page = 0;
+//		limits = true;
+//		$scope.record_list = [];
+//		$scope.get_list();
+//	};
+	//查询按钮 mz
+	$scope.search_list=function(type){
 		if(type==0){
 			$scope.done = !$scope.done;
 		}else if(type==1){

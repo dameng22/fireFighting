@@ -66,6 +66,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	//新建任务显示
 	$scope.add_task_btn=function(){
 		$scope.add_task_show = true;
+		$scope.rsearch_unit();
 		acceptance_http.get_task_code({},function(result){
 			$scope.add_task.taskCode = result;
 			console.log($scope.add_task.taskCode)
@@ -75,6 +76,8 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	$scope.close_task_btn=function(){
 		$scope.add_task_show = false;
 		$scope.rsearch_unit();
+		$scope.area_id = "按区域筛选";
+		$scope.search_unit = "";
 	};	
 	//全选初始化
 	$scope.all_task = false;

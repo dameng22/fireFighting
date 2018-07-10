@@ -9,11 +9,12 @@
 			<span class="btn_size btn_light_blue">打印</span>
 			<hr class="seprate_line margin_right_4 vertical_top" ng-show="selected==0 || selected==1" style="top: 3px;">
 			<span class="btn_size btn_blue vertical_top" ng-click="reset_filter()">重制条件 </span>
+			<span class="btn_size btn_blue vertical_top" ng-click="search_list()">查询</span>
 		</div>
 		<div class="padding_btm_18">
 			<span ng-show="selected!=2">
 				<span class="record_search_title" ng-show="selected!=3">处理时间：</span>
-				<span class="search_wrap vertical_top">
+				<!--<span class="search_wrap vertical_top">
 					<input class="input_text width_100 form_datetime form-control" placeholder="开始时间" ng-change="research_list()" ng-model="begintime" style="padding-right: 0;" id="start"/>
 					<input type="hidden" id="task_start_time" />
 				</span>
@@ -28,51 +29,69 @@
 				<select class="select_text width_160" ng-show="selected==1" ng-model="device_type" ng-change="research_list()">
 					<option>故障类型</option>
 					<option ng-repeat="l in trouble_states" value="{{l.id}}">{{l.name}}</option>
+				</select>-->
+				<span class="search_wrap vertical_top">
+					<input class="input_text width_100 form_datetime form-control" placeholder="开始时间" ng-model="begintime" style="padding-right: 0;" id="start"/>
+					<input type="hidden" id="task_start_time" />
+				</span>
+				<span class="search_wrap vertical_top">
+					<input class="input_text width_100 form_datetime form-control" placeholder="结束时间" ng-model="endtime" style="padding-right: 0;" id="end"/>
+					<input type="hidden" id="task_start_time" />
+				</span>
+				<select class="select_text width_160" ng-show="selected==0" ng-model="end_state">
+					<option>警情类型</option>
+					<option ng-repeat="l in fire_states" value="{{l.id}}">{{l.name}}</option>
+				</select>
+				<select class="select_text width_160" ng-show="selected==1" ng-model="device_type">
+					<option>故障类型</option>
+					<option ng-repeat="l in trouble_states" value="{{l.id}}">{{l.name}}</option>
 				</select>
 			</span>
-			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="research_list()"></i></span>
+			<!--<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="research_list()"></i></span>-->
+			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="search_list()"></i></span>
 			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="research_list(0)" ng-class="done?'check_box_select':''"></i>在岗</span>
 			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="research_list(1)" ng-class="undo?'check_box_select':''"></i>脱岗</span>
 			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="research_list(2)" ng-class="success?'check_box_select':''"></i>未成功</span>
-			<span class="fix_time_check unit_numbers" style="margin-right: 6.5%;" ng-show="counts">数量：<font>{{counts}}</font></span>
+			<!--<span class="fix_time_check unit_numbers" style="margin-right: 6.5%;" ng-show="counts">数量：<font>{{counts}}</font></span>-->
+			<span class="fix_time_check unit_numbers" style="margin-right: 6.5%;">数量：<font>{{counts}}</font></span>
 		</div>
 	</div>
 	<div class="check_task_scroll border_radius_4 check_task_list unit_check_list" ng-show="selected!=3">
 		<p class="list_data list_data_head min_width_967">
-			<span class="record_search_code">设备编码</span>
-			<span class="record_search_name">单位名称</span>
-			<span class="record_search_type" ng-if="selected==0">警情类型</span>
-			<span class="record_search_type" ng-if="selected==1">故障类型</span>
-			<span class="record_search_time">报警时间</span>
-			<span class="record_search_time" ng-if="selected!=2">处理时间</span>
+			<span class="record_search_code" style="width: 15%;">设备编码</span>
+			<span class="record_search_name" style="width: 18%;">单位名称</span>
+			<span class="record_search_type" ng-if="selected==0" style="width: 16%;">警情类型</span>
+			<span class="record_search_type" ng-if="selected==1" style="width: 16%;">故障类型</span>
+			<span class="record_search_time" style="width: 22%;">报警时间</span>
+			<span class="record_search_time" ng-if="selected!=2" style="width: 22%;">处理时间</span>
 			<span class="record_search_time" ng-if="selected==2">接警时间</span>
 		</p>
 		<div class="list_data_scroll fix_check_task min_width_967">
 			<p class="list_data min_width_967" ng-repeat="l in record_list track by $index" ng-click="go_detail(l.siteId,l.alertId)">
-				<span class="record_search_code">{{selected!=2?l.deviceCode:l.relay.code}}</span>
-				<span class="record_search_name">{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}</span>
-				<span class="record_search_type" ng-if="selected==0">{{l.endStateId | dic_filter:fire_states}}</span>
-				<span class="record_search_type" ng-if="selected==1">{{device_broke(l)}}</span>
-				<span class="record_search_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
-				<span class="record_search_time" ng-if="selected!=2">{{l.lastUpdateTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="record_search_code" style="width: 15%;">{{selected!=2?l.deviceCode:l.relay.code}}</span>
+				<span class="record_search_name" style="width: 18%;">{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}</span>
+				<span class="record_search_type" ng-if="selected==0" style="width: 16%;">{{l.endStateId | dic_filter:fire_states}}</span>
+				<span class="record_search_type" ng-if="selected==1" style="width: 16%;">{{device_broke(l)}}</span>
+				<span class="record_search_time" style="width: 22%;">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="record_search_time" ng-if="selected!=2" style="width: 22%;">{{l.lastUpdateTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="record_search_time" ng-if="selected==2">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 			</p>
 		</div>
 	</div>
 	<div class="check_task_scroll border_radius_4 check_task_list unit_check_list"  ng-show="selected==3">
 		<p class="list_data list_data_head min_width_967">
-			<span class="keep_watch_status">查岗状态</span>
-			<span class="keep_watch_code">设备编码</span>
-			<span class="keep_watch_name">设备名称</span>
-			<span class="keep_watch_time">巡检任务开始时间</span>
+			<span class="keep_watch_status" style="width: 15%;">查岗状态</span>
+			<span class="keep_watch_code" style="width: 15%;">设备编码</span>
+			<span class="keep_watch_name" style="width: 19%;">设备名称</span>
+			<span class="keep_watch_time" style="width: 24%;">巡检任务开始时间</span>
 			<span class="keep_watch_time">回复时间</span>
 		</p>
 		<div class="list_data_scroll fix_time_data min_width_967">
 			<p class="list_data cursor_normal min_width_967" ng-repeat="l in record_list track by $index">
-				<span class="keep_watch_status" ng-class="l.checkStatus==1?'fix_time_undo':''">{{show_status(l.checkStatus)}}</span>
-				<span class="keep_watch_code">{{l.device.code}}</span>
-				<span class="keep_watch_name">{{l.device.name}}</span>
-				<span class="keep_watch_time">{{l.requestTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="keep_watch_status" ng-class="l.checkStatus==1?'fix_time_undo':''" style="width: 15%;">{{show_status(l.checkStatus)}}</span>
+				<span class="keep_watch_code" style="width: 15%;">{{l.device.code}}</span>
+				<span class="keep_watch_name" style="width: 19%;">{{l.device.name}}</span>
+				<span class="keep_watch_time" style="width: 24%;">{{l.requestTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="keep_watch_time">{{l.replyTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 			</p>
 		</div>
