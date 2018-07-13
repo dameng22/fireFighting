@@ -51,7 +51,8 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 			options.series[0].label.normal.formatter = '{c}';
 		}else if(index == 2|| index == 3){
 			for(var i=0;i<result.length;i++){
-				values.push(result[i].newValues);
+				//values.push(result[i].newValues);
+				values.push(result[i].newValues * 100);//后台返回数据为1
 			}
 			options.series[0].label.normal.formatter = '{c}%';
 		}
@@ -150,11 +151,14 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 	   		param = {'customerSiteId':$scope.unit_id,'checkType':$scope.type_id,'pageNum':page_num,'pageSize':page_size};
 	   	}
    		if(typeof(get_data) == "function"){
+   			$scope.all_count = 0;
+   			$scope.$emit("loading", true);
 			get_data(param,function(result){
 				$scope.unit_list = $scope.unit_list.concat(result.results);
 				limits = true;
 				total_page = result.totalPage;
 				$scope.all_count = result.count;
+				$scope.$emit("loading", false);
 			})
 		}
 	};

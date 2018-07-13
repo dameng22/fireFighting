@@ -32,10 +32,10 @@
 			<div class="list_data_scroll fix_time_data">
 				<p class="list_data cursor_normal" ng-repeat="l in unit_list track by $index" ng-click="accounts(l,'site')">
 					<span class="account_con_code"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
-					<span class="account_con_region">
+					<span class="account_con_region" title="{{l.code}}">
 						<font>{{l.code}}</font>
 					</span>
-					<span class="account_con_name">
+					<span class="account_con_name" title="{{l.name}}">
                       	<font>{{l.name}}</font>
 					</span>
 					<span class="account_con_region">

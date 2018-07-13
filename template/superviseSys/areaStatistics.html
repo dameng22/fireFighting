@@ -27,9 +27,9 @@
 		<div class="list_data_scroll fix_check_task min_width_440">
 			<p class="list_data cursor_normal" ng-repeat="l in unit_list track by $index">
 				<span class="area_statiss_index">{{$index+1}}</span>
-				<span class="area_statiss_time">{{l.relay.famCustomerSite.name}}</span>
+				<span class="area_statiss_time" title="{{l.relay.famCustomerSite.name}}">{{l.relay.famCustomerSite.name}}</span>
 				<span class="area_statiss_time" title="{{l.alertTime | date:'yyyy-MM-dd HH:mm:ss'}}">{{l.alertTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-				<span class="area_statiss_time">{{l.reportingDevice.address.address}}</span>
+				<span class="area_statiss_time" title="{{l.reportingDevice.address.address}}">{{l.reportingDevice.address.address}}</span>
 				<span class="ranking_info_index" ng-if="show_type!=2">{{danger_status(l.terminalStatusId)}}</span>
 				<span class="ranking_info_index">{{status_format(l.processingStatusId,l.endStateId)}}</span>
 			</p>
@@ -37,6 +37,6 @@
 	</div>
 	<p class="ranking_info_btn text-right">
 		<span class="btn_size btn_blue margin_right_10 vertical_top" ng-click="download_file()">导出</span>
-		<span class="btn_size btn_green vertical_top">打印</span>
+		<!--<span class="btn_size btn_green vertical_top">打印</span>-->
 	</p>
 </div>

@@ -22,6 +22,7 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 	var markerClusterer = new BMapLib.MarkerClusterer(map);
     var markerList = [];
     $scope.init = function (state) {
+    	//$scope.$emit("loading", true);
     	var flag = false;
     	start ++;
     	all_status = [];
@@ -34,6 +35,7 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 		if(all_status.length == 2){
 			flag = true;
 		}
+		$scope.$emit("loading", true);
         common_http.get_customer_map({isAll:flag,isOnLine:all_status,name:$scope.search_key},function(res){
         	map.clearOverlays();
         	markerClusterer.clearMarkers();
@@ -87,12 +89,22 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 			        marker.addEventListener("click", function () {
 	                    map.openInfoWindow(infoWindow, pt);
 	               	});
+//	               	if(marker.z.uj.imageUrl != "images/icon_fire.png"){
+//	               		markerList.push(marker);
+//	               	}
 	               	markerList.push(marker);
                	}
             });
+            //数量
+			acceptance_http.get_region_count({time:new Date()},function(result){
+				$scope.unit_conut = result;
+				$scope.map_counts = result;
+			});
 			//生成一个marker数组，然后调用markerClusterer类即可。
-            markerClusterer.addMarkers(markerList)
+            markerClusterer.addMarkers(markerList);
+            $scope.$emit("loading", false);
         })
+        
     };
     //map.getCenter() 获取中心点   map.toSpan()	Point	返回矩形区域的跨度
     //enter搜索
@@ -117,14 +129,10 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 //          }
 //      })
     };
-    //数量
-	acceptance_http.get_region_count({time:new Date()},function(result){
-		$scope.unit_conut = result;
-		$scope.map_counts = result;
-	});
-    $scope.$on("map_counts", function(event, obg) {
-        $scope.map_counts = obg.data;
-   	})
+
+//  $scope.$on("map_counts", function(event, obg) {
+//      $scope.map_counts = obg.data;
+// 	})
     $scope.resizeMap = function (state) {
         $scope.fullState = state;
         if (state) {
@@ -134,7 +142,7 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
         }
 
     };
-    $scope.autoRefresh = $interval($scope.init, 30000);
+    $scope.autoRefresh = $interval($scope.init, 180000);//30000
     $scope.$on("$destroy", function () {
         $interval.cancel($scope.autoRefresh);
     });
@@ -149,7 +157,7 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 			$scope.unit_name = angular.copy($scope.base_info.name);
 		});
 		//获取建筑物
-		acceptance_http.get_unit_all_build({customerSiteId:id},function(result){
+		acceptance_http.get_unit_all_build({customerSiteId:id},function(result){			
 			$scope.buildings_info = result;
 		});
 		//传输设备

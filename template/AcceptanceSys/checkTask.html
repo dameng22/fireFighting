@@ -72,7 +72,7 @@
 			</div>
 			<div class="check_task_scroll border_radius_4 check_task_setting check_task_set">
 				<p class="list_data list_data_head min_width_440">
-					<span class="check_task_checkbox">
+					<span class="check_task_checkbox">           
 						<i class="ico_sprite check_box_normal" ng-click="unit_all()" ng-class="all_unit?'check_box_select':''"></i>
 					</span>
 					<span class="check_task_code">单位编码</span>
@@ -84,7 +84,7 @@
 					<p class="list_data" ng-repeat="l in unit_list track by $index" ng-click="select_unit(l)">
 						<span class="check_task_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
 						<span class="check_task_code">{{l.famCustomerSite.code}}</span>
-						<span class="check_task_name">{{l.famCustomerSite.name}}</span>
+						<span class="check_task_name" title="{{l.famCustomerSite.name}}">{{l.famCustomerSite.name}}</span>
 						<span class="check_task_code">{{l.code}}</span>
 						<span class="check_task_phone">{{l.famCustomerSite.regionId | area_filter:net_areas}}</span>
 					</p>
@@ -100,7 +100,7 @@
 					</p>
 					<p class="check_task_title">任务名称</p>
 					<p class="check_task_parts">
-						<input class="input_text width_btn_143 margin_right_10" placeholder="定时查岗"ng-model="add_task.taskName"/>
+						<input class="input_text width_btn_143 margin_right_10" placeholder="{{start_now?check_task_pholder_ok:check_task_pholder_no}}" ng-model="add_task.taskName"/>
 						<span class="btn_size btn_light_blue check_task_start width_64" ng-click="start_task()" ng-disabled="!unit_ids.length && !all_unit" ng-class="unit_ids.length || all_unit?'btn_blue':''" ng-show="!start_now">确定</span>
 						<span class="btn_size btn_light_blue check_task_start width_64" ng-click="start_task_now()" ng-disabled="!unit_ids.length && !all_unit" ng-class="unit_ids.length || all_unit?'btn_blue':''" ng-show="start_now">确定</span>
 					</p>

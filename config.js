@@ -120,7 +120,7 @@ config.value('echart_pie',{
 		center: ['50%', '55%'],
 		label: {
             normal: {
-                position: 'inner',
+                position: 'outer',
                 formatter: '{d}%'
             }
         },

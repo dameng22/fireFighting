@@ -36,6 +36,17 @@ app.controller('transDeviceController', ['$scope','acceptance_http','all_dic','$
 		var checks = [];
 		var flag = false;
 		if(type == 'edit'){
+			//cmz add
+			for(var i = 0; i< $scope.info.length; i++){
+				var val = $scope.info[i];
+				if(!val.code || !val.name || !val.address.address){
+					myself_alert.dialog_show("请输入必填项!");
+					return;
+				}else if((!val.address.longitude&&val.address.longitude!=0) || (!val.address.lattitude&&val.address.lattitude!=0)){
+					myself_alert.dialog_show("请选择经纬度!");
+					return;
+				}
+			}
 			param = $scope.info;
 		}else if(type == 'add'){
 			if(!$scope.add_info.code || !$scope.add_info.name || !$scope.add_info.address.address){

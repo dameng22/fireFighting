@@ -12,7 +12,8 @@ app.controller('setUnitDetailController', ['$scope','acceptance_http','myself_al
 		{links:'setUnitDetail.indoor', name:'建筑物内消防设施信息'},
 		{links:'setUnitDetail.surface', name:'建筑火灾自动报警平面图'},
 		{links:'setUnitDetail.plan', name:'重点部位灭火预案'},
-		{links:'setUnitDetail.picture', name:'周边道路及外观'},
+//		{links:'setUnitDetail.picture', name:'周边道路及外观'},
+		{links:'setUnitDetail.picture', name:'外观图'},
 		{links:'setUnitDetail.map', name:'地理位置'}
 	];
 	//默认第一项

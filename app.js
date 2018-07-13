@@ -144,7 +144,7 @@ app.controller('mainController', ['$scope','$state','$location','acceptance_http
 		if(typeof(get_data) == "function"){
 			get_data({time:new Date()},function(result){
 				$scope.unit_count_tips = result;
-				$scope.$broadcast('map_counts', {data:result});
+//				$scope.$broadcast('map_counts', {data:result});
 			});
 		}
 	}

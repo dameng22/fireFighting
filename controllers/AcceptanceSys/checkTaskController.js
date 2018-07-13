@@ -28,6 +28,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	$scope.task_type = '选择任务类型';
 	$scope.done = false;
 	$scope.undo = false;
+	$scope.check_task_pholder_no = "定时查岗";
+	$scope.check_task_pholder_ok = "实时查岗";
+	
 	//获取区域
   	acceptance_http.get_unit_info_areas({customerId:$base64.decode($stateParams.unit)},function(result){
   		$scope.net_areas = result;
@@ -297,7 +300,10 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	//选择单位
 	$scope.unit_ids = [];
 	$scope.select_unit = function(l){
-		l.selected = !l.selected
+		l.selected = !l.selected;
+		if(!l.selected){
+			$scope.all_unit = false;
+		}
 		if($.inArray(l.id, $scope.unit_ids)==-1){
     		$scope.unit_ids.push(l.id);
     	}else{
@@ -365,15 +371,17 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			$scope.taskName = null;
 			$scope.close_task_btn();
 		})
+		
 	};
 	//全选
+	$scope.all_unit = false;
 	$scope.unit_all = function(){
 		$scope.all_unit = !$scope.all_unit;
 		for(var i=0;i<$scope.unit_list.length;i++){
 			if($scope.all_unit){
-				$scope.unit_list[i].selected = true;
+				$scope.unit_list[i].selected = true;		
 			}else{
-				$scope.unit_list[i].selected = false;
+				$scope.unit_list[i].selected = false;	
 			}
 		}
 	};

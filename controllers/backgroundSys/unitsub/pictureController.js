@@ -3,6 +3,10 @@
  */
 app.controller('pictureController', ['$scope','acceptance_http','all_dic','$state','dic_http','$stateParams','myself_alert','$timeout','$rootScope','$filter',
 	function($scope,acceptance_http,all_dic,$state,dic_http,$stateParams,myself_alert,$timeout,$rootScope,$filter){
+	$scope.gz_pic_building = true;
+	if($rootScope.sys_role == "fams_systemadmin"){
+		$scope.gz_pic_building = false;
+	}
 	//后退
 	$scope.alert_cancel=function(){
 		$state.go("setUnitOnline",{'token':$stateParams.token,'sys':$stateParams.sys,'unit':$stateParams.unit})

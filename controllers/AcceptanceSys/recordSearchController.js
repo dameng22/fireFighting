@@ -4,6 +4,20 @@
 app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool','myself_alert','all_dic','$timeout','downloadFiles','$stateParams', '$rootScope','$base64','$stateParams','$filter',
 	function($scope,acceptance_http,exp_tool,myself_alert,all_dic,$timeout,downloadFiles,$stateParams, $rootScope,$base64,$stateParams,$filter){
 	$scope.show_back = $stateParams.view_record;
+	
+	//获取当前时间
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var day = date.getDate();
+	if (month < 10) {
+	    month = "0" + month;
+	}
+	if (day < 10) {
+	    day = "0" + day;
+	}
+	var nowDate = year + "/" + month + "/" + day;
+
 	//时分日历
    	$(".form_datetime").datetimepicker({
     	language:'zh-CN',
@@ -48,8 +62,8 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
  	};
 	//重置
 	$scope.reset_filter = function(){
-		$scope.begintime = null;
-		$scope.endtime = null;
+		$scope.begintime = "";
+		$scope.endtime = "";
 		$scope.search_key = null;
 		$scope.end_state = '警情类型';
 		$scope.device_type = '故障类型';
@@ -57,7 +71,8 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 		$scope.done = false;
 		$scope.undo = false;
 		$scope.success = false;
-		$scope.research_list();
+		$scope.move = false;
+		$scope.search_list();
 	}
 	//详情
 	$scope.go_detail=function(id,alert){
@@ -192,6 +207,9 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				if($scope.success){
 					net_status.push(3);
 				}
+				if($scope.move){
+					net_status.push(4);
+				}
 				get_data = acceptance_http.get_all_task;
 				param = {customerId:$base64.decode($stateParams.unit),pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key,taskTypeId:0,checkStatus:net_status,beginTime:start,endTime:end,regionId:region};
 			}	
@@ -204,6 +222,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 			param = {customerId:$base64.decode($stateParams.unit),pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key,testBeginTime:start,testEndTime:end,regionId:region};
 		}
 		if(typeof(get_data) == "function"){
+			$scope.counts = 0;
 			$scope.$emit("loading", true);
 			get_data(param,function(result){
 				if(result.results){
@@ -213,6 +232,10 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				start = null;
 				end = null;
 				$scope.counts = result.count;
+				if($scope.selected != 2 && $scope.counts>160000){ //总数量大于16万就会默认当前时间查询
+					$("#start")[0].value = nowDate;
+					$scope.search_list();
+				}
 				total_page = result.totalPage;
 				$scope.$emit("loading", false);
 			})
@@ -258,6 +281,8 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 			$scope.undo = !$scope.undo;
 		}else if(type==2){
 			$scope.success = !$scope.success;
+		}else if(type==3){
+			$scope.move = !$scope.move;
 		}
 		page_num = 0;
 		total_page = 0;
@@ -267,6 +292,8 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	};
 	//切换菜单
 	$scope.show_tab=function(index){
+		$("#start")[0].value = "";
+		$("#end")[0].value = "";
 		$scope.regions = "区域";
 		$scope.end_state = "警情类型";
 		$scope.begintime = "";
@@ -294,7 +321,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	//enter搜索
 	$('.enter_press').bind('keypress', function (event) { 
 	   	if (event.keyCode == "13") { 
-	    	$scope.research_list();
+	    	$scope.search_list();
 	   	}
 	});
 	//导出文件
@@ -372,6 +399,8 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
    			return '脱岗';
    		}else if(status == 3){
    			return '未成功';
+   		} else if(status == 4){
+   			return '运行中';
    		}
    	};
 	//获取区域

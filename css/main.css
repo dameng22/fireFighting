@@ -1319,6 +1319,42 @@ textarea{resize: none;}
 	left: 10px;
 	top: 17px;
 }
+.fire_alarm_right_tip{
+	font-size: 12px;
+    color: #f00;
+    float: right;
+    margin-top: 8px;
+    margin-right: 13px;
+}
+/*.fire_alarm_ul span{position: relative;}
+.floor_ico_del{
+    width: 20px;
+    height: 19px;
+    background-position: 156px 88px;
+    position: absolute;
+    left: 15px;
+}
+.floor_ico_edit{
+    width: 20px;
+    height: 19px;
+    background-position: 121px 88px;
+    position: absolute;
+    left: 40px;
+}
+.floor_ico_up{
+    width: 20px;
+    height: 19px;
+    background-position: 86px 88px;
+    position: absolute;
+    left: 65px;
+}
+.floor_ico_down{
+    width: 20px;
+    height: 19px;
+    background-position: 51px 88px;
+    position: absolute;
+    left: 90px;
+}*/
 .fire_alarm_btn{
 	display: inline-block;
 	width: 80px;
@@ -1941,13 +1977,15 @@ textarea{resize: none;}
 	padding-left: 50px;
 }
 .ranking_info_index{
-	width: 14%;
+	/*width: 14%;*/
+	width: 10%;
 }
 .ranking_info_time{
 	width: 24%;
 }
 .ranking_info_position{
-	width: 24%;
+	/*width: 24%;*/
+	width: 30%;
 }
 .ranking_info_describ{
 	width: 16%;

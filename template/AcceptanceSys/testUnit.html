@@ -19,7 +19,7 @@
 		<div class="list_data_scroll fix_time_data min_width_967">
 			<p class="list_data" ng-repeat="l in unit_test track by $index" ng-dblclick="alert_show(1,l.id)" ng-click="alert_show(3,l.id)" ng-class="(current_id==l.id)?'list_data_selected':''">
 				<span class="test_unit_code">{{l.famCustomerSite.code}}</span>
-				<span class="test_unit_name">{{l.famCustomerSite.name}}</span>
+				<span class="test_unit_name" title="{{l.famCustomerSite.name}}">{{l.famCustomerSite.name}}</span>
 				<span class="test_unit_code">{{l.code}}</span>
 				<span class="test_unit_add">{{l.address.address}}</span>
 				<span class="test_unit_phone">{{l.famCustomerSite.controlRoomContactinfo}}</span>

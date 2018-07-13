@@ -1,9 +1,13 @@
 /**
  * Created by Lxy on 2017/12/7.
  */
-app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','exp_tool','dic_http','$timeout','myself_alert','$filter','$base64','$stateParams',
-	function($scope,acceptance_http,all_dic,exp_tool,dic_http,$timeout,myself_alert,$filter,$base64,$stateParams){
- 	$scope.tab_list=[	
+app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','exp_tool','dic_http','$timeout','myself_alert','$filter','$base64','$stateParams','$rootScope',
+	function($scope,acceptance_http,all_dic,exp_tool,dic_http,$timeout,myself_alert,$filter,$base64,$stateParams,$rootScope){
+ 	$scope.gz_pic_building = true;
+	if($rootScope.sys_role == "fams_systemuser"){
+		$scope.gz_pic_building = false;
+	}
+ 	$scope.tab_list=[
 		{order:0,name:'基本信息'},
 //		{order:1,name:'传输装置信息'},
 		{order:2,name:'建筑物信息'},
@@ -13,7 +17,8 @@ app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','e
 		{order:6,name:'建筑物内消防设施信息'},
 		{order:8,name:'建筑火灾自动报警平面图'},
 //		{order:9,name:'重点部位灭火预案'},
-		{order:10,name:'周边道路及外观'},
+		//{order:10,name:'周边道路及外观'},
+		{order:10,name:'外观图'},
 		{order:11,name:'地理位置'}
 	];
 	//地图

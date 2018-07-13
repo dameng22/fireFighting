@@ -24,7 +24,7 @@
 		<div class="list_data_scroll fix_time_data min_width_967">
 			<p class="list_data" ng-repeat="l in unit_list track by $index" ng-click="go_detail(l.id)">
 				<span class="network_unit_code">{{l.code}}</span>
-				<span class="network_unit_name">{{l.name}}</span>
+				<span class="network_unit_name" title="{{l.name}}">{{l.name}}</span>
 				<span class="network_unit_area">{{l.regionId | area_filter:net_areas}}</span>
 				<span class="network_unit_add" ng-click="map_show(l.id);$event.stopPropagation(l)"><span class="unit_map_ico"><i class="ico_sprite ico_unit_map"></i></span>{{l.address.address}}</span>
 				<span class="network_unit_phone">{{l.controlRoomContactinfo}}</span>

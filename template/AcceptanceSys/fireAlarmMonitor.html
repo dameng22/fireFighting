@@ -4,6 +4,7 @@
 		<select class="select_text width_168 margin_left_9" ng-model="its_code">
 			<option value="{{l.id}}" ng-repeat="l in left_unit | unique: 'id'">{{l.famCustomerSite.name}}</option>
 		</select>
+		<span class="fire_alarm_right_tip">(请先选择报警单位)</span>
 	</div>
 	<ul class="fire_alarm_ul fire_alarm_mon_ul" ng-if="its_code">
 		<li>

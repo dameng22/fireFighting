@@ -59,9 +59,10 @@
 				</select>
 			</span>
 			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="search_list()"></i></span>
-			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="research_list(0)" ng-class="done?'check_box_select':''"></i>在岗</span>
-			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="research_list(1)" ng-class="undo?'check_box_select':''"></i>脱岗</span>
-			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="research_list(2)" ng-class="success?'check_box_select':''"></i>未成功</span>
+			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="search_list(0)" ng-class="done?'check_box_select':''"></i>在岗</span>
+			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="search_list(1)" ng-class="undo?'check_box_select':''"></i>脱岗</span>
+			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="search_list(2)" ng-class="success?'check_box_select':''"></i>未成功</span>
+			<span class="fix_time_check" ng-show="selected==3"><i class="ico_sprite check_box_normal" ng-click="search_list(3)" ng-class="move?'check_box_select':''"></i>运行中</span>
 			<!--<span class="fix_time_check unit_numbers" style="margin-right: 6.5%;" ng-show="counts">数量：<font>{{counts}}</font></span>-->
 			<span class="fix_time_check unit_numbers" style="margin-right: 6.5%;">数量：<font>{{counts}}</font></span>
 		</div>

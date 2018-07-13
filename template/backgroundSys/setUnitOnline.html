@@ -24,7 +24,7 @@
 		<div class="list_data_scroll fix_time_data min_width_967">
 			<p class="list_data" ng-repeat="l in unit_list track by $index" ng-dblclick="go_detail(2,l.id,$index)" ng-click="go_detail(1,l.id,$index)" ng-class="(current_unit==$index)?'list_data_selected':''">
 				<span class="set_unit_code">{{l.code}}</span>
-				<span class="set_unit_name">{{l.name}}</span>
+				<span class="set_unit_name" title="{{l.name}}">{{l.name}}</span>
 				<span class="set_unit_area">{{l.regionId | area_filter:net_areas}}</span>
 				<span class="set_unit_type">{{trans(l.supervisionGrade)}}</span>
 				<span class="set_unit_phone">{{l.contactinfo}}</span>

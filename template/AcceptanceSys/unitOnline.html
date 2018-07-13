@@ -41,7 +41,7 @@
 			<p class="list_data" ng-repeat="l in unit_online track by $index" ng-dblclick="alert_show(1,l.id)" ng-click="alert_show(3,l.id)" ng-class="(current_id==l.id)?'list_data_selected':''">
 				<span class="unit_online_status" ng-class="l.status==0?'':'fix_time_undo'">{{l.status==0?'联网':'未联网'}}</span>
 				<span class="unit_online_code">{{l.famCustomerSite.code}}</span>
-				<span class="unit_online_name">{{l.famCustomerSite.name}}</span>
+				<span class="unit_online_name" title="{{l.famCustomerSite.name}}">{{l.famCustomerSite.name}}</span>
 				<span class="unit_online_code">{{l.modelTypeId | model_filter:communication_mdl}}</span>
 				<span class="unit_online_add" ng-click="map_show(l);$event.stopPropagation(l.famCustomerSite)"><span class="unit_map_ico"><i class="ico_sprite ico_unit_map"></i></span>{{l.address.address}}</span>
 				<span class="unit_online_phone">{{l.famCustomerSite.controlRoomContactinfo}}</span>

@@ -16,15 +16,22 @@ app.controller('setUnitOnlineController', ['$scope','acceptance_http','all_dic',
 	$scope.resistance_rates = all_dic.resistanceRates;
 	//耐火等级
 	$scope.fire_rates = all_dic.fireRates;
+//	$scope.trans = function(id){
+//		if(id == 0){
+//			return '特级'
+//		}else if(id == 1){
+//			return '一级'
+//		}if(id == 2){
+//			return '二级'
+//		}if(id == 3){
+//			return '三级'
+//		}
+//	}
 	$scope.trans = function(id){
 		if(id == 0){
-			return '特级'
-		}else if(id == 1){
-			return '一级'
-		}if(id == 2){
-			return '二级'
-		}if(id == 3){
-			return '三级'
+			return '市消防重点单位';
+		}if(id == 1){
+			return '区消防重点单位';
 		}
 	}
   	//获取单位类别

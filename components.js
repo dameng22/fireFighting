@@ -74,10 +74,15 @@ components.component('networkUnitAlert', {
 			{order:6,name:'建筑物内消防设施信息'},
 			{order:8,name:'建筑火灾自动报警平面图'},
 			{order:9,name:'重点部位灭火预案'},
-			{order:10,name:'周边道路及外观'},
+//			{order:10,name:'周边道路及外观'},
+			{order:10,name:'外观图'},
 			{order:11,name:'地理位置'}
 		];
         self.show_tab=function(index){
+        	self.gz_pic_building = true;
+			if($rootScope.sys_role == "fams_famadmin" || $rootScope.sys_role == "fams_org" ){
+				self.gz_pic_building = false;
+			}
         	self.selected = index;
         	if(self.selected == sessionStorage.current_tab){
         		return;
@@ -691,7 +696,8 @@ components.component('unitDetailAlert', {
 			{order:6,name:'建筑物内消防设施信息'},
 			{order:8,name:'建筑火灾自动报警平面图'},
 			{order:9,name:'重点部位灭火预案'},
-			{order:10,name:'周边道路及外观'},
+//			{order:10,name:'周边道路及外观'},
+			{order:10,name:'外观图'},
 			{order:11,name:'地理位置'}
 		];
         self.show_tab=function(index){

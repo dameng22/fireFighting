@@ -46,15 +46,15 @@ app.controller('deviceStatisticsController', ['$scope','background_http','$timeo
 					}else { //id为null转其他
 						result[filed][j].name = '其他'
 					}
+					
 					legend.push(result[filed][j].name);
-    
 				}
 				options_pie.title.text = title;
 			    options_pie.legend.data = legend;
 				options_pie.series[0].data = result[filed];
 				options_pie.legend.type = "scroll";
 				chart = echarts.init(document.getElementById('device_pie'+i));
-				chart.setOption(options_pie);	
+				chart.setOption(options_pie);
 				chart.on("click", function (param){
 					if(param.data.chart_type == 1){
 						if(param.name == '其他'){

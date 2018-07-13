@@ -123,6 +123,7 @@ app.controller('addAccountController', ['$scope','acceptance_http','all_dic','ex
 			}
 			background_http.del_account_item(param,function(){
 				myself_alert.dialog_show("删除成功!");
+				$scope.have = false;
 				$scope.get_auth();
 			})
 		}

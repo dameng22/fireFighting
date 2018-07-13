@@ -26,6 +26,8 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	];
 	$scope.area_id = "按区域筛选";
 	$scope.task_type = '选择任务类型';
+	$scope.check_task_pholder_no = "定时查岗";
+	$scope.check_task_pholder_ok = "实时查岗";
 	$scope.done = false;
 	$scope.undo = false;
 	var limits = true;
