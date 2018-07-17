@@ -79,6 +79,14 @@ services.factory('common_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	        },
+//			get_customer_map: function(params, successDo, errorDo){
+//	            httpBase.get({
+//	                url:'alerts/fa/map',
+//	                params: params,
+//	                successDo: successDo,
+//	                errorDo: errorDo
+//	            });
+//	        },
 	        user_check: function(user,params, successDo, errorDo){ //检查用户名是否可用
 	            httpBase.get({
 	                url:'username/availability/'+user,
@@ -1571,8 +1579,14 @@ services.factory('dic_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	       },
-	       
-	       
+	       	get_site_type: function(params, successDo, errorDo){ //字典查询
+	            httpBase.get({
+	                url:'siteTypes',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
        	}
 }]);
 services.factory('login', ['httpBase', function(httpBase){

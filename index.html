@@ -114,7 +114,9 @@
     <div class="nav_left" ng-if="router_state!='fullScreenMap'&&!view_contact&&router_state!='fireAlarmMonitor'">
     	<div class="nav_scroll">
     		<ul>
-				<li ng-repeat="l in unitList" ng-click="current_menu(l.links)" ng-class="(router_state.indexOf(l.links)!=-1)?'nav_select':''"><i class="ico_sprite {{l.links}}"></i>{{l.name}}<span ng-if="show_notes(l.links)" class="border_radius_4 {{l.links}}Notes" title="{{show_counts(l.links)}}">{{show_counts(l.links)}}</span></li>
+				<li ng-repeat="l in unitList" ng-click="current_menu(l.links)" ng-class="(router_state.indexOf(l.links)!=-1)?'nav_select':''"><i class="ico_sprite {{l.links}}"></i>{{l.name}}<span ng-if="show_notes(l.links)" class="border_radius_4 {{l.links}}Notes" title="{{show_counts(l.links)}}">{{show_counts(l.links)}}</span>
+					<span ng-if="elecAlarm_span" class="border_radius_4 elecAlarmNotes">0</span>
+				</li>
     		</ul>
     	</div>
     	<div class="fire_now_alert" ng-show="fire_alert&&(sys_role.indexOf('fams_famadmin')>=0)">

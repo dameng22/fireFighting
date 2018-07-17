@@ -18,15 +18,14 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
     map.centerAndZoom(point, 13);
 	//map.setCurrentCity("广州");
     map.enableScrollWheelZoom(true);
-    
+	                
 	var markerClusterer = new BMapLib.MarkerClusterer(map);
     var markerList = [];
     $scope.init = function (state) {
-    	//$scope.$emit("loading", true);
-    	var flag = false;
-    	start ++;
-    	all_status = [];
-    	if($scope.online == true){
+	    var flag = false;
+	    start ++;
+	    all_status = [];
+	    if($scope.online == true){
 			all_status.push(0);
 		}
 		if($scope.offline == true){
@@ -44,9 +43,9 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
             	if(typeof(site.address) != 'undefined'&&site.address){
 	                var pt = new BMap.Point(site.address.longitude, site.address.lattitude);
 	                var myIcon = new BMap.Icon(site.fire == true ? "images/icon_fire.png" : (site.status === 0 ? "images/icon_online.png" : "images/icon_offline.png"), new BMap.Size(25, 33));
-	                
-	                //mengzhu chen add
-				   	var label = new BMap.Label(site.famCustomerSite.name,{offset:new BMap.Size(-46,40)});
+	               
+		 			var marker = new BMap.Marker(pt, {icon: myIcon});
+		 			var label = new BMap.Label(site.famCustomerSite.name,{offset:new BMap.Size(-46,40)});
 		 			if(site.fire == true){
 		 				label.setStyle({
 							backgroundColor: '#FF313B',
@@ -61,17 +60,27 @@ app.controller('fullScreenMapController', ['$scope','common_http','$interval','$
 								backgroundColor: '#5F6676',
 				 			});
 		 				}
-		 			}		 			
-	                var marker = new BMap.Marker(pt, {icon: myIcon});	    
-	                
-	                //mengzhu chen add
-	                var map_zoom = map.getZoom(); // 定义地图缩放等级的变量
-         			if (map_zoom >= 15) {   // 如果缩放等级大于等于15 默认为13
-         				marker.setLabel(label);
-					}
-					
+		 			}
+		 			
+					$(function() {
+					    //使用on监听滚轮事件
+					    $('body').on('mousewheel', function(event) {
+							var map_zoom = map.getZoom(); // 定义地图缩放等级的变量
+							if (map_zoom >= 15) {   // 如果缩放等级大于等于15 默认为13
+								
+								marker.setLabel(label);
+							} 
+					    });
+					    $('body').on('mousemove', function(event) {
+							var map_zoom = map.getZoom(); // 定义地图缩放等级的变量
+							if (map_zoom >= 15) {   // 如果缩放等级大于等于15 默认为13
+								marker.setLabel(label);
+							}
+					    });
+					});
+	               
 	                map.addOverlay(marker);			                
-	                
+	               
 	                if (i === 0 && state===true) {
 	                    map.panTo(pt);
 	                }

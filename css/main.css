@@ -364,6 +364,9 @@ textarea{resize: none;}
 .fireAlarmNotes{
 	background: #FF1452;
 }
+.elecAlarmNotes{
+	background: #FF1452;
+}
 .troubleAlarmNotes{
 	background: #FD9A00;
 }
@@ -3416,4 +3419,27 @@ option[value="?"]{
 }
 .online_static_top .record_search_title{
 	color: #B0B5BF;
+}
+.dpds_wa{
+	color: #000;
+	font-weight: bold;
+	background: #f9f9f9;
+}
+.bg_color{
+	color: #000;
+	font-weight: normal;
+	background: #fff!important;	
+}
+.dpds_wa_gz{
+	color: #000;
+	font-weight: bold;
+	background: #f9f9f9!important;
+}
+.aaa{
+	background: #f9f9f9;
+}
+@media screen and (max-width: 1518px) {
+    #wa_id {
+        width: 989px;
+    }
 }

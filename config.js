@@ -11,7 +11,7 @@ config.value('menu_list', [
 	{id:'fams_P001',name:'火灾报警',links:'fireAlarm'},
 	{id:'fams_P012',name:'水系统报警',links:'waterAlarm'},
 	{id:'fams_P023',name:'电气火灾报警',links:'elecAlarm'},
-	{id:'fams_P034',name:'排烟信息',links:'smokeAlarm'},
+//	{id:'fams_P034',name:'排烟信息',links:'smokeAlarm'},
 	{id:'fams_P045',name:'其他监测',links:'otherAlarm'},
 	{id:'fams_P056',name:'故障信息',links:'troubleAlarm'},
 	{id:'fams_P067',name:'测试单位',links:'testUnit'},
@@ -31,7 +31,7 @@ config.value('menu_list', [
 	{id:'fams_P611',name:'火灾报警',links:'unitFireAlarm'},
 	{id:'fams_P621',name:'水系统报警',links:'unitWaterAlarm'},
 	{id:'fams_P631',name:'电气火灾报警',links:'unitElecAlarm'},
-	{id:'fams_P641',name:'排烟信息',links:'unitSmokeAlarm'},
+//	{id:'fams_P641',name:'排烟信息',links:'unitSmokeAlarm'},
 	{id:'fams_P651',name:'其他监测',links:'unitOtherAlarm'},
 	{id:'fams_P661',name:'故障信息',links:'unitTroubleAlarm'},
 	{id:'fams_P671',name:'单位资料',links:'unitInfo'},
@@ -120,13 +120,14 @@ config.value('echart_pie',{
 		center: ['50%', '55%'],
 		label: {
             normal: {
-                position: 'outer',
+                position: 'inner',
                 formatter: '{d}%'
             }
         },
 		data:[]
     }]
 })
+
 //字典项
 config.value('all_dic',{
 	networkState: [
@@ -140,22 +141,40 @@ config.value('all_dic',{
         {id: 3, name: "三级防火单位"}
     ],
     siteType: [
-        {id: 0, name: "公共集散场所"},
-        {id: 1, name: "医院、养老院和寄宿制的学校、托儿所"},
-        {id: 2, name: "国家机关"},
-        {id: 3, name: "广播电台、电视台和邮政、通信枢纽"},
-        {id: 4, name: "客运车站、码头、民用机场"},
-        {id: 5, name: "公共图书馆、展览馆、博物馆、档案馆"},
-        {id: 6, name: "发电厂（站）和电网经营企业"},
-        {id: 7, name: "易燃易爆化学物品的生产、充装、储存"},
-        {id: 8, name: "劳动密集型生产、加工企业"},
-        {id: 9, name: "重要的科研单位"},
-        {id: 10, name: "高层公共建筑"},
-        {id: 11, name: "地下公共建筑和城市重要的交通隧道"},
-        {id: 12, name: "大型仓库和堆场"},
-        {id: 13, name: "重点工程的施工现场"},
-        {id: 14, name: "其他发生火灾可能性较大和一旦发生火灾较大的场所"},
-        {id: 15, name: "其他"}
+//      {id: 0, name: "公共集散场所"},
+//      {id: 1, name: "医院、养老院和寄宿制的学校、托儿所"},
+//      {id: 2, name: "国家机关"},
+//      {id: 3, name: "广播电台、电视台和邮政、通信枢纽"},
+//      {id: 4, name: "客运车站、码头、民用机场"},
+//      {id: 5, name: "公共图书馆、展览馆、博物馆、档案馆"},
+//      {id: 6, name: "发电厂（站）和电网经营企业"},
+//      {id: 7, name: "易燃易爆化学物品的生产、充装、储存"},
+//      {id: 8, name: "劳动密集型生产、加工企业"},
+//      {id: 9, name: "重要的科研单位"},
+//      {id: 10, name: "高层公共建筑"},
+//      {id: 11, name: "地下公共建筑和城市重要的交通隧道"},
+//      {id: 12, name: "大型仓库和堆场"},
+//      {id: 13, name: "重点工程的施工现场"},
+//      {id: 14, name: "其他发生火灾可能性较大和一旦发生火灾较大的场所"},
+//      {id: 15, name: "其他"}
+ 		{id: 0, name: "商场、市场"},
+        {id: 1, name: "宾馆、酒店、饭店"},
+        {id: 2, name: "公共娱乐场所"},
+        {id: 3, name: "医院、养老院"},
+        {id: 4, name: "学校、托儿所、幼儿园"},
+        {id: 5, name: "国家机关"},
+        {id: 6, name: "广播、电视台、邮政通信枢纽"},
+        {id: 7, name: "客运车站、码头、民用机场"},
+        {id: 8, name: "公共图书馆、展览馆、博物馆、档案馆、体育馆、会场"},
+        {id: 9, name: "劳动密集型生产、加工企业"},
+        {id: 10, name: "重要的科研单位"},
+        {id: 11, name: "高层公共建筑"},
+        {id: 12, name: "大型仓库、堆场"},
+        {id: 13, name: "丙、丁类企业"},
+        {id: 14, name: "文物保护单位"},
+        {id: 15, name: "发电厂、电网经营企业"},
+        {id: 16, name: "易燃易爆单位"},
+        {id: 17, name: "在建"},
     ],
     communicationModel: [
         {id: 0, name: "有线宽带"},

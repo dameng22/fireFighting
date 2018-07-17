@@ -74,11 +74,25 @@ app.controller('mainController', ['$scope','$state','$location','acceptance_http
         window.open(url,"_blank"); 
     }; 
 	//左侧导航在线数量
+//xy	$scope.show_notes=function(links){
+//		if(links == 'fireAlarm' || links == 'troubleAlarm' || links == 'testUnit'){// || links == 'unitOnline'
+//			return true
+//		}
+//	};
+
 	$scope.show_notes=function(links){
+		//chen add
+		if(links == 'elecAlarm' || links == 'waterAlarm'){
+			$scope.elecAlarm_span = true;
+		} else {
+			$scope.elecAlarm_span = false;
+		}
+		//chen add end
 		if(links == 'fireAlarm' || links == 'troubleAlarm' || links == 'testUnit'){// || links == 'unitOnline'
 			return true
 		}
 	};
+
 	//修改密码下拉菜单
 		$scope.modify_pwd_show = false;
 	$scope.show_modify_pwd=function(){
