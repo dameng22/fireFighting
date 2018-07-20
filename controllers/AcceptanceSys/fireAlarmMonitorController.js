@@ -404,7 +404,7 @@ app.controller('fireAlarmMonitorController', ['$scope','$location','acceptance_h
 			end = 2;
 			status = 2;
 		}else if(type == 'wait'){
-			if(!$scope.check_all || !$scope.fire_list.length || !$scope.undo_list.length || $scope.undo_list.indexOf(-1)!=-1){
+			if(!$scope.check_all || !$scope.fire_list.length || !$scope.undo_list.length || $scope.undo_list.indexOf(-1)!=-1 || $scope.undo_list.indexOf(1)!=-1){
 				return;
 			}
 			end = 0;
