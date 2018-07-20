@@ -35,7 +35,13 @@ app.controller('setUnitOnlineController', ['$scope','acceptance_http','all_dic',
 		}
 	}
   	//获取单位类别
-  	$scope.site_type = all_dic.siteType
+  	//$scope.site_type = all_dic.siteType;
+  	$scope.site_type = [];
+	dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
+        for(var i=0;i<result.length;i++){
+            $scope.site_type.push(result[i]);
+        }
+	});
 	//列表
 	$scope.get_list=function(){
 		page_num = page_num+1;
@@ -104,7 +110,7 @@ app.controller('setUnitOnlineController', ['$scope','acceptance_http','all_dic',
 			return;
 		}
 		acceptance_http.delete_unit_info({id:$scope.current_id},function(result){
-			if(result.delete == "true"){
+			if(result.delete == true){
                 myself_alert.dialog_show("删除成功!");
                 $scope.rsearch_list();
 			} else {

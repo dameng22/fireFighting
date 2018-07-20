@@ -50,6 +50,12 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			get_data(param,function(result){
 				if(result.results){
 					$scope.task_list = $scope.task_list.concat(result.results);
+					
+					if($scope.all_task){
+						for(var i=0;i<result.results.length;i++){
+		  					result.results[i].selected = true;
+		  				}
+  					};
 				}
 				limits = true;
 				total_page = result.totalPage;
@@ -61,6 +67,12 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		acceptance_http.get_unit_info_trans({customerSiteId:localStorage.unit_id,nameAndCode:$scope.search_unit},function(result){
 			if(result){
 				$scope.unit_list = result;
+				
+				if($scope.all_unit){
+					for(var i=0;i<result.length;i++){
+	  					result[i].selected = true;
+	  				}
+				};
 			}
 		})
 	}

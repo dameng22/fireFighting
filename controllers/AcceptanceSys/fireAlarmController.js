@@ -413,7 +413,7 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
 			end = 2;
 			status = 2;
 		}else if(type == 'wait'){
-			if(!$scope.check_all || !$scope.fire_list.length || !$scope.undo_list.length || $scope.undo_list.indexOf(-1)!=-1){
+			if(!$scope.check_all || !$scope.fire_list.length || !$scope.undo_list.length || $scope.undo_list.indexOf(-1)!=-1 || $scope.undo_list.indexOf(1)!=-1){
 				return;
 			}
 			end = 0;
@@ -486,13 +486,22 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
 			$scope.device_list = result;
 		});
   	};
-  	$scope.site_type = all_dic.siteType;
+  	
+  	//获取单位类别
+  	//$scope.site_type = all_dic.siteType;
+	$scope.site_type = [];
+	dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
+        for(var i=0;i<result.length;i++){
+            $scope.site_type.push(result[i]);
+        }
+	});
+
   	//全选
   	$scope.select_all = function(){
   		$scope.check_all = !$scope.check_all;
 		for(var i=0;i<$scope.fire_list.length;i++){
 			if($scope.check_all){
-  				$scope.fire_list[i].selected = true;
+  				$scope.fire_list[i].selected = true; 				
   			}else{
   				$scope.fire_list[i].selected = false;
   			}

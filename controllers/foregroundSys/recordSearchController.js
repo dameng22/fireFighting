@@ -1,22 +1,13 @@
 /**
  * Created by Lxy on 2017/12/10.
  */
-app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool','myself_alert','all_dic','$timeout','foreground_http','downloadFiles','$stateParams','$base64','$filter',
-	function($scope,acceptance_http,exp_tool,myself_alert,all_dic,$timeout,foreground_http,downloadFiles,$stateParams,$base64,$filter){
+app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool','myself_alert','all_dic','$timeout','foreground_http','downloadFiles','$stateParams','$base64','$filter','dic_http','curTime','timeStamp',
+	function($scope,acceptance_http,exp_tool,myself_alert,all_dic,$timeout,foreground_http,downloadFiles,$stateParams,$base64,$filter,dic_http,curTime,timeStamp){
 	$scope.show_back = $stateParams.view_record;
 	
-	//获取当前时间
-	var date = new Date();
-	var year = date.getFullYear();
-	var month = date.getMonth() + 1;
-	var day = date.getDate();
-	if (month < 10) {
-	    month = "0" + month;
-	}
-	if (day < 10) {
-	    day = "0" + day;
-	}
-	var nowDate = year + "/" + month + "/" + day;
+	var nowDate = curTime.nowDate();	
+	var inputTime = new Date(nowDate+" "+'00:00:00').getTime();
+	var timeStamp = timeStamp.getLocalTime(inputTime);
 	
 	//时分日历
    	$(".form_datetime").datetimepicker({
@@ -123,7 +114,14 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
         }
    	};
 	//获取单位类别
-  	$scope.site_type = all_dic.siteType
+  	//$scope.site_type = all_dic.siteType;
+  	$scope.site_type = [];
+	dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
+        for(var i=0;i<result.length;i++){
+            $scope.site_type.push(result[i]);
+        }
+	});
+	
 	//分页
 	var limits = true;
 	var page_num = 0;
@@ -140,6 +138,9 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 		if($scope.selected != 2){
 			if($("#start").val()!=''){
 				start = new Date($("#start").val()+" "+'00:00:00').getTime();
+			}else if($("#start").val() == ''){
+				$("#start")[0].value = timeStamp;				
+				start = new Date(nowDate+" "+'00:00:00').getTime();
 			}else{
 				start = null;
 			}
@@ -206,9 +207,8 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				start = null;
 				end = null;
 				$scope.counts = result.count;
-				if($scope.selected != 2 && $scope.counts>160000){ //总数量大于16万就会默认当前时间查询
-					$("#start")[0].value = nowDate;
-					$scope.search_list();
+				if($scope.selected != 2 && $("#start")[0].value==""){
+					$("#start")[0].value = timeStamp;
 				}
 				total_page = result.totalPage;
 				$scope.$emit("loading", false);

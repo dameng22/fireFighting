@@ -6,13 +6,29 @@
 		<div class="check_task_scroll">
 			<div class="list_data_scroll fix_time_data min_width_793" style="height: 100%;">
 				<p class="list_data" ng-repeat="l in info track by $index" ng-click="edit_data(l)">
-					<span class="plan_title">{{l.extinguishingTitle}}
+					<!--<span class="plan_title" style="width: 100%;">{{l.extinguishingTitle}}
 						<span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment | unique: 'attachmentTypeId'"><i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'"></i></span>
 					</span>
 					<span class="plan_time">{{l.extingtishingDate}}</span>
-					<span class="plan_operate">
+					<span class="plan_operate" style="float: right;">
 						<font>修改</font> | <font ng-click="del_data(l.id,$index);$event.stopPropagation()">删除</font>
+						| <font ng-click="download(n.fileName,n.originalName);$event.stopPropagation()">下载</font>
+				
+				    </span>-->
+				    
+				    
+				    <span class="plan_title" style="width: 100%;display: initial;">{{l.extinguishingTitle}}
+						<span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment | unique: 'attachmentTypeId'" style="display: initial;"><i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'" style="top: 0px;"></i>
+							<span class="plan_operate" style="float: right;display: initial;">
+								<font>修改</font> | <font ng-click="del_data(l.id,$index);$event.stopPropagation()">删除</font>
+								| <font ng-click="download(n.fileName,n.originalName);$event.stopPropagation()">下载</font>
+						
+						    </span>
+							
+						</span>
 					</span>
+					<span class="plan_time" style="float: right;">{{l.extingtishingDate}}</span>
+					
 				</p>
 			</div>
 		</div>

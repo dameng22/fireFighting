@@ -6,6 +6,7 @@ app.controller('apiTypeController', ['$scope','dic_http','$timeout','myself_aler
 	//分页
   	$scope.com_list = [];
   	$scope.undo = false;
+  		
 	//列表
 	$scope.get_list=function(){
 		dic_http.get_common_dic({dictionaryType:0,isdisable:$scope.undo},function(result){

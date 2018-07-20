@@ -66,7 +66,7 @@
 	</div>
 	<div class="fire_alarm_btn_right">
 		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('true')" ng-class="check_all&&fire_list.length&&undo_list.length?'fire_alerm_toconfirm':''"><i class="ico_sprite fire_alerm_disable"></i>真实火警</span>
-		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('wait')" ng-class="check_all&&fire_list.length&&undo_list.length&&(undo_list.indexOf(-1)==-1)?'fire_alerm_confirmed':''"><i class="ico_sprite fire_alerm_disable"></i>等待确认</span>
+		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('wait')" ng-class="check_all&&fire_list.length&&undo_list.length&&(undo_list.indexOf(-1)==-1)&&(undo_list.indexOf(1)==-1)?'fire_alerm_confirmed':''"><i class="ico_sprite fire_alerm_disable"></i>等待确认</span>
 		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('fake')" ng-class="check_all&&fire_list.length&&undo_list.length?'fire_alerm_wrong':''"><i class="ico_sprite fire_alerm_towrong"></i>误报火警</span>
 		<span class="fire_light_blue fire_alarm_btn" ng-click="deal_alarm_all('test')" ng-class="check_all&&fire_list.length&&undo_list.length?'fire_alerm_test':''"><i class="ico_sprite fire_alerm_totest"></i>测试火警</span>
 		<div class="fire_alarm_btn_group">

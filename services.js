@@ -1075,7 +1075,14 @@ services.factory('superivse_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	       },
-	       
+	       	get_site_type: function(params, successDo, errorDo){ //字典查询
+	            httpBase.get({
+	                url:'siteTypes',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
 	    }
 }]);
 services.factory('foreground_http', ['httpBase', function(httpBase){
@@ -1856,4 +1863,36 @@ services.factory('timeTools', function(){
 			return today.getMonth()+1<=9?'0'+(today.getMonth()+1):(today.getMonth()+1).toString(); 
 	    },
     }
+});
+services.factory('curTime', function(){
+    return {
+    	nowDate:function(){
+    		var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var day = date.getDate();
+			if (month < 10) {
+			    month = "0" + month;
+			}
+			if (day < 10) {
+			    day = "0" + day;
+			}
+			return nowDate = year + "/" + month + "/" + day;
+    	},
+	}
+});
+services.factory('timeStamp', function(){//时间戳转当前年月日
+    return {
+    	getLocalTime:function(inputTime) {  
+		    var date = new Date(inputTime);
+		    var y = date.getFullYear();  
+		    var m = date.getMonth() + 1;  
+		    m = m < 10 ? ('0' + m) : m;  
+		    var d = date.getDate();  
+		    d = d < 10 ? ('0' + d) : d;  
+		    var h = date.getHours();
+		    h = h < 10 ? ('0' + h) : h;
+		    return y + '/' + m + '/' + d;  
+		},
+	}
 });

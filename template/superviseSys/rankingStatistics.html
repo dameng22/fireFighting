@@ -52,7 +52,7 @@
 		<div class="list_data_scroll fix_check_task min_width_440">
 			<p class="list_data cursor_normal" ng-repeat="l in unit_list track by $index">
 				<span class="ranking_info_index">{{$index+1}}</span>
-				<span class="ranking_info_time">{{(l.receivingTime | date:'yyyy-MM-dd HH:mm:ss') || l.controlRoomContactinfo}}</span>
+				<span class="ranking_info_time">{{(check_type==1||check_type==2)?(l.receivingTime | date:'yyyy-MM-dd HH:mm:ss') : l.controlRoomContactinfo}}</span>
 				<span class="ranking_info_position" title="{{l.reportingDevice.address.address || (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}">{{l.reportingDevice.address.address || (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}</span>
 				<span class="ranking_info_describ" ng-if="check_type == 1">{{danger_status(l.terminalStatusId)}}</span>
 				<span class="ranking_info_status">{{status_format(l.processingStatusId,l.endStateId) || (l.receivingTime | date:'yyyy-MM-dd HH:mm:ss')}}</span>

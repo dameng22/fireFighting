@@ -164,7 +164,8 @@ app.controller('mainController', ['$scope','$state','$location','acceptance_http
 	}
 	if($rootScope.sys_role.indexOf('fams_famadmin')>=0){
     	get_unit_tips();
-    	$interval(get_unit_tips, 60000);
+    	//$interval(get_unit_tips, 60000);
+    	$interval(get_unit_tips, 30000);
     	if($rootScope.sys_role.indexOf('fams_famadmin')>=0){
     		get_nav_tips();
     		$interval(get_nav_tips, 30000);

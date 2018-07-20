@@ -58,19 +58,15 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			param = {pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key,taskTypeId:task_type}
 		}
 		if(typeof(get_data) == "function"){
-			get_data(param,function(result){
-				//
-//				var record_data = result.results;
-//				if(record_data.length>0){
-//					for(var i=0;i<record_data.length;i++){
-//						$scope.tasks_ids.push(record_data[i].id);
-//						task_status.push(record_data[i].runFlag);
-//					}
-//				}
-				
-				
+			get_data(param,function(result){	
 				if(result.results){
 					$scope.task_list = $scope.task_list.concat(result.results);
+
+					if($scope.all_task){
+						for(var i=0;i<result.results.length;i++){
+		  					result.results[i].selected = true;
+		  				}
+  					};
 				}
 				limits = true;
 				total_page = result.totalPage;
@@ -87,6 +83,12 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		acceptance_http.get_online_unit({customerId:$base64.decode($stateParams.unit),pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_unit,regionId:area_id},function(result){
 			if(result.results){
 				$scope.unit_list = $scope.unit_list.concat(result.results);
+				
+				if($scope.all_unit){
+					for(var i=0;i<result.results.length;i++){
+	  					result.results[i].selected = true;
+	  				}
+				};
 			}
 			limits1 = true;
 			total_page1 = result.totalPage;

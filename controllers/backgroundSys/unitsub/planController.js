@@ -13,6 +13,7 @@ app.controller('planController', ['$scope','acceptance_http','all_dic','$state',
 	var page_size = 20;
 	var total_page = 0;
 	$scope.info = [];
+	$scope.info_detail = [];
 	//获取详情
 	$scope.get_list=function(){
 		page_num = page_num+1;
@@ -23,6 +24,11 @@ app.controller('planController', ['$scope','acceptance_http','all_dic','$state',
 		})
 	};
 	$scope.get_list();
+	
+	$scope.download = function(name,origin){
+    	window.open($rootScope.qiuNiuUrl+name+'?attname='+origin);
+   };
+	
 	//查询
 	$scope.research_list=function(){
 		page_num = 0;

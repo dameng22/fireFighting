@@ -24,7 +24,7 @@ app.controller('baseInfoController', ['$scope','acceptance_http','all_dic','$sta
 	};
 	//保存
 	$scope.save_data_btn=function(){
-		if(!$scope.info.code || !$scope.info.shortName || !$scope.info.name || !$scope.info.contactinfo|| !$scope.info.controlRoomContactinfo|| ($scope.info.regionId != 0 && !$scope.info.regionId)|| ($scope.info.siteTypeId != 0 && !$scope.info.siteTypeId)){
+		if(!$scope.info.code || !$scope.info.shortName || !$scope.info.name || !$scope.info.contactinfo|| !$scope.info.controlRoomContactinfo|| !$scope.info.regionId || ($scope.info.siteTypeId != 0 && !$scope.info.siteTypeId)){
 			myself_alert.dialog_show("请输入必填项!");
 			return;
 		}
@@ -164,7 +164,13 @@ app.controller('baseInfoController', ['$scope','acceptance_http','all_dic','$sta
   		$scope.net_areas = result;
   	})
   	//获取单位类别
-  	$scope.site_type = all_dic.siteType;
+  	//$scope.site_type = all_dic.siteType; 
+  	$scope.site_type = [];
+	dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
+        for(var i=0;i<result.length;i++){
+            $scope.site_type.push(result[i]);
+        }
+	});
 	//监管等级
 	$scope.resistance_rates = all_dic.resistanceRates;
 	//联网状态

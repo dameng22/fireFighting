@@ -489,7 +489,13 @@ app.controller('fireAlarmMonitorController', ['$scope','$location','acceptance_h
 	};
 	get_monitor_data();
 	$interval(get_monitor_data, 30000);
-	$scope.site_type = all_dic.siteType;
+	//$scope.site_type = all_dic.siteType;
+	$scope.site_type = [];
+	dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
+        for(var i=0;i<result.length;i++){
+            $scope.site_type.push(result[i]);
+        }
+	});
 	//全选
   	$scope.select_all = function(){
   		$scope.check_all = !$scope.check_all;

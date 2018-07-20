@@ -13,14 +13,21 @@ components.component('networkUnitAlert', {
         buildingsInfo:'=',
         deviceList:'='
     },
-    controller:function(acceptance_http,all_dic,dic_http,$filter,$rootScope,$base64){
+    controller:function(acceptance_http,all_dic,dic_http,$filter,$rootScope,$base64,$stateParams){
         var self = this;
         //获取区域
 	  	acceptance_http.get_unit_info_areas({customerId:$base64.decode($rootScope.sys_unit)},function(result){
 	  		self.net_areas = result;
 	  	})
 	  	//获取单位类别
-	  	self.site_type = all_dic.siteType
+	  	//self.site_type = all_dic.siteType;	
+	  	self.site_type = [];
+		dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
+	        for(var i=0;i<result.length;i++){
+	            self.site_type.push(result[i]);  
+	        }
+    	});
+	
         //监管等级
         self.resistance_rates = all_dic.resistanceRates;
         //耐火等级
@@ -637,14 +644,20 @@ components.component('unitDetailAlert', {
         buildingsInfo:'=',
         deviceList:'='
     },
-    controller:function(acceptance_http,all_dic,dic_http,$filter,$rootScope,$base64){
+    controller:function(acceptance_http,all_dic,dic_http,$filter,$rootScope,$base64,$stateParams){
         var self = this;
         //获取区域
 	  	acceptance_http.get_unit_info_areas({customerId:$base64.decode($rootScope.sys_unit)},function(result){
 	  		self.net_areas = result;
 	  	});
 	  	//获取单位类别
-	  	self.site_type = all_dic.siteType;
+	  	//self.site_type = all_dic.siteType;
+	  	self.site_type = [];		
+		dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
+	        for(var i=0;i<result.length;i++){
+	            self.site_type.push(result[i]);   
+	        }
+    	});
 	  	//监管等级
 		self.resistance_rates = all_dic.resistanceRates;
 		//耐火等级

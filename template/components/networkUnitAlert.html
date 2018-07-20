@@ -93,14 +93,14 @@
 					<span class="network_alert_list_phone">联系方式： </span>
 					<span class="network_alert_list_id">身份证号：</span>
 				</p>
-				<p ng-repeat="person in $ctrl.info.contactPersons">
+				<p ng-repeat="person in $ctrl.info.contactPersons" class="network_alert_list_p">
 					<span class="network_alert_list_role" ng-if="person.typeId==1">法定代表人</span>
 					<span class="network_alert_list_role" ng-if="person.typeId==2">消防安全责任人</span>
 					<span class="network_alert_list_role" ng-if="person.typeId==3">消防安全负责人</span>
 					<span class="network_alert_list_role" ng-if="person.typeId==4">专兼职消防安全管理人</span>
-					<span class="network_alert_list_name">{{person.givenNameOriental}}</span>
-					<span class="network_alert_list_phone">{{person.contactInfos[0].contactInfo}}</span>
-					<span class="network_alert_list_id">{{person.idDocs[0].idNumber}}</span>
+					<span class="network_alert_list_name" title="{{person.givenNameOriental}}">{{person.givenNameOriental}}</span>
+					<span class="network_alert_list_phone" title="{{person.contactInfos[0].contactInfo}}">{{person.contactInfos[0].contactInfo}}</span>
+					<span class="network_alert_list_id" title="{{person.idDocs[0].idNumber}}">{{person.idDocs[0].idNumber}}</span>
 				</p>
 			</div>
 			
