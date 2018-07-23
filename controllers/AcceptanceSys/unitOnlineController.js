@@ -155,9 +155,9 @@ app.controller('unitOnlineController', ['$scope','acceptance_http','all_dic','ex
             var marker = new BMap.Marker(point2, {icon: myIcon});
             map.addOverlay(marker);
             
-            map.addEventListener('zoomend', function(){    //地图更改缩放级别结束时触发触发此事件
-                marker.setPosition(map.getCenter());
-          	});
+//          map.addEventListener('zoomend', function(){    //地图更改缩放级别结束时触发触发此事件
+//              marker.setPosition(map.getCenter());
+//        	});
         }
    	};
    	//获取区域

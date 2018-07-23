@@ -28,9 +28,9 @@ app.controller('mapController', ['$scope','common_http','$interval','$compile','
 		        map.addOverlay(marker);
 		        map.panTo(pt);
 		        
-		        map.addEventListener('zoomend', function(){    //地图更改缩放级别结束时触发触发此事件
-                	marker.setPosition(map.getCenter());
-          		});
+//		        map.addEventListener('zoomend', function(){    //地图更改缩放级别结束时触发触发此事件
+//              	marker.setPosition(map.getCenter());
+//        		});
 	       }
 	    })
 	});
