@@ -127,7 +127,8 @@ app.controller('deviceStatisticsController', ['$scope','background_http','$timeo
 		$scope.jsons.pageNum = page_num;
 		$scope.jsons.pageSize = page_size;
 		background_http.get_pie_company($scope.jsons,function(result){
-			$scope.company_list = $scope.company_list.concat(result.results);
+			//$scope.company_list = $scope.company_list.concat(result.results);
+			$scope.company_list = result.results;
 			limits = true;
 			total_page = result.totalPage;
 		})

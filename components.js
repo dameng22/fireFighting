@@ -191,6 +191,10 @@ components.component('networkUnitAlert', {
 					//楼层
 					self.get_floor = function(){
 						self.floor_list = [];
+						acceptance_http.get_floor_cells({'placeId':self.floor_id},function(result){
+							self.floor_list = result;
+						});
+						
 						for(var i=0;i<self.floors.length;i++){
 							if(self.floors[i].id == self.floor_id){
 								self.re_floor = self.floors[i];
@@ -201,7 +205,7 @@ components.component('networkUnitAlert', {
 						}
 						for(var i = 1;i<=self.re_floor.floorDownQuantity;i++){
 							self.floor_list.push({'index':-i,'name':'地下'+i+'层'})
-						}
+						}	
 					};
 					//显示平面图
 					self.show_surface = function(floor){
@@ -825,11 +829,15 @@ components.component('unitDetailAlert', {
 					//楼层
 					self.get_floor = function(){
 						self.floor_list = [];
-						for(var i=0;i<self.floors.length;i++){
-							if(self.floors[i].id == self.floor_id){
-								self.re_floor = self.floors[i];
-							}
-						}
+//						for(var i=0;i<self.floors.length;i++){
+//							if(self.floors[i].id == self.floor_id){
+//								self.re_floor = self.floors[i];
+//							}
+//						}
+						acceptance_http.get_floor_cells({'placeId':self.floor_id},function(result){
+							self.floor_list = result;
+						})
+		
 						for(var i = self.re_floor.floorUpQuantity;i>0;i--){
 							self.floor_list.push({'index':i,'name':'地上'+i+'层'})
 						}
@@ -1103,7 +1111,8 @@ components.component('pictureAlert', {
 							self.showAlert = false;
 							self.file_list = null;
 							self.getList();
-							$("#pic_upload").val("");
+							//$("#pic_upload").val("");
+							$("#pic_upload")[0].value = "";
 						});
 					});
 				}else{ //非wmf
@@ -1121,7 +1130,8 @@ components.component('pictureAlert', {
 									self.showAlert = false;
 									self.file_list = null;
 									self.getList();
-									$("#pic_upload").val("");
+									//$("#pic_upload").val("");
+									$("#pic_upload")[0].value = "";
 								});
 							});
 						}
@@ -1133,12 +1143,13 @@ components.component('pictureAlert', {
 					self.showAlert = false;
 					self.file_list = null;
 					self.getList();
-					$("#pic_upload").val("");
+					//$("#pic_upload").val("");
+					$("#pic_upload")[0].value = "";
 				});
 			}
         };
 
-    	$("#pic_upload").change(function(e){			
+		$("#pic_upload").change(function(e){			
 			self.file_list = e.target.files[0];					
 			if(!/\.(GIF|JPG|PNG|BMP|JPEG|WMF)$/.test((self.file_list.name).toUpperCase())){
 	           myself_alert.dialog_show("图片类型必须是JPEG、JPG、GIF、PNG、BMP、WMF");
@@ -1151,10 +1162,12 @@ components.component('pictureAlert', {
 			$scope.$apply();	
 
 		});
+    	
         
         self.alert_cancel = function(){
             self.showAlert = false;
             self.file_list = null;
+            $("#pic_upload")[0].value = ""; //取消时清空input的值
         };
         self.is_or_no_alert = function(){
             if(typeof(self.showAlert) == 'undefined'){

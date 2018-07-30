@@ -8,7 +8,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	var nowDate = curTime.nowDate();	
 	var inputTime = new Date(nowDate+" "+'00:00:00').getTime();
 	var timeStamp = timeStamp.getLocalTime(inputTime);
-	
+
 	//时分日历
    	$(".form_datetime").datetimepicker({
     	language:'zh-CN',
@@ -147,9 +147,16 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 			}
 			if($("#end").val()!=''){
 				end = new Date($("#end").val()+" "+'23:59:59').getTime();
-			}else{
+			}else if($("#end").val() == '' && $scope.isFirst == false){
+				$("#end")[0].value = timeStamp;				
+				end = new Date(nowDate+" "+'23:59:59').getTime();
+			}else if($scope.isFirst == true){
 				end = null;
+				$("#end")[0].value = "";
 			}
+//			else{
+//				end = null;
+//			}			
 			if(start&&end){
 				if(start>end){
 					myself_alert.dialog_show("开始时间不能大于结束时间!");
@@ -210,8 +217,10 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				$scope.counts = result.count;
 				if($scope.isFirst == true){
 					$("#start")[0].value = "";
-				}else if($scope.selected != 2 && $("#start")[0].value=="" && $scope.isFirst == false){
+					$("#end")[0].value = "";
+				}else if($scope.selected != 2 && $("#start")[0].value=="" && $("#end")[0].value=="" && $scope.isFirst == false){
 					$("#start")[0].value = timeStamp;
+					$("#end")[0].value = timeStamp;
 				}
 				total_page = result.totalPage;
 				$scope.$emit("loading", false);

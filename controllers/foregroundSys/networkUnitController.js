@@ -108,9 +108,7 @@ app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','e
 						}
 					})
 				};
-				//楼层
-				$scope.get_floor = function(){
-					$scope.floor_list = [];
+				$scope.get_floors_name = function(){
 					for(var i=0;i<$scope.floors.length;i++){
 						if($scope.floors[i].id == $scope.floor_id){
 							$scope.re_floor = $scope.floors[i];
@@ -122,6 +120,13 @@ app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','e
 					for(var i = 1;i<=$scope.re_floor.floorDownQuantity;i++){
 						$scope.floor_list.push({'index':-i,'name':'地下'+i+'层'})
 					}
+				};
+				//楼层
+				$scope.get_floor = function(){
+					acceptance_http.get_floor_cells({'placeId':$scope.floor_id},function(result){
+					$scope.floor_list = result;
+				})
+				$scope.get_floors_name();
 				};
 				//显示平面图
 				$scope.show_surface = function(floor){

@@ -650,8 +650,8 @@
           	</select>	
 		</div>
 		<ul class="fire_alarm_ul">
-			<li ng-repeat="l in $ctrl.floor_list track by $index" ng-click="$ctrl.show_surface(l.index)" ng-style="l.index == $ctrl.sur_selected?{'background':'#ECECEC'}:''">
-				{{l.name}}
+			<li ng-repeat="l in $ctrl.floor_list track by $index" ng-click="$ctrl.show_surface(l.id)" ng-style="l.id == $ctrl.sur_selected?{'background':'#ECECEC'}:''">
+				{{l.storeyName}}
 			</li>
 		</ul>
 	</div>

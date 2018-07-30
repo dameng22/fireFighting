@@ -3,8 +3,9 @@
 				<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
 				<span class="btn_size btn_blue" ui-sref="setUnitDetail.surface.location({'token':sys_token,'unit':sys_unit,'sys':sys_role})">编码表</span>
 				<span class="btn_size btn_blue" ng-click="del_build()" ng-show="floor_id">删除楼栋</span>
-				<span class="btn_size btn_blue" ng-click="modify_build(floor_id,'add')" ng-show="build_id" style="margin-right: 124px;">新增楼栋</span>
-				<span class="btn_size btn_blue" ng-click="modify_build(floor_id,'edit')" ng-show="build_id" style="margin-right: -188px;">编辑楼栋</span>
+				<span class="btn_size btn_blue" ng-click="modify_build(floor_id,'edit')" ng-show="floor_id">编辑楼栋</span>
+				<span class="btn_size btn_blue" ng-click="modify_build(floor_id,'add')" ng-show="build_id">新增楼栋</span>
+				
 			</div>
 			<!--图片信息-->
 			<div class="surface_bg_scroll" style="background: #FFFFFF;"> 
