@@ -979,6 +979,12 @@
 	margin-top: 5px;
 	cursor: pointer;
 }
+.plan_alert_round span{
+	float: right;
+	color: #084ED5;
+    text-decoration: underline;
+    cursor: pointer;
+}
 /*处理中*/
 .relieve_guard_load{
 	position: absolute;

@@ -19,15 +19,34 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
     		startDate: new Date()
 	    });
 	});
+	function getLocalTime(inputTime) {  
+	    var date = new Date(inputTime);
+	    var y = date.getFullYear();  
+	    var m = date.getMonth() + 1;  
+	    m = m < 10 ? ('0' + m) : m;  
+	    var d = date.getDate();  
+	    d = d < 10 ? ('0' + d) : d;  
+	    var h = date.getHours();
+	    h = h < 10 ? ('0' + h) : h;
+	    var s = date.getMinutes();
+	    s = s < 10 ? ('0' + s) : s;
+	    return y + '/' + m + '/' + d + ' '+ h + ':'+ s;  
+	};
 	//未开始的巡检才能开始   已开始的巡检才能结束    如勾选了一开始和未开始  则可开始
+//	$scope.tab_list=[	
+//		{name:'已完成'},
+//		{name:'进行中'}
+//	];
 	$scope.tab_list=[	
-		{name:'已完成'},
+		{name:'完成清单'},
+		{name:'任务清单'},
 		{name:'进行中'}
 	];
 	$scope.area_id = "按区域筛选";
 	$scope.task_type = '选择任务类型';
 	$scope.check_task_pholder_no = "定时查岗";
 	$scope.check_task_pholder_ok = "实时查岗";
+	$scope.disabled_check = false;
 	$scope.done = false;
 	$scope.undo = false;
 	var limits = true;
@@ -39,12 +58,53 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
   	$scope.task_list = [];
 	$scope.get_list=function(){
 		page_num = page_num+1;
-		if($scope.selected == 0){ //已完成
-			get_data = foreground_http.get_processed_task;
-			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key};
-		}else if($scope.selected == 1){ //进行中
+//		if($scope.selected == 0){ //已完成
+//			get_data = foreground_http.get_processed_task;
+//			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key};
+//		}else if($scope.selected == 1){ //进行中
+//			get_data = foreground_http.get_processing_task;
+//			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key}
+//		}
+		
+//		if($scope.selected == 0){ //完成清单
+//			$scope.recordStatus = 0;
+//			get_data = foreground_http.get_processing_task;
+//			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key,recordStatus:$scope.recordStatus};
+//		}else if($scope.selected == 1){ //进行中（子）
+//			$scope.recordStatus = 1;
+//			var task_type = angular.copy($scope.task_type);
+//			if(exp_tool.is_chinese(task_type)){
+//				task_type = null
+//			}
+//			get_data = foreground_http.get_processing_task;
+//			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key,recordStatus:$scope.recordStatus}
+//		}else if($scope.selected == 2){ //任务清单（父）
+//			var task_type = angular.copy($scope.task_type);
+//			if(exp_tool.is_chinese(task_type)){
+//				task_type = null
+//			}
+//			get_data = foreground_http.get_processed_task;
+//			param = {customerSiteId:localStorage.unit_id}
+//		}
+		if($scope.selected == 0){ //完成清单
+			$scope.recordStatus = 0;
 			get_data = foreground_http.get_processing_task;
-			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key}
+			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key,recordStatus:$scope.recordStatus};
+		}else if($scope.selected == 1){ //任务清单（父）
+			var task_type = angular.copy($scope.task_type);
+			if(exp_tool.is_chinese(task_type)){
+				task_type = null
+			}
+			get_data = foreground_http.get_processed_task;
+			param = {customerSiteId:localStorage.unit_id}
+		}else if($scope.selected == 2){ //进行中（子）
+			$scope.recordStatus = 1;
+			var task_type = angular.copy($scope.task_type);
+			if(exp_tool.is_chinese(task_type)){
+				task_type = null
+			}
+			get_data = foreground_http.get_processing_task;
+			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,nameAndCode:$scope.search_key,recordStatus:$scope.recordStatus}
 		}
 		if(typeof(get_data) == "function"){
 			get_data(param,function(result){
@@ -79,7 +139,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	$scope.get_unit();
 	//新建任务显示
 	$scope.add_task_btn=function(){
+		$scope.disabled_check = false;
 		$scope.add_task_show = true;
+		$scope.check_task_title = "设置巡检任务";
 		$scope.rsearch_unit();
 		acceptance_http.get_task_code({},function(result){
 			$scope.add_task.taskCode = result;
@@ -92,7 +154,37 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		$scope.rsearch_unit();
 		$scope.area_id = "按区域筛选";
 		$scope.search_unit = "";
-	};	
+		$scope.add_task.taskName = "";
+		$scope.add_task.beginTime = "";
+		$scope.add_task.intervalTime = "";
+		$scope.all_unit = false;
+	};
+	
+	$scope.check_view_detail = function(id){
+		$scope.disabled_check = true;
+		$scope.check_task_title = "任务详情";
+		$scope.add_task_show = true;
+
+		acceptance_http.get_task_info({id:id},function(result){
+			$scope.add_task = result;
+			$scope.add_task.beginTime = getLocalTime($scope.add_task.beginTime);
+
+			if($scope.add_task.intervalTime == null){
+				$scope.start_now = true;
+			}			
+			$scope.unit_list = result.famDevices;
+			
+			$scope.all_unit = true;
+			for(var i=0;i<$scope.unit_list.length;i++){
+				if($scope.all_unit){
+					$scope.unit_list[i].selected = true;		
+				}else{
+					$scope.unit_list[i].selected = false;	
+				}
+			}
+		})
+	};
+	
 	//全选初始化
 	$scope.all_task = false;
 	//全选
@@ -299,7 +391,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		if($scope.unit_ids.length<=0 && !$scope.all_unit){
 			return;
 		}
-		 if(!$scope.beginTime){
+		 if(!$scope.add_task.beginTime){
 			myself_alert.dialog_show("请输入必填项!");
 			return;
 		}

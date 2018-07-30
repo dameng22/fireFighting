@@ -28,6 +28,7 @@ ul,li{
 	max-width: none!important;
 }
 textarea{resize: none;}
+
 /*登录*/
 .login {
   position: relative;
@@ -933,10 +934,16 @@ textarea{resize: none;}
 	width: 9%;
 }
 .check_task_code{
-	width: 14%;
+	width: 12%;
+}
+.check_task_code_re{
+	width: 16%;
+}
+.check_task_code_red{
+	width: 13%;
 }
 .check_task_name{
-	width: 13%;
+	width: 12%;
 }
 .check_task_phone{
 	width: 10%;
@@ -969,6 +976,33 @@ textarea{resize: none;}
 	line-height: 32px;
 	margin-bottom: 10px;
 	position: relative;
+}
+.display_span_radio,.display_span_radio_no{
+	display: inline;
+    width: 20px;
+    height: 19px;
+    position: absolute;
+    background: transparent;
+    top: 7px;
+    z-index: 1;
+}
+.display_span_ok{
+	display: inline;
+ 	width: 64px;
+    height: 29px;
+    position: absolute;
+    background: transparent;
+    top: 1px;
+    z-index: 1;	
+}
+.display_span_checkbox{
+	display: inline;
+    width: 483px;
+    height: 357px;
+    position: absolute;
+    background: transparent;
+    top: 7px;
+    z-index: 1;
 }
 .check_task_btm input{
 	margin-right: 10px;
@@ -1329,7 +1363,7 @@ textarea{resize: none;}
     margin-top: 8px;
     margin-right: 13px;
 }
-/*.fire_alarm_ul span{position: relative;}
+.fire_alarm_ul span{position: relative;}
 .floor_ico_del{
     width: 20px;
     height: 19px;
@@ -1357,7 +1391,15 @@ textarea{resize: none;}
     background-position: 51px 88px;
     position: absolute;
     left: 90px;
-}*/
+}
+.floor_name_span{
+    display: inline-block;
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 15px;	
+}
 .fire_alarm_btn{
 	display: inline-block;
 	width: 80px;
@@ -2271,6 +2313,7 @@ textarea{resize: none;}
 .notice_files{
 	width: 10%;
 }
+
 /*天气*/
 .weather_style{
 	float: right;
@@ -2585,9 +2628,6 @@ textarea{resize: none;}
 	background: #FFFFFF;
 }
 /*灭火预案*/
-.plan_title{
-	width: 65%;
-}
 .plan_time{
 	width: 21%;
 	color: #A3A3A3;
@@ -2601,6 +2641,16 @@ textarea{resize: none;}
 	position: relative;
 	padding-left: 15px !important;
 }
+.plan_index{
+	width: 11%;
+}
+.plan_title{
+	width: 15%;
+}
+.plan_type{
+	width: 15%;
+}
+
 /*账户管理*/
 .account_id{
 	width: 15%;

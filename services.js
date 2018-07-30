@@ -653,9 +653,25 @@ services.factory('acceptance_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	        },
-	        get_processed_task: function(params, successDo, errorDo){ //已完成任务
+//	        get_processed_task: function(params, successDo, errorDo){ //已完成任务
+//	            httpBase.get({
+//	                url:'famCheckTasks/record',
+//	                params: params,
+//	                successDo: successDo,
+//	                errorDo: errorDo
+//	            });
+//	        },
+//	        get_processing_task: function(params, successDo, errorDo){ //进行中任务
+//	            httpBase.get({
+//	                url:'famCheckTasks/record/pageByCustomerId',
+//	                params: params,
+//	                successDo: successDo,
+//	                errorDo: errorDo
+//	            });
+//	        },
+			get_processed_task: function(params, successDo, errorDo){ //已完成任务
 	            httpBase.get({
-	                url:'famCheckTasks/record',
+	                url:'famCheckTasks/record/pageByCustomerId',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo
@@ -663,7 +679,15 @@ services.factory('acceptance_http', ['httpBase', function(httpBase){
 	        },
 	        get_processing_task: function(params, successDo, errorDo){ //进行中任务
 	            httpBase.get({
-	                url:'famCheckTasks/record/pageByCustomerId',
+	                url:'famCheckTasks/record',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	        },
+	        get_task_info: function(params, successDo, errorDo){ //进行中详情信息
+	            httpBase.get({
+	                url:'famCheckTasks',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo
@@ -749,7 +773,7 @@ services.factory('acceptance_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	       },
-			get_building_cells: function(params, successDo, errorDo){ //建筑物层数
+			get_building_cells: function(params, successDo, errorDo){ //建筑物层数(坐)
 	            httpBase.get({
 	                url:'famSitePlace',
 	                params: params,
@@ -760,6 +784,30 @@ services.factory('acceptance_http', ['httpBase', function(httpBase){
 			modify_building_cells: function(params, successDo, errorDo){ //建筑物层数
 	            httpBase.put({
 	                url:'famSitePlace',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
+	       	get_floor_cells: function(params, successDo, errorDo){ //获取楼层
+	            httpBase.get({
+	                url:'famSiteStorey',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
+	       	delete_floor_cells: function(params, successDo, errorDo){ //删除楼层
+	            httpBase.delete({
+	                url:'famSiteStorey',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
+	       	modfiy_floor_cells: function(params, successDo, errorDo){ //增加/修改楼层
+	            httpBase.put({
+	                url:'famSiteStorey',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo
@@ -1199,7 +1247,23 @@ services.factory('foreground_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	       	},
-			get_processed_task: function(params, successDo, errorDo){ //已完成任务
+//			get_processed_task: function(params, successDo, errorDo){ //已完成任务
+//	            httpBase.get({
+//	                url:'famCheckTasks/record/customerSiteId',
+//	                params: params,
+//	                successDo: successDo,
+//	                errorDo: errorDo
+//	            });
+//	        },
+//	        get_processing_task: function(params, successDo, errorDo){ //进行中任务
+//	            httpBase.get({
+//	                url:'famCheckTasks/record/pageByCustomerId/customerSiteId',
+//	                params: params,
+//	                successDo: successDo,
+//	                errorDo: errorDo
+//	            });
+//	        },
+			get_processing_task: function(params, successDo, errorDo){ //已完成任务
 	            httpBase.get({
 	                url:'famCheckTasks/record/customerSiteId',
 	                params: params,
@@ -1207,7 +1271,7 @@ services.factory('foreground_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	        },
-	        get_processing_task: function(params, successDo, errorDo){ //进行中任务
+	        get_processed_task: function(params, successDo, errorDo){ //进行中任务
 	            httpBase.get({
 	                url:'famCheckTasks/record/pageByCustomerId/customerSiteId',
 	                params: params,

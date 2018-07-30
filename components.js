@@ -13,7 +13,7 @@ components.component('networkUnitAlert', {
         buildingsInfo:'=',
         deviceList:'='
     },
-    controller:function(acceptance_http,all_dic,dic_http,$filter,$rootScope,$base64,$stateParams){
+    controller:function(acceptance_http,all_dic,dic_http,$filter,$rootScope,$base64,$stateParams,qiniu_url){
         var self = this;
         //获取区域
 	  	acceptance_http.get_unit_info_areas({customerId:$base64.decode($rootScope.sys_unit)},function(result){
@@ -215,7 +215,11 @@ components.component('networkUnitAlert', {
 					acceptance_http.get_plan({customerSiteId:self.id,pageNum:1,pageSize:100},function(result){
 						self.info = result.results;
 					})
+					self.download = function(name,origin){
+			        	window.open(qiniu_url+name+'?attname='+origin);
+			        }
 				  	break;
+				  	
 				case 10://图片
 					self.picture_type = all_dic.pictureType;
 					acceptance_http.get_picture_list({customerSiteId:self.id,pageNum:self.currentPage,pageSize:100,pictureTypeIds:[0,1,2]},function(result){
@@ -1133,18 +1137,21 @@ components.component('pictureAlert', {
 				});
 			}
         };
-        $("#pic_upload").change(function(e){
-			self.file_list = e.target.files[0];
+
+    	$("#pic_upload").change(function(e){			
+			self.file_list = e.target.files[0];					
 			if(!/\.(GIF|JPG|PNG|BMP|JPEG|WMF)$/.test((self.file_list.name).toUpperCase())){
 	           myself_alert.dialog_show("图片类型必须是JPEG、JPG、GIF、PNG、BMP、WMF");
 	           return;
-	       	}
-			if(!/\.(WMF)$/.test((self.file_list.name).toUpperCase())){
-				self.picUrl=window.URL.createObjectURL(self.file_list);
+	        }
+			if(!/\.(WMF)$/.test((self.file_list.name).toUpperCase())){				
+				self.picUrl=window.URL.createObjectURL(self.file_list);	
 			}
-			self.flag = true;
-			$scope.$apply();
+			self.flag = true;				
+			$scope.$apply();	
+
 		});
+        
         self.alert_cancel = function(){
             self.showAlert = false;
             self.file_list = null;
@@ -1176,6 +1183,9 @@ components.component('planDetailAlert', {
         self.alert_cancel = function(){
         	init_data();
             self.showAlert = false;
+        };
+        self.download = function(name,origin){
+        	window.open(qiniu_url+name+'?attname='+origin);
         };
         self.save_plan = function(){
         	if(!self.addData.extinguishingTitle){
@@ -1312,6 +1322,7 @@ components.component('buildingAlert', {
         buildId:'=',
         getCell:'&',
         item:'=',
+        type:'=',
     },
     controller:function(acceptance_http,myself_alert,exp_tool){
         var self = this;
@@ -1325,12 +1336,21 @@ components.component('buildingAlert', {
         	}if((self.item.floorDownQuantity&&!exp_tool.more_than_zero_int(self.item.floorDownQuantity))||(self.item.floorUpQuantity&&!exp_tool.more_than_zero_int(self.item.floorUpQuantity))){
         		myself_alert.dialog_show("楼栋层数必须为整数!");
         		return;
+        	}  
+        	for(var i=0;i<self.item.floors.length;i++){
+        		if(self.item.id != self.item.floors[i].id){
+        			if(self.item.placeName == self.item.floors[i].placeName){
+	        			myself_alert.dialog_show("楼栋名称重复,请重新输入!");
+	        			return;
+	        		}
+        		}
+        		
         	}
-            acceptance_http.modify_building_cells({"buildId": self.buildId,"canUpdate": true,"floorDownQuantity": self.item.floorDownQuantity,"floorUpQuantity": self.item.floorUpQuantity,"placeName": self.item.placeName},function(result){
-            	myself_alert.dialog_show("保存成功!");
-            	self.getCell();
-            	self.showAlert = false;
-            })
+    		acceptance_http.modify_building_cells({"buildId": self.buildId,"canUpdate": true,"floorDownQuantity": self.item.floorDownQuantity,"floorUpQuantity": self.item.floorUpQuantity,"placeName": self.item.placeName},function(result){
+        		myself_alert.dialog_show("保存成功!");
+        		self.getCell();
+        		self.showAlert = false;
+        	})   
         };
         self.is_or_no_alert = function(){
             if(typeof(self.showAlert) == 'undefined'){
@@ -1344,6 +1364,147 @@ components.component('buildingAlert', {
         }
     },
     templateUrl:'./template/components/buildingAlert.html'
+});
+//编辑楼栋
+components.component('buildEditAlert', {
+    bindings:{
+        showAlert:'=',
+        buildId:'=',
+        getCell:'&',
+        item:'=',
+        type:'=',
+    },
+    controller:function(acceptance_http,myself_alert,exp_tool,$rootScope){
+        var self = this;
+        self.alert_cancel = function(){
+            self.showAlert = false;
+        };
+        $rootScope.$on('bulidName',function(e,data){
+        	self.bulidName = data;
+        });
+        self.alert_true = function(){
+        	if(!self.bulidName){
+        		myself_alert.dialog_show("请输入楼栋名称!");
+        		return;
+        	}    
+        	for(var i=0;i<self.item.floors.length;i++){
+        		if(self.item.id != self.item.floors[i].id){
+        			if(self.bulidName == self.item.floors[i].placeName){
+	        			myself_alert.dialog_show("楼层名称重复,请重新输入!");
+	        			return;
+	        		}
+        		}
+        		
+        	}
+    		acceptance_http.modify_building_cells({"id":self.item.id,"buildId": self.buildId,"canUpdate": true,"floorDownQuantity": self.item.floorDownQuantity,"floorUpQuantity": self.item.floorUpQuantity,"placeName": self.bulidName},function(result){
+        		myself_alert.dialog_show("保存成功!");
+        		self.getCell();
+        		self.showAlert = false;
+        	})   
+        };
+        self.is_or_no_alert = function(){
+            if(typeof(self.showAlert) == 'undefined'){
+                return 'relieve_guard_wrap';
+            }
+            if(self.showAlert){
+            	return 'relieve_guard_wrap fams_alert_enter';
+            }else{
+            	return 'relieve_guard_wrap fams_alert_none';
+            }
+        }
+    },
+    templateUrl:'./template/components/buildEditAlert.html'
+});
+//编辑楼层
+components.component('floorAlert', {
+    bindings:{
+        showAlert:'=',
+        storeyNum:'=',
+        floorId:'=',
+        item:'=',
+        type:'=',   
+        getFloor:'&',
+    },
+    controller:function(acceptance_http,myself_alert,exp_tool,$rootScope){
+        var self = this;
+        self.alert_cancel = function(){
+            self.showAlert = false;
+        };
+        $rootScope.$on('tranName',function(e,data){
+        	self.name = data;
+        });
+        
+        self.alert_true = function(){
+        	if(!self.name){
+        		myself_alert.dialog_show("请输入楼层名称!");
+        		return;
+        	}
+        	for(var i=0;i<self.item.floor_lists.length;i++){
+        		if(self.item.id != self.item.floor_lists[i].id){
+        			if(self.name == self.item.floor_lists[i].storeyName){
+	        			myself_alert.dialog_show("楼层名称重复,请重新输入!");
+	        			return;
+	        		}
+        		}
+        		
+        	}
+        	acceptance_http.modfiy_floor_cells({"id":self.item.id,"placeId": self.floorId, "storeyName":self.name,"storey":self.item.storeyNum,},function(result){
+            	myself_alert.dialog_show("保存成功!");
+            	self.getFloor();
+            	self.showAlert = false;
+            })
+        };
+        self.is_or_no_alert = function(){
+            if(typeof(self.showAlert) == 'undefined'){
+                return 'relieve_guard_wrap';
+            }
+            if(self.showAlert){
+            		return 'relieve_guard_wrap fams_alert_enter';
+            }else{
+            		return 'relieve_guard_wrap fams_alert_none';
+            }
+        }
+    },
+    templateUrl:'./template/components/floorAlert.html'
+});
+//新建夹层确认
+components.component('childAlert', {
+    bindings:{
+        showAlert:'=',
+        storeyNum:'=',
+        floorId:'=',
+        item:'=',
+        type:'=',   
+        getFloor:'&',
+    },
+    controller:function(acceptance_http,myself_alert,exp_tool){
+        var self = this;
+        self.alert_cancel = function(){
+            self.showAlert = false;
+        };
+        self.alert_true = function(){
+        	if(!self.item.placeName){
+        		myself_alert.dialog_show("请输入楼层名称!");
+        		return;
+        	}
+        	acceptance_http.modfiy_floor_cells({"placeId": self.floorId, "storeyName":self.item.placeName,"storey":self.item.storeyNum,},function(result){
+            	myself_alert.dialog_show("保存成功!");
+            	self.getFloor();
+            	self.showAlert = false;
+            })
+        };
+        self.is_or_no_alert = function(){
+            if(typeof(self.showAlert) == 'undefined'){
+                return 'relieve_guard_wrap';
+            }
+            if(self.showAlert){
+            		return 'relieve_guard_wrap fams_alert_enter';
+            }else{
+            		return 'relieve_guard_wrap fams_alert_none';
+            }
+        }
+    },
+    templateUrl:'./template/components/childAlert.html'
 });
 //火灾下拉详情
 components.component('fireDropAlert', {

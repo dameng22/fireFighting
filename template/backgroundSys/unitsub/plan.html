@@ -5,31 +5,47 @@
 		<!--灭火预案-->
 		<div class="check_task_scroll">
 			<div class="list_data_scroll fix_time_data min_width_793" style="height: 100%;">
-				<p class="list_data" ng-repeat="l in info track by $index" ng-click="edit_data(l)">
-					<!--<span class="plan_title" style="width: 100%;">{{l.extinguishingTitle}}
-						<span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment | unique: 'attachmentTypeId'"><i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'"></i></span>
-					</span>
-					<span class="plan_time">{{l.extingtishingDate}}</span>
-					<span class="plan_operate" style="float: right;">
-						<font>修改</font> | <font ng-click="del_data(l.id,$index);$event.stopPropagation()">删除</font>
-						| <font ng-click="download(n.fileName,n.originalName);$event.stopPropagation()">下载</font>
+				<p class="list_data list_data_head min_width_793">
+					<span class="plan_index">序号</span>
+					<span class="plan_title">预案名称</span>
+					<span class="plan_type">预案附件</span>
+					<span class="plan_time">发布时间</span>
+					<span class="plan_operate" style="color: #000;">操作</span>
+				</p>
 				
-				    </span>-->
+					<p class="list_data cursor_normal min_width_793" ng-repeat="l in info track by $index" ng-click="edit_data(l)">
+						<span class="plan_index">{{$index+1}}</span>
+						<span class="plan_title" title="{{l.extinguishingTitle}}">{{l.extinguishingTitle}}</span>
+						<span class="plan_type"><span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment | unique: 'attachmentTypeId'"><i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'"></i></span></span>
+						<span class="plan_time">{{l.extingtishingDate}}</span>
+						<span class="plan_operate"><font>修改</font> | <font ng-click="del_data(l.id,$index);$event.stopPropagation()">删除</font></span>
+					</p>
+				
+				
+				
+				
+				<!--1<p class="list_data" ng-repeat="l in info track by $index" ng-click="edit_data(l)">
+					<span class="plan_title" style="width: 100%;">{{l.extinguishingTitle}}
+						<span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment | unique: 'attachmentTypeId'"><i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'"></i></span>
+						<span class="plan_time">{{l.extingtishingDate}}</span>
+						<span class="plan_operate" style="float: right;">
+							<font>修改</font> | <font ng-click="del_data(l.id,$index);$event.stopPropagation()">删除</font>
+					    </span>
+					</span>-->
+					
+					
 				    
 				    
-				    <span class="plan_title" style="width: 100%;display: initial;">{{l.extinguishingTitle}}
-						<span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment | unique: 'attachmentTypeId'" style="display: initial;"><i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'" style="top: 0px;"></i>
-							<span class="plan_operate" style="float: right;display: initial;">
-								<font>修改</font> | <font ng-click="del_data(l.id,$index);$event.stopPropagation()">删除</font>
-								| <font ng-click="download(n.fileName,n.originalName);$event.stopPropagation()">下载</font>
-						
-						    </span>
-							
+				    <!--mz<span class="plan_title" style="width: 100%;display: initial;">{{l.extinguishingTitle}}
+						<span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment | unique: 'attachmentTypeId'" style="display: initial;"><i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'" style="top: 0px;"></i>	
+						</span>
+						<span class="plan_operate" style="float: right;display: initial;">
+							<font>修改</font> | <font ng-click="del_data(l.id,$index);$event.stopPropagation()">删除</font>
 						</span>
 					</span>
-					<span class="plan_time" style="float: right;">{{l.extingtishingDate}}</span>
+					<span class="plan_time" style="float: right;">{{l.extingtishingDate}}</span>-->
 					
-				</p>
+				<!--</p>-->
 			</div>
 		</div>
 		<plan-detail-alert show-alert="add_show" unit-id="unit_id" info="info" add-data="add_data" show-type="show_type"></plan-detail-alert>

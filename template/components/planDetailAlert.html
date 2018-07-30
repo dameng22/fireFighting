@@ -12,6 +12,8 @@
 					<input type="file" id="upload_material" style="width: 100%;"/>
 				</p>
 			</div>
-			<p class="plan_alert_round cursor_normal border_radius_4" ng-repeat="l in $ctrl.addData.famExtingtishingPlanAttachment track by $index"><i class="ico_sprite ico_relias"></i>{{l.originalName}}</p>
+			<p class="plan_alert_round cursor_normal border_radius_4" ng-repeat="l in $ctrl.addData.famExtingtishingPlanAttachment track by $index"><i class="ico_sprite ico_relias"></i>{{l.originalName}}				
+				<span><font ng-click="$ctrl.download(l.fileName,l.originalName);" ng-show="l.originalName.indexOf('pdf')!=-1">下载</font></span>
+			</p>
 		</div>
 	</div>

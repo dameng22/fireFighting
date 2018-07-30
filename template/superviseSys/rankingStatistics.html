@@ -1,4 +1,8 @@
 <div class="ranking_statis_cen border_radius_4">
+	<!--统计排名添加区域筛选-->
+	<select class="select_text width_114 statis_select" ng-model="current_area" ng-change="get_region_data()">
+		<option value="{{l.id}}" ng-repeat="l in net_areas">{{l.regionName}}</option>
+	</select>
 	<div id="ranking_bar" class="unit_statis_full"></div>
 </div>
 <div class="ranking_statis_btm border_radius_4">

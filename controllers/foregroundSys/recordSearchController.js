@@ -138,11 +138,12 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 		if($scope.selected != 2){
 			if($("#start").val()!=''){
 				start = new Date($("#start").val()+" "+'00:00:00').getTime();
-			}else if($("#start").val() == ''){
+			}else if($("#start").val() == '' && $scope.isFirst == false){
 				$("#start")[0].value = timeStamp;				
 				start = new Date(nowDate+" "+'00:00:00').getTime();
-			}else{
+			}else if($scope.isFirst == true){
 				start = null;
+				$("#start")[0].value = "";
 			}
 			if($("#end").val()!=''){
 				end = new Date($("#end").val()+" "+'23:59:59').getTime();
@@ -207,7 +208,9 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				start = null;
 				end = null;
 				$scope.counts = result.count;
-				if($scope.selected != 2 && $("#start")[0].value==""){
+				if($scope.isFirst == true){
+					$("#start")[0].value = "";
+				}else if($scope.selected != 2 && $("#start")[0].value=="" && $scope.isFirst == false){
 					$("#start")[0].value = timeStamp;
 				}
 				total_page = result.totalPage;
@@ -248,7 +251,14 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 //		$scope.get_list();
 //	};
 	//查询按钮 mz
+	$scope.isFirst = false;
 	$scope.search_list=function(type){
+		if($("#start").val() == ''){
+			$("#start")[0].value = "";				
+			$scope.isFirst = true;
+		} else {
+			$scope.isFirst = false;
+		}
 		if(type==0){
 			$scope.done = !$scope.done;
 		}else if(type==1){

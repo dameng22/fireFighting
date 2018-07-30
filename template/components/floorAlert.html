@@ -1,0 +1,14 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="build_alert" style="height: 190px;">
+		<p class="build_alert_top">
+			编辑楼层
+			<i class="ico_sprite ico_close" ng-click="$ctrl.alert_cancel()"></i>
+		</p>
+		<p class="build_alert_tips">楼层名称:</p>
+		<input type="text" ng-model="$ctrl.name"/>
+		<p class="text-center" style="margin-top: 16px;">
+			<span class="btn_size btn_blue margin_right_10" ng-click="$ctrl.alert_true()">保存</span>
+			<span class="btn_size btn_blue" ng-click="$ctrl.alert_cancel()">取消</span>
+		</p>
+	</div>
+</div>

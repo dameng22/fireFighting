@@ -49,14 +49,28 @@ app.controller('accountManageController', ['$scope','background_http','myself_al
 				role_arr.push($scope.sub_role[i].id);
 			}
 		}
-		background_http.get_account({roleId:role_arr,pageNum:page_num,pageSize:page_size,keyword:$scope.search_keys},function(result){
-			if(result.results){
-				$scope.account_list = $scope.account_list.concat(result.results);
-			}
-			limits = true;
-			total_page = result.totalPage;
-			$scope.item_count = result.count
-		})
+//		background_http.get_account({roleId:role_arr,pageNum:page_num,pageSize:page_size,keyword:$scope.search_keys},function(result){
+//			if(result.results){
+//				$scope.account_list = $scope.account_list.concat(result.results);
+//			}
+//			limits = true;
+//			total_page = result.totalPage;
+//			$scope.item_count = result.count
+//		})
+		get_data = background_http.get_account;
+		param = {roleId:role_arr,pageNum:page_num,pageSize:page_size,keyword:$scope.search_keys};	
+		if(typeof(get_data) == "function"){
+			$scope.$emit("loading", true);
+			get_data(param,function(result){
+				if(result.results){
+					$scope.account_list = $scope.account_list.concat(result.results);
+				}
+				limits = true;
+				total_page = result.totalPage;
+				$scope.item_count = result.count;
+				$scope.$emit("loading", false);
+			})
+		}
 	};	
 	//子角色
 	var temp_role;

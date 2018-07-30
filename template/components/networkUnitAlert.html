@@ -542,11 +542,27 @@
 		</div>
 		<!--灭火预案-->
 		<div class="list_data_scroll fix_time_data pic_scroll" ng-show="$ctrl.selected==9">
-			<div class="pic_wrap" ng-repeat="l in $ctrl.info track by $index">
-				<div class="pic_fixed">
-					<p class="pic_display bg_blue_pic" ng-if="!$ctrl.show_pic(l.famExtingtishingPlanAttachment).id">{{l.extinguishingTitle}}</p>
+			<div class="pic_wrap" style="width: 100%;margin-top: -27px;" ng-show="!($ctrl.info.length==0 || JSON.stringify($ctrl.info) == '{}')&& $ctrl.selected!=8 && $ctrl.selected!=10">
+				<div class="pic_fixed" style="width: 100%;">
+					<p class="list_data list_data_head" style="padding-left: 20px;">
+						<span class="plan_index" style="width: 13%;">序号</span>
+						<span class="plan_title" style="width: 19%;">预案名称</span>
+						<span class="plan_type" style="width: 23%;">预案附件</span>
+						<span class="plan_time">发布时间</span>
+					</p>
+					<p class="list_data cursor_normal min_width_793" ng-repeat="l in $ctrl.info track by $index" style="padding-left: 20px;">
+						<span class="plan_index" style="width: 13%;">{{$index+1}}</span>
+						<span class="plan_title" style="width: 19%;" title="{{l.extinguishingTitle}}">{{l.extinguishingTitle}}</span>						
+						<span class="plan_type" style="width: 23%;">
+							<span class="plan_ico" ng-repeat="n in l.famExtingtishingPlanAttachment">
+								<i class="ico_sprite" ng-class="n.attachmentTypeId==0?'ico_doc':'ico_pdf'" ng-click="$ctrl.download(n.fileName,n.originalName)"></i>
+							</span>
+						</span>
+						<span class="plan_time">{{l.extingtishingDate}}</span>	
+					</p>
+					<!--xy<p class="pic_display bg_blue_pic" ng-if="!$ctrl.show_pic(l.famExtingtishingPlanAttachment).id">{{l.extinguishingTitle}}</p>
 					<img ng-src="{{$root.qiuNiuUrl+$ctrl.show_pic(l.famExtingtishingPlanAttachment).fileName+'?imageView2/1/w/160/h/160'}}" ng-if="$ctrl.show_pic(l.famExtingtishingPlanAttachment).id"/>
-					<div class="text-left" title="{{l.extinguishingTitle}}">{{l.extinguishingTitle}}</div>
+					<div class="text-left" title="{{l.extinguishingTitle}}">{{l.extinguishingTitle}}</div>-->
 				</div>
 			</div>
 		</div>

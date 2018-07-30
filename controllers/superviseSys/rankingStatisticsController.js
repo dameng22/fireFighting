@@ -1,46 +1,100 @@
 /**
  * Created by Lxy on 2017/12/10.
  */
-app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round','superivse_http','$filter','$rootScope','downloadFiles',
-	function($scope,$timeout,echart_round,superivse_http,$filter,$rootScope,downloadFiles){
+app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round','superivse_http','$filter','$rootScope','downloadFiles','acceptance_http','$base64','$stateParams',
+	function($scope,$timeout,echart_round,superivse_http,$filter,$rootScope,downloadFiles,acceptance_http,$base64,$stateParams){
 	var values = [];
+
 	if ($rootScope.system_name == '消防监管单位管理系统'){
         //火灾前十
-		superivse_http.get_fire_top_ten_systemRole({}, function (result) {
-            $scope.fire_top = result;
-            $scope.init_lines(result,0);
-        });
+//		superivse_http.get_fire_top_ten_systemRole({}, function (result) {
+//          $scope.fire_top = result;
+//          $scope.init_lines(result,0);
+//      });
+		fire_top_ten_system = superivse_http.get_fire_top_ten_systemRole;
+		
         //故障前十
-        superivse_http.get_trouble_top_ten_systemRole({},function(result){
-            $scope.trouble_top = result;
-        });
+//      superivse_http.get_trouble_top_ten_systemRole({},function(result){
+//          $scope.trouble_top = result;
+//      });
+		trouble_top_ten_system = superivse_http.get_trouble_top_ten_systemRole;
+		
         //脱岗比率前十
-        superivse_http.get_out_rate_percent_systemRole({},function(result){
-            $scope.rate_out_top = result;
-        });
+//      superivse_http.get_out_rate_percent_systemRole({},function(result){
+//          $scope.rate_out_top = result;
+//      });
+		out_rate_percent_system = superivse_http.get_out_rate_percent_systemRole;
+		
         //在岗比率前十
-        superivse_http.get_on_rate_percent_systemRole({},function(result){
-            $scope.rate_in_top = result;
-        });
+//      superivse_http.get_on_rate_percent_systemRole({},function(result){
+//          $scope.rate_in_top = result;
+//      });
+		on_rate_percent_system = superivse_http.get_on_rate_percent_systemRole;
 	}else {
         //火灾前十
-        superivse_http.get_fire_top_ten({},function(result){
-            $scope.fire_top = result;
-            $scope.init_lines(result,0);
-        });
+//      superivse_http.get_fire_top_ten({},function(result){
+//          $scope.fire_top = result;
+//          $scope.init_lines(result,0);
+//      });
+		fire_top_ten = superivse_http.get_fire_top_ten;
+        
         //故障前十
-        superivse_http.get_trouble_top_ten({},function(result){
-            $scope.trouble_top = result;
-        });
+//      superivse_http.get_trouble_top_ten({},function(result){
+//          $scope.trouble_top = result;
+//      });
+		trouble_top_ten = superivse_http.get_trouble_top_ten;
+		
         //脱岗比率前十
-        superivse_http.get_out_rate_percent({},function(result){
-            $scope.rate_out_top = result;
-        });
+//      superivse_http.get_out_rate_percent({},function(result){
+//          $scope.rate_out_top = result;
+//      });
+		out_rate_per = superivse_http.get_out_rate_percent;
+		
         //在岗比率前十
-        superivse_http.get_on_rate_percent({},function(result){
-            $scope.rate_in_top = result;
-        });
+//      superivse_http.get_on_rate_percent({},function(result){
+//          $scope.rate_in_top = result;
+//      });
+		on_rate_per = superivse_http.get_on_rate_percent;
 	}
+	
+  	acceptance_http.get_unit_info_areas({customerId:$base64.decode($stateParams.unit)},function(result){
+  		$scope.net_areas = result;
+  		$scope.current_area = $scope.net_areas[1].id;
+  		$scope.get_region_data();
+  	});
+  	
+  	$scope.get_region_data = function(){
+  		if ($rootScope.system_name == '消防监管单位管理系统'){
+  			fire_top_ten_system({regionId:$scope.current_area},function(result){
+				$scope.fire_top = result;
+		        $scope.init_lines(result,0);
+			});
+			trouble_top_ten_system({regionId:$scope.current_area},function(result){
+				$scope.trouble_top = result;
+			});
+			out_rate_percent_system({regionId:$scope.current_area},function(result){
+				$scope.rate_out_top = result;
+			});
+			on_rate_percent_system({regionId:$scope.current_area},function(result){
+				$scope.rate_in_top = result;
+			});
+  		} else {
+  			fire_top_ten({regionId:$scope.current_area},function(result){
+				$scope.fire_top = result;
+				$scope.init_lines(result,0);
+			});
+			trouble_top_ten({regionId:$scope.current_area},function(result){
+				$scope.trouble_top = result;
+			});
+			out_rate_per({regionId:$scope.current_area},function(result){
+				$scope.rate_out_top = result;
+			});
+			on_rate_per({regionId:$scope.current_area},function(result){
+				$scope.rate_in_top = result;
+			});
+  		}	
+	};
+	
 	//折线图
 	$scope.init_lines = function(result,index){
 		values = [];
@@ -52,7 +106,8 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 		}else if(index == 2|| index == 3){
 			for(var i=0;i<result.length;i++){
 				//values.push(result[i].newValues);
-				values.push(result[i].newValues * 100);//后台返回数据为1
+				var toFix = (result[i].newValues);
+				values.push((toFix * 100).toFixed(2)); //后台返回数据为1,*100,再四舍五入
 			}
 			options.series[0].label.normal.formatter = '{c}%';
 		}

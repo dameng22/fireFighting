@@ -11,11 +11,11 @@
 			</select>-->
 		</div>
 		<div class="check_task_wrap">
-			<span class="btn_size btn_light_blue" ng-click="start_check(1)" ng-class="can_start&&tasks_ids.length&&selected == 1 || all_task&&task_list.length&&selected == 1?'btn_blue':''">开始巡检</span>
-			<span class="btn_size btn_light_blue" ng-click="start_check(0)" ng-class="can_end&&tasks_ids.length&&selected == 1 || all_task&&task_list.length&&selected == 1?'btn_blue':''">停止巡检</span>
-			<hr class="seprate_line">
-			<span class="btn_size btn_light_blue" ng-click="del_check()" ng-class="tasks_ids.length&&selected == 1 || all_task&&task_list.length&&selected == 1?'btn_blue':''">删除任务</span>
-			<span class="btn_size btn_green" ng-click="add_task_btn()">新增任务</span>
+			<span class="btn_size btn_light_blue" ng-click="start_check(1)" ng-class="can_start&&tasks_ids.length&&selected == 1 || all_task&&task_list.length&&selected == 1?'btn_blue':''" ng-show="selected==1">开始巡检</span>
+			<span class="btn_size btn_light_blue" ng-click="start_check(0)" ng-class="can_end&&tasks_ids.length&&selected == 1 || all_task&&task_list.length&&selected == 1?'btn_blue':''" ng-show="selected==1">停止巡检</span>
+			<hr class="seprate_line" ng-show="selected==1">
+			<span class="btn_size btn_light_blue" ng-click="del_check()" ng-class="tasks_ids.length&&selected == 1 || all_task&&task_list.length&&selected == 1?'btn_blue':''" ng-show="selected==1">删除任务</span>
+			<span class="btn_size btn_green" ng-click="add_task_btn()" ng-show="selected==1">新增任务</span>
 		</div>
 	</div>
 	<div class="check_task_scroll border_radius_4 check_task_list">
@@ -24,11 +24,13 @@
 				<i class="ico_sprite check_box_normal" ng-click="select_all()" ng-class="all_task?'check_box_select':''"></i>
 			</span>
 			<span class="check_task_status">任务状态</span>
-			<span class="check_task_code">任务编码</span>
+			<span class="check_task_code" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">任务编码</span>
 			<span class="check_task_name">任务名称</span>
 			<span class="check_task_code">任务范围</span>
-			<span class="check_task_time" ng-if="selected == 0">任务执行时间</span>
+			<span class="check_task_time" ng-if="selected != 1">任务执行时间</span>			
 			<span class="check_task_time" ng-if="selected == 1">任务开始时间</span>
+			<span class="check_task_time" ng-if="selected == 0">任务完成时间</span>
+			<span class="check_task_time" ng-if="selected == 2">任务预计完成时间</span>
 			<span class="check_task_code" ng-if="selected == 1">周期查岗</span>
 			<span class="check_task_time" ng-if="selected == 1">任务间隔时间(小时)</span>
 			<span class="check_task_code" ng-show="selected == 0"></span>
@@ -36,16 +38,21 @@
 		<div class="list_data_scroll fix_check_task min_width_1100" id="task">
 			<p class="list_data" ng-repeat="l in task_list track by $index" ng-click="select_task(l)">
 				<span class="check_task_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
-				<span class="check_task_status" ng-if="selected == 0">{{l.runFlag==1?'进行中':'已完成'}}</span>
-				<span class="check_task_status" ng-if="selected == 1">{{l.runFlag==1?'进行中':'未开始'}}</span>
-				<span class="check_task_code">{{l.taskCode}}</span>
+				<span class="check_task_status" ng-if="selected == 0">{{l.recordStatus==1?'进行中':'已完成'}}</span>
+				<span class="check_task_status" ng-if="selected == 1">{{l.runFlag==1?'已开始':'已停止'}}</span>
+				<span class="check_task_status" ng-if="selected == 2">{{l.recordStatus==1?'进行中':'未开始'}}</span>
+				<span class="check_task_code" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">{{l.taskCode}}</span>
 				<span class="check_task_name">{{l.taskName}}</span>
 				<span class="check_task_code">{{l.taskNumber?(l.taskNumber+'家联网单位'):''}}</span>
-				<span class="check_task_time" ng-if="selected == 0">{{l.checkTaskTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="check_task_time" ng-if="selected != 1">{{l.checkTaskTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				
 				<span class="check_task_time" ng-if="selected == 1">{{l.beginTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="check_task_time" ng-if="selected == 0">{{l.endTime | date:'yyyyMMdd HH:mm:ss'}}</span><!--任务完成-->
+				<span class="check_task_time" ng-if="selected == 2">{{l.endTime | date:'yyyyMMdd HH:mm:ss'}}</span><!--任务完成-->
 				<span class="check_task_code" ng-if="selected == 1">{{l.intervalTime?'是':'否'}}</span>
 				<span class="check_task_time" ng-if="selected == 1">{{l.intervalTime}}<font ng-if="l.intervalTime">小时</font><font ng-if="!l.intervalTime">--</font></span>
 				<span class="check_task_code" ng-click="view_detail(l.recordId)" ng-show="selected == 0"><font>查看详情</font></span>
+				<span class="check_task_code" ng-click="check_view_detail(l.id)" ng-show="selected != 0"><font>查看详情</font></span>
 			</p>
 		</div>
 	</div>
@@ -53,7 +60,7 @@
 <!--设置巡检任务-->
 <div class="check_task_add" ng-show="add_task_show">
 	<div class="check_task_add_top">
-		设置巡检任务
+		{{check_task_title}}
 		<i class="ico_sprite ico_white_close" ng-click="close_task_btn()"></i>
 	</div>
 	<div class="check_task_add_btm">
@@ -72,7 +79,7 @@
 			</div>
 			<div class="check_task_scroll border_radius_4 check_task_setting check_task_set">
 				<p class="list_data list_data_head min_width_440">
-					<span class="check_task_checkbox">           
+					<span class="check_task_checkbox">    						
 						<i class="ico_sprite check_box_normal" ng-click="unit_all()" ng-class="all_unit?'check_box_select':''"></i>
 					</span>
 					<span class="check_task_code">单位编码</span>
@@ -80,9 +87,12 @@
 					<span class="check_task_code">设备编码</span>
 					<span class="check_task_phone">所属区域</span>
 				</p>
+				<div class="display_span_checkbox" ng-show="disabled_check"></div>
 				<div class="list_data_scroll fix_check_task min_width_440" id="unit">
 					<p class="list_data" ng-repeat="l in unit_list track by $index" ng-click="select_unit(l)">
-						<span class="check_task_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
+						<span class="check_task_checkbox">	
+							<i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i>
+						</span>
 						<span class="check_task_code">{{l.famCustomerSite.code}}</span>
 						<span class="check_task_name" title="{{l.famCustomerSite.name}}">{{l.famCustomerSite.name}}</span>
 						<span class="check_task_code">{{l.code}}</span>
@@ -96,27 +106,47 @@
 				<div class="check_task_wrap" style="padding: 0;">
 					<p class="check_task_title">任务编码</p>
 					<p class="check_task_parts">
-						<input class="input_text width_218 margin_right_10" placeholder="任务编码" ng-model="add_task.taskCode" disabled=""/>
+						<input class="input_text width_218 margin_right_10" placeholder="任务编码" ng-model="add_task.taskCode" ng-disabled="disabled_check"/>
 					</p>
 					<p class="check_task_title">任务名称</p>
 					<p class="check_task_parts">
-						<input class="input_text width_btn_143 margin_right_10" placeholder="{{start_now?check_task_pholder_ok:check_task_pholder_no}}" ng-model="add_task.taskName"/>
+						<input class="input_text width_btn_143 margin_right_10" placeholder="{{start_now?check_task_pholder_ok:check_task_pholder_no}}" ng-model="add_task.taskName" ng-disabled="disabled_check"/>
+						<span class="display_span_ok" ng-show="disabled_check"></span>
 						<span class="btn_size btn_light_blue check_task_start width_64" ng-click="start_task()" ng-disabled="!unit_ids.length && !all_unit" ng-class="unit_ids.length || all_unit?'btn_blue':''" ng-show="!start_now">确定</span>
 						<span class="btn_size btn_light_blue check_task_start width_64" ng-click="start_task_now()" ng-disabled="!unit_ids.length && !all_unit" ng-class="unit_ids.length || all_unit?'btn_blue':''" ng-show="start_now">确定</span>
 					</p>
 					<div class="check_task_btm">
 						<p class="check_task_title">是否立即开始</p>
-						<p class="check_task_parts"><span class="fix_time_check"><i class="ico_sprite radio_box_normal" ng-click="start_now=true" ng-class="!start_now?'':'radio_box_check'"></i>是</span><span class="fix_time_check"><i class="ico_sprite radio_box_normal" ng-click="start_now=false;" ng-class="!start_now?'radio_box_check':''"></i>否</span></p>
+						<p class="check_task_parts">
+							<span class="display_span_radio" ng-show="disabled_check"></span>
+							<span class="fix_time_check">
+								<i class="ico_sprite radio_box_normal" ng-click="start_now=true" ng-class="!start_now?'':'radio_box_check'"></i>是
+							</span>
+							<span class="display_span_radio_no" ng-show="disabled_check"></span>
+							<span class="fix_time_check">
+								<i class="ico_sprite radio_box_normal" ng-click="start_now=false;" ng-class="!start_now?'radio_box_check':''"></i>否
+							</span>
+						</p>
+						
 						<div ng-show="!start_now">
 							<p class="check_task_title"><font ng-if="task_id == 0">查岗</font><font ng-if="task_id == 1">校时</font>开始时间：</p>
 							<p class="check_task_parts"><span class="needed_info">*</span>
-								<input class="input_text width_140 form_datetime form-control" placeholder="选择开始时间" ng-model="beginTime" style="width: 148px;"/>
+								<input class="input_text width_140 form_datetime form-control" placeholder="选择开始时间" ng-model="add_task.beginTime" style="width: 148px;" ng-disabled="disabled_check"/>
 								<input type="hidden" id="mirror_field"/>
 							</p>
 							<p class="check_task_title">周期查岗<font ng-if="task_id == 0">查岗</font><font ng-if="task_id == 1">校时</font>：</p>
-							<p class="check_task_parts"><span class="fix_time_check"><i class="ico_sprite radio_box_normal" ng-click="set_inter=false" ng-class="!set_inter?'radio_box_check':''"></i>是</span><span class="fix_time_check"><i class="ico_sprite radio_box_normal" ng-click="set_inter=true;add_task.intervalTime=null" ng-class="!set_inter?'':'radio_box_check'"></i>否</span></p>
+							<p class="check_task_parts">
+								<span class="display_span_radio" ng-show="disabled_check"></span>
+								<span class="fix_time_check">
+									<i class="ico_sprite radio_box_normal" ng-click="set_inter=false" ng-class="!set_inter?'radio_box_check':''"></i>是
+								</span>
+								<span class="display_span_radio" ng-show="disabled_check"></span>
+								<span class="fix_time_check">
+									<i class="ico_sprite radio_box_normal" ng-click="set_inter=true;add_task.intervalTime=null" ng-class="!set_inter?'':'radio_box_check'"></i>否
+								</span>
+							</p>
 							<p class="check_task_title" ng-show="!set_inter">间隔<font ng-if="task_id == 0">查岗</font><font ng-if="task_id == 1">校时</font>时间：</p>
-							<p class="check_task_parts" ng-show="!set_inter"><span class="needed_info">*</span><input type="number" class="input_text width_60" ng-model="add_task.intervalTime"/>个小时</p>
+							<p class="check_task_parts" ng-show="!set_inter"><span class="needed_info">*</span><input type="number" class="input_text width_60" ng-model="add_task.intervalTime" ng-disabled="disabled_check"/>个小时</p>
 						</div>
 					</div>
 				</div>

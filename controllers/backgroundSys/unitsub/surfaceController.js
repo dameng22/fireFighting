@@ -1,7 +1,7 @@
 /**
  * Created by Lxy on 2018/01/09.
  */
-app.controller('surfaceController', ['$scope','acceptance_http','all_dic','$state','dic_http','$stateParams','myself_alert','$timeout','$rootScope', function($scope,acceptance_http,all_dic,$state,dic_http,$stateParams,myself_alert,$timeout,$rootScope){
+app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','all_dic','$state','dic_http','$stateParams','myself_alert','$timeout','$rootScope', function($scope,$rootScope,acceptance_http,all_dic,$state,dic_http,$stateParams,myself_alert,$timeout,$rootScope){
 	//后退
 	$scope.alert_cancel=function(){
 		$state.go("setUnitOnline",{'token':$stateParams.token,'sys':$stateParams.sys,'unit':$stateParams.unit})
@@ -53,11 +53,12 @@ app.controller('surfaceController', ['$scope','acceptance_http','all_dic','$stat
 			if($scope.floors.length>0&&start<=1){
 				$scope.floor_id = $scope.floors[0].id;
 				$scope.get_floor();
+				$scope.get_floors_name();
 			}
 		})
 	};
 	//楼层
-	$scope.get_floor = function(){
+	$scope.get_floors_name = function(){
 		$scope.floor_list = [];
 		for(var i=0;i<$scope.floors.length;i++){
 			if($scope.floors[i].id == $scope.floor_id){
@@ -70,6 +71,12 @@ app.controller('surfaceController', ['$scope','acceptance_http','all_dic','$stat
 		for(var i = 1;i<=$scope.re_floor.floorDownQuantity;i++){
 			$scope.floor_list.push({'index':-i,'name':'地下'+i+'层'})
 		}
+	};
+	$scope.get_floor = function(){
+		acceptance_http.get_floor_cells({'placeId':$scope.floor_id},function(result){
+			$scope.floor_list = result;
+		})
+		$scope.get_floors_name();
 	};
 	//显示平面图
 	$scope.show_surface = function(floor){
@@ -90,21 +97,89 @@ app.controller('surfaceController', ['$scope','acceptance_http','all_dic','$stat
 			$scope.info = [];
 		})
 	};
-	//删除楼栋
+	//删除楼栋xy
+//	$scope.del_build = function(){
+//		acceptance_http.delete_building_cells({id:$scope.floor_id},function(result){
+//			myself_alert.dialog_show("删除成功!");
+//			start = 0;
+//			$scope.floor_id = '';
+//			$scope.floor_list = [];
+//			$scope.get_cell();
+//		})
+//	};
+	//删除楼栋 cmz
 	$scope.del_build = function(){
-		acceptance_http.delete_building_cells({id:$scope.floor_id},function(result){
-			myself_alert.dialog_show("删除成功!");
-			start = 0;
-			$scope.floor_id = '';
-			$scope.floor_list = [];
-			$scope.get_cell();
-		})
+		$rootScope.delete_now = true;
+		$rootScope.delete_func = function(){
+			acceptance_http.delete_building_cells({id:$scope.floor_id},function(result){
+				myself_alert.dialog_show("删除成功!");
+				$scope.research_list();
+				$rootScope.delete_now = false;
+				start = 0;
+				$scope.floor_id = '';
+				$scope.floor_list = [];
+				$scope.get_cell();
+			})
+		}
+	};
+	//删除floor cmz
+	$scope.delete_floor = function(id){
+		$rootScope.delete_now = true;
+		$rootScope.delete_func = function(){
+			acceptance_http.delete_floor_cells({id:id},function(result){
+				myself_alert.dialog_show("删除成功!");
+				$scope.research_list();
+				$rootScope.delete_now = false;
+				$scope.get_floor();
+			})
+		}
 	};
 	//编辑/新增楼栋
-	$scope.modify_build = function(type){
+	$scope.modify_build = function(id,type){
+		var list_l = $scope.floors;
+	    for(var i=0;i<list_l.length;i++){
+	    	if(id == list_l[i].id){
+	    		floor_name = list_l[i].placeName;
+	    	}
+	    }
 		if(type == 'add'){
 			$scope.show_build = true;
-			$scope.buliding = {'floorDownQuantity':null,'floorUpQuantity':null,'placeName':null};
+			$scope.buliding = {'type':type,'floorDownQuantity':null,'floorUpQuantity':null,'placeName':null,'floors':$scope.floors};
+		}
+		if(type == 'edit'){
+			$scope.show_build_edit = true;			
+		    $scope.placeName = floor_name;
+	        $rootScope.$emit('bulidName',$scope.placeName);
+			$scope.buliding = {'id':id,'type':type,'floorDownQuantity':null,'floorUpQuantity':null,'placeName':null,'floors':$scope.floors};
+		}
+	};
+
+	//编辑/新增楼层
+	$scope.modify_floor = function(id, storey, type){
+		if(type == 'edit'){			
+			var storey_name = "";
+			$scope.show_floor_edit = true;			
+		    var list_f = $scope.floor_list;
+		    for(var i=0;i<list_f.length;i++){
+		    	if(id == list_f[i].id){
+		    		storey_name = list_f[i].storeyName;
+		    	}
+		    }
+		    $scope.storeyName = storey_name;
+			$scope.buliding = {'id':id,'storeyNum':storey,'storeyName':storey_name,'floor_lists':$scope.floor_list};
+			$rootScope.$emit('tranName',$scope.storeyName);
+		}
+		if(type == 'add'){
+			$scope.show_floor_child = true;
+			storey = storey * 1 + 0.1;
+			$scope.buliding = {'id':id,'storeyNum':storey};
+			
+		}
+		if(type == 'add_down'){
+			$scope.show_floor_child = true;
+			storey = storey * 1 - 0.1;
+			$scope.buliding = {'id':id,'storeyNum':storey};
+			
 		}
 	};
 }]);
