@@ -16,6 +16,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			format:'yyyy/mm/dd  hh:ii',
 			linkField: "mirror_field",
     		linkFormat: "yyyy/mm/dd hh:ii:00",
+    		pickerPosition:'top-right',
     		startDate: new Date()
 	    });
 	});
@@ -94,6 +95,16 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			get_data(param,function(result){	
 				if(result.results){
 					$scope.task_list = $scope.task_list.concat(result.results);
+//					if($scope.selected == 1){
+//						for(var i=0;i<$scope.task_list.length;i++){
+//							
+//							if($scope.task_list[i].runFlag == -1){
+//								$scope.task_list[i].runFlag = "未开始";
+//							}
+//							
+//						}
+//					}
+					
 
 					if($scope.all_task){
 						for(var i=0;i<result.results.length;i++){
@@ -155,14 +166,17 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		$scope.disabled_check = true;
 		$scope.check_task_title = "任务详情";
 		$scope.add_task_show = true;
+		$scope.start_now = true;
 
 		acceptance_http.get_task_info({id:id},function(result){
 			$scope.add_task = result;
 			$scope.add_task.beginTime = getLocalTime($scope.add_task.beginTime);
 
-			if($scope.add_task.intervalTime == null){
+			if($scope.add_task.taskName == "实时查岗"){
 				$scope.start_now = true;
-			}			
+			} else {
+				$scope.start_now = false;
+			}
 			$scope.unit_list = result.famDevices;
 			
 			$scope.all_unit = true;
@@ -216,8 +230,8 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			ids:$scope.tasks_ids,
 			isCheckAll: $scope.all_task, //true
 			nameAndCode: $scope.search_key,
-		  	runFlagSelect: run_flag,
-		 	taskTypeId: task_type		
+		  	//runFlagSelect: run_flag,
+		 	//taskTypeId: task_type		
 		}
 		acceptance_http.del_check_task(param,function(result){
 			myself_alert.dialog_show("删除成功!");
@@ -252,6 +266,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
     		if(task_status[i] == 1){ //有开始
     			end = true;
     		}else if(task_status[i] == 0){ //有停止
+    			start = true;
+    		}else if(task_status[i] == -1){
+    			end = true;
     			start = true;
     		}
     	}
@@ -422,6 +439,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		if(!$scope.add_task.taskName){
 			$scope.add_task.taskName = '定时查岗';
 		}
+		if($scope.start_now == true){
+			$scope.add_task.taskName = '实时查岗';
+		}
 		if(!$scope.add_task.isCheckAll){
 			$scope.add_task.deviceIds = $scope.unit_ids;
 		}else{
@@ -469,6 +489,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		}
 		if(!$scope.add_task.taskName){
 			$scope.add_task.taskName = '定时查岗';
+		}
+		if($scope.start_now == true){
+			$scope.add_task.taskName = '实时查岗';
 		}
 		acceptance_http.add_check_task_now($scope.add_task,function(result){
 			myself_alert.dialog_show("添加成功!");

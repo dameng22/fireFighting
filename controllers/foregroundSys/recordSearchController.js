@@ -215,13 +215,15 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				start = null;
 				end = null;
 				$scope.counts = result.count;
+				
 				if($scope.isFirst == true){
 					$("#start")[0].value = "";
 					$("#end")[0].value = "";
-				}else if($scope.selected != 2 && $("#start")[0].value=="" && $("#end")[0].value=="" && $scope.isFirst == false){
+				}else if($("#start")[0].value=="" && $scope.isFirst == false){
 					$("#start")[0].value = timeStamp;
 					$("#end")[0].value = timeStamp;
 				}
+				
 				total_page = result.totalPage;
 				$scope.$emit("loading", false);
 			})

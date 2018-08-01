@@ -40,7 +40,7 @@
 			<p class="list_data" ng-repeat="l in task_list track by $index" ng-click="select_task(l)">
 				<span class="check_task_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
 				<span class="check_task_status" ng-if="selected == 0">{{l.recordStatus==1?'进行中':'已完成'}}</span>
-				<span class="check_task_status" ng-if="selected == 1">{{l.runFlag==1?'已开始':'已停止'}}</span>
+				<span class="check_task_status" ng-if="selected == 1">{{l.runFlag==-1?'未开始':l.runFlag==1?'已开始':'已停止'}}</span>
 				<span class="check_task_status" ng-if="selected == 2">{{l.recordStatus==1?'进行中':'未开始'}}</span>
 				<span class="check_task_code" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">{{l.taskCode}}</span>
 				<span class="check_task_name">{{l.taskName}}</span>

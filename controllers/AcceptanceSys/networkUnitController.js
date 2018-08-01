@@ -24,7 +24,8 @@ app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','e
   	$scope.site_type = [];		
 	dic_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result){
         for(var i=0;i<result.length;i++){
-            $scope.site_type.push(result[i].name);
+            //$scope.site_type.push(result[i].name);
+            $scope.site_type.push(result[i]);
         }
     });
   	

@@ -246,7 +246,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				if($scope.isFirst == true){
 					$("#start")[0].value = "";
 					$("#end")[0].value = "";
-				}else if($scope.selected != 2 && $("#start")[0].value=="" && $("#end")[0].value=="" && $scope.isFirst == false){
+				}else if($("#start")[0].value=="" && $scope.isFirst == false){
 					$("#start")[0].value = timeStamp;
 					$("#end")[0].value = timeStamp;
 				}
@@ -313,8 +313,8 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	};
 	//切换菜单
 	$scope.show_tab=function(index){
-		$("#start")[0].value = "";
-		$("#end")[0].value = "";
+		$("#start")[0].value = timeStamp;
+		$("#end")[0].value = timeStamp;
 		$scope.regions = "区域";
 		$scope.end_state = "警情类型";
 		$scope.begintime = "";

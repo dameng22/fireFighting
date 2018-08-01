@@ -1225,7 +1225,8 @@ services.factory('foreground_http', ['httpBase', function(httpBase){
 	        },
 	        del_check_task: function(params, successDo, errorDo){ //删除巡检
 	            httpBase.post({
-	                url:'/famCheckTasks/User',
+	                //url:'/famCheckTasks/User',
+	                url:'/famCheckTasks',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo

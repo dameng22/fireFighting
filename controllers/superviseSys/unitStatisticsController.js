@@ -77,8 +77,9 @@ app.controller('unitStatisticsController', ['$scope','$timeout','echart_round','
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'right',
             }
+            
         },
         itemStyle:{
 	        normal:{
