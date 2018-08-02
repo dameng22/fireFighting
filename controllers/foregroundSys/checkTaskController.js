@@ -55,6 +55,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
   	var page_size = 20;
   	var total_page = 0;
   	var limits1 = true;
+  	$scope.show_search = true;
   	var get_data,param,run_flag;
   	$scope.task_list = [];
 	$scope.get_list=function(){
@@ -140,6 +141,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	$scope.get_unit();
 	//新建任务显示
 	$scope.add_task_btn=function(){
+		$scope.show_search = true;
 		$scope.disabled_check = false;
 		$scope.add_task_show = true;
 		$scope.check_task_title = "设置巡检任务";
@@ -162,6 +164,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 	};
 	
 	$scope.check_view_detail = function(id){
+		$scope.show_search = false;
 		$scope.disabled_check = true;
 		$scope.check_task_title = "任务详情";
 		$scope.add_task_show = true;
@@ -171,11 +174,11 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			$scope.add_task = result;
 			$scope.add_task.beginTime = getLocalTime($scope.add_task.beginTime);
 
-			if($scope.add_task.taskName == "实时查岗"){
+			if($scope.add_task.runFlag == 2){
 				$scope.start_now = true;
-			} else {
+			}else{
 				$scope.start_now = false;
-			}		
+			}	
 			$scope.unit_list = result.famDevices;
 			
 			$scope.all_unit = true;
@@ -402,6 +405,10 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			myself_alert.dialog_show("请输入必填项!");
 			return;
 		}
+		 if(!$scope.add_task.taskCode){
+			myself_alert.dialog_show("请输入必填项!");
+			return;
+		}
 		if(!$scope.set_inter){
 			if(!$scope.add_task.intervalTime){
 				myself_alert.dialog_show("请输入必填项!");
@@ -423,8 +430,8 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		}
 		foreground_http.add_check_task($scope.add_task,function(result){
 			myself_alert.dialog_show("添加成功!");
-			$scope.rsearch_list();
 			init_task();
+			$scope.rsearch_list();
 			$scope.all_unit = false;
 			$scope.beginTime = null;
 			$scope.taskName = null;
@@ -447,23 +454,27 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		if($scope.unit_ids.length<=0 && !$scope.all_unit){
 			return;
 		}
+		if(!$scope.add_task.taskCode){
+			myself_alert.dialog_show("请输入必填项!");
+			return;
+		}
 		$scope.add_task.isCheckAll = $scope.all_unit;
 		if(!$scope.add_task.isCheckAll){
 			$scope.add_task.deviceIds = $scope.unit_ids;
 		}else{
 			$scope.add_task.nameAndCode  = $scope.search_key;
 		}
-		if(!$scope.add_task.taskName){
-			$scope.add_task.taskName = '定时查岗';
-		}
-		if($scope.start_now == true){
+		if($scope.add_task.taskName == null && $scope.start_now == true){
 			$scope.add_task.taskName = '实时查岗';
+		}
+		if($scope.add_task.taskName == null && $scope.start_now == false){
+			$scope.add_task.taskName = '定时查岗';
 		}
 		foreground_http.add_check_task_now($scope.add_task,function(result){
 			myself_alert.dialog_show("添加成功!");
 			$scope.task_id = '选择任务类型';
-			$scope.rsearch_list();
 			init_task();
+			$scope.rsearch_list();
 			$scope.start_now = false;
 			$scope.all_unit = false;
 			$scope.beginTime = null;
@@ -477,7 +488,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 			"customerSiteId":localStorage.unit_id,
 			"beginTime": null, //开始时间
 			"customerId": $base64.decode($stateParams.unit),
-//			"deviceIds": "",
+			"deviceIds": "",
 			"intervalTime": null, //间隔时间
 			"runFlag": 1,//1 运行  0停止
 			"taskTypeId": 0, //0巡检  1校时

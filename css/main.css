@@ -934,13 +934,13 @@ textarea{resize: none;}
 	width: 9%;
 }
 .check_task_code{
-	width: 12%;
+	width: 9%;
 }
 .check_task_code_re{
-	width: 16%;
+	width: 20%;
 }
 .check_task_code_red{
-	width: 13%;
+	width: 14%;
 }
 .check_task_name{
 	width: 12%;
@@ -949,7 +949,7 @@ textarea{resize: none;}
 	width: 10%;
 }
 .check_task_time{
-	width: 13%;
+	width: 14%;
 }
 .check_task_setting .check_task_checkbox{
 	width: 10%;
@@ -2030,13 +2030,13 @@ textarea{resize: none;}
 }
 .ranking_info_position{
 	/*width: 24%;*/
-	width: 30%;
+	width: 26%;
 }
 .ranking_info_describ{
 	width: 16%;
 }
 .ranking_info_status{
-	width: 20%;
+	width: 24%;
 }
 .ranking_info_scroll .list_data_scroll p:nth-child(2n){
 	background: #eef1f7;

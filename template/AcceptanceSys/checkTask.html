@@ -21,7 +21,7 @@
 	<div class="check_task_scroll border_radius_4 check_task_list">
 		<p class="list_data list_data_head min_width_1100">
 			<span class="check_task_checkbox">
-				<i class="ico_sprite check_box_normal" ng-click="select_all()" ng-class="all_task?'check_box_select':''"></i>
+				<i class="ico_sprite check_box_normal" ng-click="select_all()" ng-class="all_task?'check_box_select':''" ng-show="selected==1"></i>
 			</span>
 			<span class="check_task_status">任务状态</span>
 			<span class="check_task_code" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">任务编码</span>
@@ -37,11 +37,13 @@
 		</p>
 		<div class="list_data_scroll fix_check_task min_width_1100" id="task">
 			<p class="list_data" ng-repeat="l in task_list track by $index" ng-click="select_task(l)">
-				<span class="check_task_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''"></i></span>
+				<span class="check_task_checkbox"><i class="ico_sprite check_box_normal" ng-class="l.selected?'check_box_select':''" ng-show="selected==1"></i></span>
 				<span class="check_task_status" ng-if="selected == 0">{{l.recordStatus==1?'进行中':'已完成'}}</span>
 				<span class="check_task_status" ng-if="selected == 1">{{l.runFlag==-1?'未开始':l.runFlag==1?'已开始':'已停止'}}</span>
 				<span class="check_task_status" ng-if="selected == 2">{{l.recordStatus==1?'进行中':'未开始'}}</span>
-				<span class="check_task_code" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">{{l.taskCode}}</span>
+				<span class="check_task_code" ng-if="selected == 0" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">{{l.subtaskCode}}</span>
+				<span class="check_task_code" ng-if="selected == 1" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">{{l.taskCode}}</span>
+				<span class="check_task_code" ng-if="selected == 2" ng-class="selected != 1?'check_task_code_re':'check_task_code_red'">{{l.subtaskCode}}</span>
 				<span class="check_task_name">{{l.taskName}}</span>
 				<span class="check_task_code">{{l.taskNumber?(l.taskNumber+'家联网单位'):''}}</span>
 				<span class="check_task_time" ng-if="selected != 1">{{l.checkTaskTime | date:'yyyyMMdd HH:mm:ss'}}</span>
@@ -65,7 +67,7 @@
 	</div>
 	<div class="check_task_add_btm">
 		<div class="check_task_add_left border_radius_4">
-			<div class="check_task_top border_radius_top_4">
+			<div class="check_task_top border_radius_top_4" ng-show="show_search">
 				<div class="check_task_wrap" style="font-size: 14px;">
 					选择联网单位
 				</div>
