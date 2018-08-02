@@ -265,7 +265,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
     		}else if(task_status[i] == 0){ //有停止
     			start = true;
     		}else if(task_status[i] == -1){
-    			end = true;
+    			//end = true;
     			start = true;
     		}
     	}
@@ -428,6 +428,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		}else{
 			$scope.add_task.nameAndCode  = $scope.search_key;
 		}
+		if($scope.add_task.id){
+			delete $scope.add_task.id
+		}
 		foreground_http.add_check_task($scope.add_task,function(result){
 			myself_alert.dialog_show("添加成功!");
 			init_task();
@@ -469,6 +472,9 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		}
 		if($scope.add_task.taskName == null && $scope.start_now == false){
 			$scope.add_task.taskName = '定时查岗';
+		}
+		if($scope.add_task.id){
+			delete $scope.add_task.id
 		}
 		foreground_http.add_check_task_now($scope.add_task,function(result){
 			myself_alert.dialog_show("添加成功!");
