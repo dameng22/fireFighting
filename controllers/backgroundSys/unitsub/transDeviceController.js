@@ -67,11 +67,11 @@ app.controller('transDeviceController', ['$scope','acceptance_http','all_dic','$
 			}else{
 				acceptance_http.edit_unit_info_trans(param,function(result){
 					myself_alert.dialog_show("保存成功!");
-					if(type == 'add'){
-						$scope.add_show=false;
-						$scope.get_list();
-						init_data();
-					}
+//					if(type == 'add'){
+//						$scope.add_show=false;
+//						$scope.get_list();
+//						init_data();
+//					}
 				});
 			}
 		});

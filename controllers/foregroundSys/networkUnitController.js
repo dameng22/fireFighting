@@ -123,10 +123,12 @@ app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','e
 				};
 				//楼层
 				$scope.get_floor = function(){
-					acceptance_http.get_floor_cells({'placeId':$scope.floor_id},function(result){
-					$scope.floor_list = result;
-				})
-				$scope.get_floors_name();
+					if($scope.floor_id){
+						acceptance_http.get_floor_cells({'placeId':$scope.floor_id},function(result){
+							$scope.floor_list = result;
+						})
+						$scope.get_floors_name();
+					}	
 				};
 				//显示平面图
 				$scope.show_surface = function(floor){

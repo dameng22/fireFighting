@@ -62,17 +62,19 @@
 				</td>
 			</tr>
 		</table>
-		<div class="fire_alert_wrap" ng-if="$ctrl.surface.length>0">
+		<div class="fire_alert_wrap">
 			<p class="fire_alert_title">平面图</p>
 			<a href="{{$root.qiuNiuUrl+$ctrl.surface[0].qiniuName}}" data-lightbox="roadtrip">
 				<img ng-src="{{$ctrl.surface[0].qiniuName?($root.qiuNiuUrl+$ctrl.surface[0].qiniuName):''}}" class="fire_alert_img"/>
 			</a>
+			<p>信息待维护</p>
 		</div>
-		<div class="fire_alert_wrap" ng-if="$ctrl.outside.length>0">
+		<div class="fire_alert_wrap">
 			<p class="fire_alert_title">外观图</p>
 			<!--<a href="{{$root.qiuNiuUrl+$ctrl.outside[0].qiniuName}}" data-lightbox="roadtrip">-->
 				<img ng-src="{{$ctrl.outside[0].qiniuName?($root.qiuNiuUrl+$ctrl.outside[0].qiniuName):''}}" class="fire_alert_img"/>
 			<!--</a>-->
+			<p ng-if="$ctrl.outside.length<0">信息待维护</p>
 		</div>
 		<div class="fire_alert_wrap">
 			<p class="fire_alert_title">地理图</p>

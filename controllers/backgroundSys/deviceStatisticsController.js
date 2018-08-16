@@ -1,12 +1,13 @@
 /**
  * Created by Lxy on 2018/06/04.
  */
-app.controller('deviceStatisticsController', ['$scope','background_http','$timeout','$base64','$stateParams','echart_pie','acceptance_http','all_dic','dic_http','$filter','exp_tool',
-	function($scope,background_http,$timeout,$base64,$stateParams,echart_pie,acceptance_http,all_dic,dic_http,$filter,exp_tool){
+app.controller('deviceStatisticsController', ['$scope','background_http','$timeout','$base64','$stateParams','echart_pie','acceptance_http','all_dic','dic_http','$filter','exp_tool','downloadFiles',
+	function($scope,background_http,$timeout,$base64,$stateParams,echart_pie,acceptance_http,all_dic,dic_http,$filter,exp_tool,downloadFiles){
 	var options_pie,chart,title,filed,legend=[];
 	//饼图
-	var legend = [],area_id;
+	var legend = [],area_id;	
 	$scope.get_pie_list = function(){
+		$scope.device_statics_down_show = false;
 		options_pie =  angular.copy(echart_pie);
 		area_id = angular.copy($scope.area_id);
 		if(exp_tool.is_chinese(area_id)){
@@ -56,6 +57,7 @@ app.controller('deviceStatisticsController', ['$scope','background_http','$timeo
 				chart = echarts.init(document.getElementById('device_pie'+i));
 				chart.setOption(options_pie);
 				chart.on("click", function (param){
+					$scope.device_statics_down_show = true;
 					if(param.data.chart_type == 1){
 						if(param.name == '其他'){
 							$scope.jsons = {'regionId':area_id,'modelTypeIdIsNull':true};
@@ -155,4 +157,12 @@ app.controller('deviceStatisticsController', ['$scope','background_http','$timeo
 		$scope.company_list = [];
 		$scope.get_list();
 	};
+	
+	//导出文件
+	var urls,params,filenames;
+    $scope.download_file = function(){
+		urls = "countAlertAndFire/paiChartRightList/export";
+		filenames = "联网单位";
+        downloadFiles.download(urls,$scope.jsons,'',"GET",filenames);
+   	};
 }]);

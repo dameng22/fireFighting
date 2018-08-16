@@ -164,25 +164,35 @@ components.component('networkUnitAlert', {
 	   				self.floor_list=[];
 	   				self.info=[];
 	   				self.re_floor = {};
+	   				self.isShowCell = true;
 					//获取建筑物
 					acceptance_http.get_unit_all_build({customerSiteId:self.id},function(result){
 						self.buildings_info = result;
 						if(self.buildings_info.length>0){
 							self.build_id = self.buildings_info[0].id;
 							self.get_cell();
+						} else {
+							self.isShowCell = false;
 						}
 					});
 					//获取建筑物层数
 					var start = 0;
+					self.isShowFloor = false;
 					self.get_cell = function(){
 						if(!self.build_id){
 							return;
 						}
 						acceptance_http.get_building_cells({'buildId':self.build_id},function(result){
 							self.floors = result;
+							for(var i in self.floors){
+								var val = self.floors[i];
+								if(val.buildId){
+									self.isShowFloor = true;
+								} 
+							}	
 							//初始化
-							start = start + 1
-							if(self.floors.length>0&&start<=1){
+							//start = start + 1
+							if(self.floors.length>0){
 								self.floor_id = self.floors[0].id;
 								self.get_floor();
 							}
@@ -191,9 +201,12 @@ components.component('networkUnitAlert', {
 					//楼层
 					self.get_floor = function(){
 						self.floor_list = [];
-						acceptance_http.get_floor_cells({'placeId':self.floor_id},function(result){
-							self.floor_list = result;
-						});
+						if(self.floor_id){
+							acceptance_http.get_floor_cells({'placeId':self.floor_id},function(result){
+								self.floor_list = result;
+							});
+						}
+						
 						
 						for(var i=0;i<self.floors.length;i++){
 							if(self.floors[i].id == self.floor_id){

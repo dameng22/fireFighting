@@ -8,6 +8,9 @@ app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','al
 	}
 	//单位id
 	$scope.unit_ids = $stateParams.unit_id;
+	$scope.isShowFloor = false;
+	$scope.isShowCell = true;
+
 	//下拉加载
 	function scrollDate(){
 		$(".fix_time_data").mCustomScrollbar({theme:"minimal-dark",autoHideScrollbar:true});
@@ -41,6 +44,8 @@ app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','al
 		if($scope.buildings_info.length>0){
 			$scope.build_id = $scope.buildings_info[0].id;
 			$scope.get_cell();
+		} else {
+			$scope.isShowCell = false;
 		}
 	});
 	//获取建筑物层数
@@ -48,9 +53,15 @@ app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','al
 	$scope.get_cell = function(){
 		acceptance_http.get_building_cells({'buildId':$scope.build_id},function(result){
 			$scope.floors = result;
+			for(var i in $scope.floors){
+				var val = $scope.floors[i];
+				if(val.buildId){
+					$scope.isShowFloor = true;
+				} 
+			}			
 			//初始化
-			start = start + 1
-			if($scope.floors.length>0&&start<=1){
+			//start = start + 1;
+			if($scope.floors.length>0){
 				$scope.floor_id = $scope.floors[0].id;
 				$scope.get_floor();
 				$scope.get_floors_name();
@@ -73,10 +84,13 @@ app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','al
 		}
 	};
 	$scope.get_floor = function(){
-		acceptance_http.get_floor_cells({'placeId':$scope.floor_id},function(result){
-			$scope.floor_list = result;
-		})
-		$scope.get_floors_name();
+		if($scope.floor_id){ //判断如果floor_id为空不调用接口，避免500
+			acceptance_http.get_floor_cells({'placeId':$scope.floor_id},function(result){
+				$scope.floor_list = result;
+			})
+			$scope.get_floors_name();
+		}
+		
 	};
 	//显示平面图
 	$scope.show_surface = function(floor){
@@ -113,6 +127,8 @@ app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','al
 		$rootScope.delete_func = function(){
 			acceptance_http.delete_building_cells({id:$scope.floor_id},function(result){
 				myself_alert.dialog_show("删除成功!");
+				$scope.re_floor.placeName = false;
+				$scope.isShowFloor = false;
 				$scope.research_list();
 				$rootScope.delete_now = false;
 				start = 0;

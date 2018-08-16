@@ -12,16 +12,22 @@
 	<div class="check_task_scroll border_radius_4">
 		<p class="list_data list_data_head">
 			<span class="logs_list_code">序号</span>
-			<span class="logs_list_name">操作人</span>
+			<span class="logs_list_name">操作账号</span>
+			<span class="logs_list_person" ng-show="tab_now==1">操作人</span>
+			
 			<span class="logs_list_time">时间</span>
 			<span class="logs_list_operate">操作项</span>
 		</p>
 		<div class="list_data_scroll fix_time_data min_width_967">
 			<p class="list_data cursor_normal" ng-repeat="l in logs_list track by $index">
 				<span class="logs_list_code">{{$index+1}}</span>
-				<span class="logs_list_name">{{l.username || l.person.givenNameOriental}}</span>
+				<span class="logs_list_name">{{l.username}}</span>
+				<span class="logs_list_person" ng-show="tab_now==1">{{l.person.givenNameOriental}}</span>
+				
 				<span class="logs_list_time">{{(tab_now==0?l.loginTime:l.timeOfOper) | date:'yyyyMMdd-HH:mm:ss' }}</span>
-				<span class="logs_list_operate">{{tab_now==0?'登录系统成功':l.operDescription}}</span>
+				<!--<span class="logs_list_operate">{{tab_now==0?'登录系统成功':l.operDescription}}</span>-->
+				<span class="logs_list_operate" ng-show="tab_now==0">{{l.type==0?'登录系统成功':'退出系统'}}</span>
+				<span class="logs_list_operate" ng-show="tab_now==1">{{l.operDescription}}</span>
 			</p>
 		</div>
 	</div>

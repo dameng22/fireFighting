@@ -135,7 +135,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	var start_time;
 	$scope.get_list=function(){
 		page_num = page_num+1;
-		if($scope.selected != 2){
+		//if($scope.selected != 2){
 			if($("#start").val()!=''){
 				start = new Date($("#start").val()+" "+'00:00:00').getTime();
 			}else if($("#start").val() == '' && $scope.isFirst == false){
@@ -145,11 +145,22 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				start = null;
 				$("#start")[0].value = "";
 			}
+//			if($("#end").val()!=''){
+//				end = new Date($("#end").val()+" "+'23:59:59').getTime();
+//			}else if($("#end").val() == '' && $scope.isFirst == false){
+//				$("#end")[0].value = timeStamp;				
+//				end = new Date(nowDate+" "+'23:59:59').getTime();
+//			}else if($scope.isFirst == true){
+//				end = null;
+//				$("#end")[0].value = "";
+//			}
 			if($("#end").val()!=''){
-				end = new Date($("#end").val()+" "+'23:59:59').getTime();
+				var eTime = new Date($("#end").val()+" "+'00:00:00');
+				end = ((eTime/1000+86400)*1000);
 			}else if($("#end").val() == '' && $scope.isFirst == false){
 				$("#end")[0].value = timeStamp;				
-				end = new Date(nowDate+" "+'23:59:59').getTime();
+				var eTime = new Date($("#end").val()+" "+'00:00:00');
+				end = ((eTime/1000+86400)*1000);
 			}else if($scope.isFirst == true){
 				end = null;
 				$("#end")[0].value = "";
@@ -163,7 +174,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 					return;
 				}
 			}
-		}
+		//}
 		if($scope.selected == 0){ //火警报警记录
 			var end_state = angular.copy($scope.end_state);
 			if(exp_tool.is_chinese(end_state)){
@@ -180,7 +191,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 			param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,codeOrName:$scope.search_key,deviceType:device_type,beginUpdateTime:start,lastUpdateTime:end};
 		}else if($scope.selected == 2){ //监管报警记录
 			get_data = foreground_http.get_unit_supervise_record;
-			param = {customerSiteId:localStorage.unit_id,codeOrName:$scope.search_key,pageNum:page_num,pageSize:page_size};
+			param = {customerSiteId:localStorage.unit_id,codeOrName:$scope.search_key,pageNum:page_num,pageSize:page_size,beginUpdateTime:start,lastUpdateTime:end};
 		}else if($scope.selected == 3){ //查岗
 			if($stateParams.view_record){
 				get_data = foreground_http.get_subs_task;

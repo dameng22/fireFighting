@@ -3,7 +3,8 @@
  */
 app.controller('areaStatisticsController', ['$scope','$timeout','echart_round','superivse_http','acceptance_http','$rootScope','$base64','$stateParams','all_dic','$filter','downloadFiles',
 	function($scope,$timeout,echart_round,superivse_http,acceptance_http,$rootScope,$base64,$stateParams,all_dic,$filter,downloadFiles){
-	$scope.month_to_number = all_dic.month_to_number
+	$scope.month_to_number = all_dic.month_to_number;
+	$scope.current_area = '广州市';
 	//获取区域
 	if($rootScope.system_name == '消防监管单位管理系统'){
    		top_data = superivse_http.get_auth_current_month;
@@ -86,7 +87,8 @@ app.controller('areaStatisticsController', ['$scope','$timeout','echart_round','
 	};
 	$scope.show_types = function(){
 		if($scope.show_type == 0){
-			return '火警';
+			//return '火警';
+			return '报警总数';
 		}else if($scope.show_type == 1){
 			return '误报';
 		}else if($scope.show_type == 2){

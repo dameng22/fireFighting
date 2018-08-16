@@ -102,6 +102,17 @@ textarea{resize: none;}
 .login_tips{
 	color: #FF1452;
 }
+#notice_red_tip{
+	display: none;
+	display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    position: relative;
+    top: -42px;
+    left: 8px;
+}
 .bg{
   background-image: url(../images/login-bg.png);
   background-position: center center;
@@ -494,12 +505,17 @@ textarea{resize: none;}
 .nav_select .fixTiming,.nav_left li:hover .fixTiming{
 	background-position:-8px -610px;
 }
-.statistics,.alarmStatistics,.rankingStatistics,.areaStatistics,.unitStatistics,.unitCount,.onlineCount,.deviceStatistics,.onlineStatistics{
+.statistics,.alarmStatistics,.rankingStatistics,.areaStatistics,.unitStatistics,.unitCount,.onlineCount,.deviceStatistics,.onlineStatistics,.deviceStatistics_interface,.deviceStatistics_alarm{
 	width: 16px;
 	height: 14px;
 	background-position:-44px -658px;
 }
-.nav_select .statistics,.nav_left li:hover .statistics,.nav_select .alarmStatistics,.nav_left li:hover .alarmStatistics,.nav_select .rankingStatistics,.nav_left li:hover .rankingStatistics,.nav_select .areaStatistics,.nav_left li:hover .areaStatistics,.nav_select .unitStatistics,.nav_left li:hover .unitStatistics,.nav_select .unitCount,.nav_left li:hover .unitCount,.nav_select .onlineCount,.nav_left li:hover .onlineCount,.nav_select .deviceStatistics,.nav_left li:hover .deviceStatistics,.nav_select .onlineStatistics,.nav_left li:hover .onlineStatistics{
+.nav_select .statistics,.nav_left li:hover .statistics,.nav_select .alarmStatistics,.nav_left li:hover .alarmStatistics,
+.nav_select .rankingStatistics,.nav_left li:hover .rankingStatistics,.nav_select .areaStatistics,.nav_left li:hover .areaStatistics,
+.nav_select .unitStatistics,.nav_left li:hover .unitStatistics,.nav_select .unitCount,.nav_left li:hover .unitCount,
+.nav_select .onlineCount,.nav_left li:hover .onlineCount,.nav_select .deviceStatistics,.nav_left li:hover .deviceStatistics,
+.nav_select .deviceStatistics_alarm,.nav_left li:hover .deviceStatistics_alarm,.nav_select .deviceStatistics_interface,
+.nav_left li:hover .deviceStatistics_interface,.nav_select .onlineStatistics,.nav_left li:hover .onlineStatistics{
 	background-position:-7px -658px;
 }
 .setUnitOnline{
@@ -930,6 +946,9 @@ textarea{resize: none;}
 .check_task_checkbox{
 	width: 4%;
 }
+.check_task_0{
+	width: 0%;
+}
 .check_task_status{
 	width: 9%;
 }
@@ -950,6 +969,9 @@ textarea{resize: none;}
 }
 .check_task_time{
 	width: 14%;
+}
+.check_task_person{
+	width: 7%;
 }
 .check_task_setting .check_task_checkbox{
 	width: 10%;
@@ -1169,7 +1191,7 @@ textarea{resize: none;}
 	width: 13%;
 }
 .keep_watch_time{
-	width: 15%;
+	width: 12%;
 }
 /*联网单位*/
 .network_unit_code{
@@ -1623,14 +1645,16 @@ textarea{resize: none;}
 }
 .full_map_bar{
 	position: absolute;
-	width: 510px;
+	/*width: 510px;*/
+	width: 595px;
 	top: 20px;
 	left: 20px;
 	font-size: 0;
 }
 .full_map_bar_in{
 	display: inline-block;
-	width: 440px;
+	/*width: 440px;*/
+	width: 520px;
 	height: 48px;
 	background: #FFFFFF;
 	box-shadow: 0 2px 4px 0 rgba(42,42,68,0.30);
@@ -1759,11 +1783,15 @@ textarea{resize: none;}
 	z-index: 9999;
 }
 .area_statiss_index{
-	width: 11%;
+	width: 7%;
 }
-.area_statiss_time{
-	width: 20%;
+.area_statiss_alarm_time{
+	width: 19%;
 }
+.area_statiss_name{width: 15%;}
+.area_statiss_pos{width: 19%;}
+.area_statiss_describ{width: 10%;}
+.area_statiss_status{width: 10%;}
 .area_statis_detail .list_data span{
 	padding-left: 20px !important;
 }
@@ -2019,24 +2047,31 @@ textarea{resize: none;}
 	background: #eef1f7;
 }
 .ranking_info_scroll .list_data span{
-	padding-left: 50px;
+	padding-left: 14px!important;
 }
 .ranking_info_index{
-	/*width: 14%;*/
-	width: 10%;
+	width: 7%;
+}
+.ranking_info_name{
+	width: 18%;
 }
 .ranking_info_time{
-	width: 24%;
+	width: 21%;
 }
 .ranking_info_position{
-	/*width: 24%;*/
 	width: 26%;
 }
 .ranking_info_describ{
-	width: 16%;
+	width: 10%;
 }
 .ranking_info_status{
-	width: 24%;
+	width: 10%;
+}
+.ranking_info_task{
+	width: 15%;
+}
+.ranking_info_require{
+	width: 20%;
 }
 .ranking_info_scroll .list_data_scroll p:nth-child(2n){
 	background: #eef1f7;
@@ -2062,6 +2097,9 @@ textarea{resize: none;}
 }
 .record_search_type{
 	width: 9%;
+}
+.record_search_pos{
+	width: 11%;
 }
 .record_search_time{
 	width: 13%;
@@ -2211,11 +2249,17 @@ textarea{resize: none;}
 .logs_list_name{
 	width: 12%;
 }
+.logs_list_person{
+	width: 12%;
+}
 .logs_list_time{
 	width: 22%;
 }
+.logs_list_account{
+	width: 12%;
+}
 .logs_list_operate{
-	width: 50%;
+	width: 15%;
 }
 
 
@@ -3025,11 +3069,22 @@ textarea{resize: none;}
 	background-position:-158px -803px;
 	cursor: pointer;
 }
+.map_fire_cancel_ico{
+	width: 20px;
+    height: 21px;
+	background-position:-193px -58px;
+	cursor: pointer;	
+}
 .map_online_ico{
 	background-position:-157px -707px !important;
 }
 .map_offline_ico{
 	background-position:-157px -753px !important;
+}
+.map_fire_ico{
+	background-position: 113px -59px;
+    width: 20px;
+    height: 21px;
 }
 .margin_btm_15{
 	margin-bottom: 15px !important;

@@ -1,7 +1,7 @@
 /**
  * Created by Lxy on 2017/12/24.
  */
-app.controller('noticeController', ['$scope','superivse_http','$timeout', function($scope,superivse_http,$timeout){
+app.controller('noticeController', ['$scope','superivse_http','$timeout','acceptance_http','$rootScope', function($scope,superivse_http,$timeout,acceptance_http,$rootScope){
 	//查看通知
 	$scope.view_notice = function(id,l){
 		$scope.notice_show = true;
@@ -19,11 +19,19 @@ app.controller('noticeController', ['$scope','superivse_http','$timeout', functi
 	//列表
 	$scope.get_list=function(){
 		page_num = page_num+1;
-		superivse_http.get_notice({pageNum:page_num,pageSize:page_size},function(result){
+		superivse_http.get_notice({customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size},function(result){
 			$scope.notice_list = $scope.notice_list.concat(result.results);
 			limits = true;
 			total_page = result.totalPage;
+			acceptance_http.get_notice_tip({'customerSiteId':localStorage.unit_id},function(res){
+			    if(res.isLook == 0){
+			    	$("#notice_red_tip").show();	    	
+			    } else {
+			    	$("#notice_red_tip").hide();	
+			    }
+			});
 		})
+		
 	}
 	$scope.get_list();
 	//搜索

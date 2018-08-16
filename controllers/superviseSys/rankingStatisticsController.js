@@ -4,7 +4,7 @@
 app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round','superivse_http','$filter','$rootScope','downloadFiles','acceptance_http','$base64','$stateParams',
 	function($scope,$timeout,echart_round,superivse_http,$filter,$rootScope,downloadFiles,acceptance_http,$base64,$stateParams){
 	var values = [];
-
+	$scope.current_area = '广州市';
 	if ($rootScope.system_name == '消防监管单位管理系统'){
         //火灾前十
 //		superivse_http.get_fire_top_ten_systemRole({}, function (result) {
@@ -196,8 +196,16 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 	var total_page = 0;
 	var get_data,param;
 	$scope.unit_list = [];
+	$scope.actualFireCount = "";
+	$scope.falseFireCount = ""; 
 	$scope.get_list=function(){
 		page_num = page_num+1;
+		if($scope.check_type == 1 || $scope.check_type == 2){
+	   		get_data_count = superivse_http.get_alert_unit_count;
+	   		param = {'customerSiteId':$scope.unit_id};
+	   		get_data = superivse_http.get_alert_unit;
+	   		param = {'customerSiteId':$scope.unit_id,'alertType':$scope.type_id,'pageNum':page_num,'pageSize':page_size};
+	   	}
 		if($scope.check_type == 1 || $scope.check_type == 2){
 	   		get_data = superivse_http.get_alert_unit;
 	   		param = {'customerSiteId':$scope.unit_id,'alertType':$scope.type_id,'pageNum':page_num,'pageSize':page_size};
@@ -205,6 +213,7 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 	   		get_data = superivse_http.get_rate_alert_unit;
 	   		param = {'customerSiteId':$scope.unit_id,'checkType':$scope.type_id,'pageNum':page_num,'pageSize':page_size};
 	   	}
+	   
    		if(typeof(get_data) == "function"){
    			$scope.all_count = 0;
    			$scope.$emit("loading", true);
@@ -214,9 +223,17 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 				total_page = result.totalPage;
 				$scope.all_count = result.count;
 				$scope.$emit("loading", false);
-			})
-		}
+			});
+			if($scope.check_type == 1 || $scope.check_type == 2){
+				get_data_count(param,function(result){
+					$scope.actualFireCount = result.actualFireCount;
+					$scope.falseFireCount = result.falseFireCount;
+				});
+			}
+			
+		};
 	};
+	
 	//下拉加载
 	function scrollDate(){
 		$(".list_data_scroll").mCustomScrollbar({
@@ -241,7 +258,8 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 	};
 	$scope.type_name=function(){
 		if($scope.check_type==1){
-			return '火警';
+			//return '火警';
+			return '报警总数';
 		}else if($scope.check_type==2){
 			return '故障';
 		}else if($scope.check_type==3){

@@ -40,6 +40,12 @@ app.run(['$rootScope','router_state','$state','menu_list','trans','navData','log
                     navData.user = result.userDisplayName;
 					navData.data = result.accounts[0].permissionMap;
 					$rootScope.unitList = trans.currentTree(menu_list,navData.data);
+					$rootScope.userId = result.userId; //cmz added
+					for(var k in result.accounts){
+						var val = result.accounts[k].appCode;
+						$rootScope.appCode = val;
+					}
+					
 			    });
             }else{
                 $rootScope.users_name = navData.user;
@@ -48,8 +54,8 @@ app.run(['$rootScope','router_state','$state','menu_list','trans','navData','log
         });
     }
 ]);
-app.controller('mainController', ['$scope','$state','$location','acceptance_http','exp_tool','$rootScope','$interval','new_fire','router_state','qiniu_url','$http','weather','$stateParams','login','$base64',
-	function ($scope,$state,$location,acceptance_http,exp_tool,$rootScope,$interval,new_fire,router_state,qiniu_url,$http,weather,$stateParams,login,$base64) {
+app.controller('mainController', ['$scope','$state','$location','acceptance_http','exp_tool','$rootScope','$interval','new_fire','router_state','qiniu_url','$http','weather','$stateParams','login','$base64','$stateParams',
+	function ($scope,$state,$location,acceptance_http,exp_tool,$rootScope,$interval,new_fire,router_state,qiniu_url,$http,weather,$stateParams,login,$base64,$stateParams) {
     var sys = $location.path().split('/');
    	$rootScope.sys_role = sys[sys.length-1];
    	$rootScope.sys_unit = sys[sys.length-2];
@@ -108,10 +114,16 @@ app.controller('mainController', ['$scope','$state','$location','acceptance_http
 	}
 	//退出
 	$scope.log_out = function(){
-		var temp = JSON.parse(localStorage.user_type);
-		temp.splice(temp.indexOf($rootScope.sys_role),1);
-		localStorage.setItem("user_type", JSON.stringify(temp));
-		location.href="./login.html";
+//		var temp = JSON.parse(localStorage.user_type);
+//		temp.splice(temp.indexOf($rootScope.sys_role),1);
+//		localStorage.setItem("user_type", JSON.stringify(temp));
+//		location.href="./login.html";
+		login.logout({userId:$rootScope.userId,appCode:$rootScope.appCode,customerId:$base64.decode($stateParams.unit),tokenString:$stateParams.token},function(result){//for登陆日志修改
+			var temp = JSON.parse(localStorage.user_type);
+			temp.splice(temp.indexOf($rootScope.sys_role),1);
+			localStorage.setItem("user_type", JSON.stringify(temp));
+			location.href="./login.html";			
+		});
 	}
 	//左侧树数量 alarm火警  allOnline全部在线  malfunction故障 online在线   testFire测试
 	$scope.new_fire_num = 0;
@@ -263,6 +275,19 @@ app.controller('mainController', ['$scope','$state','$location','acceptance_http
 	};
 	$scope.voice_pause = function(index){
 		var audio=document.getElementById("fire_alarm_voice");
-    	audio.pause();
+		if(audio){
+			audio.pause();
+		}
 	};
+	
+	if($rootScope.sys_role.indexOf('fams_systemuser')>=0){ //用户系统通知提醒
+		acceptance_http.get_notice_tip({'customerSiteId':localStorage.unit_id},function(result){
+		    if(result.isLook == 0){
+		    	$("#notice_red_tip").show();	    	
+		    } else {
+		    	$("#notice_red_tip").hide();	
+		    }
+		});
+	}
+	
 }]);

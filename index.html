@@ -41,7 +41,8 @@
     <script src="./app.js?pro=35"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=91a8f5eb6d0785332c16df8307143a02&services=&t=20171014112628"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
-	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+	<!--<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>-->
+	<script type="text/javascript" src="js/MarkerClusterer_min.js"></script>
 	<script src="https://open.ys7.com/sdk/js/1.3/ezuikit.js"></script>
 </head>
 <body>
@@ -83,6 +84,7 @@
 			<div ng-if="foreground_show" ui-sref="notice({'token':sys_token,'unit':sys_unit,'sys':sys_role})" ng-class="router_state == 'notice'?'log_select':''" class="nav_right_new">
 				<p><i class="ico_sprite tips_ico" style="left: 34px;"></i></p>
 				<p>通知</p>
+				<b id="notice_red_tip"></b>
 			</div>
 			<div class="nav_right_line" ng-if="background_show"></div>
 			<div ng-click="open_window('map')" ng-if="!foreground_show" class="nav_right_new">

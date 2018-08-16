@@ -86,6 +86,16 @@ app.controller('troubleAlarmController',['$scope','foreground_http','$timeout','
 			return '传输器';
 		}
   	};
+  	//警情状态  terminalStatusId：0自动火警  1确认火警  2紧急火警 
+  	$scope.danger_status = function(id){
+  		if(id == 0){
+  			return '自动火警';
+  		}else if(id == 1){
+  			return '确认火警';
+  		}else if(id == 2){
+  			return '紧急火警 ';
+  		}
+  	};
   	//勾选
   	$scope.unit_ids = [];
     $scope.get_ids = function(l){

@@ -54,7 +54,7 @@ app.controller('alarmStatisticsController', ['$scope','$timeout','echart_round',
 		values_line = []; //火警
 		values2_line = []; //误报
 		values3_line = []; //故障
-		$scope.region_list = [];
+		$scope.region_list = []
 		btm_data({yearTime:$scope.current_year},function(result){
 			for(var j=0;j<result.length;j++){
 				values_line.push(result[j].monthActualFire);
@@ -67,6 +67,7 @@ app.controller('alarmStatisticsController', ['$scope','$timeout','echart_round',
 				chart_line.clear();
 				chart_line.setOption(options_line);
 				chart_line.off("click");
+				
 				chart_line.on("click", function (param){
 					$scope.current_month = $filter('dic_filter')(param.name,$scope.month_to_number);
 					$scope.get_regions();

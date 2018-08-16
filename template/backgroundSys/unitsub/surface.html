@@ -29,14 +29,14 @@
 			<div class="fire_alarm_right_top surface_bg_top border_radius_top_4">
 				<select class="select_text margin_btm_15"
                         ng-options="build.id as build.name for build in buildings_info"
-                        ng-model="build_id" ng-change="get_cell()">
+                        ng-model="build_id" ng-change="get_cell()" ng-show="isShowCell">
               	</select>	
 				<!--<select class="select_text"
                         ng-options="floor.id as floor.placeName for floor in floors"
                         ng-model="floor_id" ng-change="get_floor()">
               	</select>	-->
-              	<select class="select_text" ng-model="floor_id" ng-change="get_floor()">
-					<option ng-repeat="l in floors" value="{{l.id}}">{{l.placeName}}</option>
+              	<select class="select_text" ng-model="floor_id" ng-change="get_floor()" ng-show="isShowFloor">
+					<option ng-repeat="l in floors track by $index" value="{{l.id}}">{{l.placeName}}</option>
               	</select>
 			</div>
 			<ul class="fire_alarm_ul">

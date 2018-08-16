@@ -642,11 +642,11 @@
 		<div class="fire_alarm_right_top surface_bg_top border_radius_top_4">
 			<select class="select_text margin_btm_15"
                     ng-options="build.id as build.name for build in $ctrl.buildings_info"
-                    ng-model="$ctrl.build_id" ng-change="$ctrl.get_cell()">
+                    ng-model="$ctrl.build_id" ng-change="$ctrl.get_cell()" ng-show="$ctrl.isShowCell">
           	</select>	
 			<select class="select_text"
                     ng-options="floor.id as floor.placeName for floor in $ctrl.floors"
-                    ng-model="$ctrl.floor_id" ng-change="$ctrl.get_floor()">
+                    ng-model="$ctrl.floor_id" ng-change="$ctrl.get_floor()" ng-show="$ctrl.isShowFloor">
           	</select>	
 		</div>
 		<ul class="fire_alarm_ul">

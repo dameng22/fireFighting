@@ -411,6 +411,24 @@ routers.config(['$stateProvider', '$urlRouterProvider','$httpProvider', function
 				return $ocLazyLoad.load('./controllers/backgroundSys/deviceStatisticsController.js?pro=35');
 			}]
         }
+    }).state('deviceStatistics_alarm', { //后台管理 火灾控制器品牌统计
+        url:'/deviceStatistics_alarm/:token/:unit/:sys',
+        templateUrl: './template/backgroundSys/deviceStatistics_alarm.html',
+        controller:'deviceStatisticsAlarmController',
+        resolve:{
+            deps:['$ocLazyLoad', function($ocLazyLoad){
+				return $ocLazyLoad.load('./controllers/backgroundSys/deviceStatisticsAlarmController.js?pro=35');
+			}]
+        }
+    }).state('deviceStatistics_interface', { //后台管理 接口方式统计
+        url:'/deviceStatistics_interface/:token/:unit/:sys',
+        templateUrl: './template/backgroundSys/deviceStatistics_interface.html',
+        controller:'deviceStatisticsInterfaceController',
+        resolve:{
+            deps:['$ocLazyLoad', function($ocLazyLoad){
+				return $ocLazyLoad.load('./controllers/backgroundSys/deviceStatisticsInterfaceController.js?pro=35');
+			}]
+        }
     }).state('unitStatistics', { //监管管理 单位类型火灾统计
         url:'/unitStatistics/:token/:unit/:sys',
         templateUrl: './template/superviseSys/unitStatistics.html',

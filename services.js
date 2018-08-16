@@ -71,22 +71,22 @@ services.factory('httpBase', ['$http', 'handleHttpError','http_url','$location',
 //公用
 services.factory('common_http', ['httpBase', function(httpBase){
 	    return{
-	        get_customer_map: function(params, successDo, errorDo){
-	            httpBase.get({
-	                url:'alerts/fa/map/customerMap',
-	                params: params,
-	                successDo: successDo,
-	                errorDo: errorDo
-	            });
-	        },
-//			get_customer_map: function(params, successDo, errorDo){
+//	        get_customer_map: function(params, successDo, errorDo){
 //	            httpBase.get({
-//	                url:'alerts/fa/map',
+//	                url:'alerts/fa/map/customerMap',
 //	                params: params,
 //	                successDo: successDo,
 //	                errorDo: errorDo
 //	            });
 //	        },
+			get_customer_map: function(params, successDo, errorDo){
+	            httpBase.get({
+	                url:'alerts/fa/map',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	        },
 	        user_check: function(user,params, successDo, errorDo){ //检查用户名是否可用
 	            httpBase.get({
 	                url:'username/availability/'+user,
@@ -877,7 +877,14 @@ services.factory('acceptance_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	        },
-	       
+	        get_notice_tip: function(params, successDo, errorDo){ //通知提醒
+	            httpBase.get({
+	                url:'networking/customerSiteId',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	        },
 	    }
 }]);
 
@@ -1083,6 +1090,14 @@ services.factory('superivse_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	       },
+	       get_alert_unit_count: function(params, successDo, errorDo){ //火警故障单位
+	            httpBase.get({
+	                url:'countAlertAndFire/countThisMonthActualFire/alert/count',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       },
 	       get_rate_alert_unit: function(params, successDo, errorDo){ //在岗脱岗单位
 	            httpBase.get({
 	                url:'countAlertAndFire/countThisMonthActualFire/onGuardRateAlert',
@@ -1115,17 +1130,33 @@ services.factory('superivse_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	       },
-	       get_online_line: function(params, successDo, errorDo){ //折线
+	       	get_online_line: function(params, successDo, errorDo){ //折线
 	            httpBase.get({
 	                url:'alerts/count/getFoldLine/systemRole',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo
 	            });
-	       },
+	       	},
 	       	get_site_type: function(params, successDo, errorDo){ //字典查询
 	            httpBase.get({
 	                url:'siteTypes',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
+	       	get_unit_statist_alert: function(params, successDo, errorDo){ //单位类型弹窗
+	            httpBase.get({
+	                url:'countAlertAndFire/countThisYearBySiteTypeId/alert',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
+	       	get_unit_statist_alert_system: function(params, successDo, errorDo){ //2系统 - 单位类型弹窗
+	            httpBase.get({
+	                url:'countAlertAndFire/countThisYearBySiteTypeId/alert/systemRole',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo
@@ -1475,10 +1506,7 @@ services.factory('background_http', ['httpBase', function(httpBase){
 	                successDo: successDo,
 	                errorDo: errorDo
 	            });
-	       },
-	       
-	       
-	       
+	       },  
 		};
 }]);
 services.factory('dic_http', ['httpBase', function(httpBase){
@@ -1666,6 +1694,14 @@ services.factory('login', ['httpBase', function(httpBase){
 			entry: function(params, successDo, errorDo){ //设备类型
 	            httpBase.post({
 	                url:'login',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	       	},
+	       	logout: function(params, successDo, errorDo){ //退出
+	            httpBase.put({
+	                url:'logout',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo

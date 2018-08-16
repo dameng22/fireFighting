@@ -6,12 +6,23 @@
 	<span class="full_map_search_btn" ng-click="show_search = true"><i class="ico_sprite ico_mao_search ico_mao_search_blue"></i></span>
 	<div class="full_map_bar_in">
 		<span class="fix_time_check full_map_all"><font>{{map_counts.allOnline}}</font> 家单位 <hr class="full_map_line"/></span>
-		<span class="fix_time_check" style="margin-right: 20px;"><i class="ico_sprite map_cancel_ico" ng-click="get_search(0)" ng-class="online?'map_online_ico':''"></i>联网：<font>{{map_counts.online}}</font> 家</span>
-		<span class="fix_time_check" style="margin-right: 20px;"><i class="ico_sprite map_cancel_ico" ng-click="get_search(1)" ng-class="offline?'map_offline_ico':''"></i>未联网：<font>{{map_counts.allOnline - map_counts.online}}</font> 家</span>
+		<span class="fix_time_check" style="margin-right: 20px;">
+			<i class="ico_sprite map_cancel_ico" ng-click="get_search(0)" ng-class="online?'map_online_ico':''"></i>
+			<span style="display: inline-block;width: 15px;height:21px;background: transparent;position: absolute;top:3px;left: 0px;" ng-show="online_disabled"></span>联网:<font>{{map_counts.online}}</font> 家
+		</span>
+		<span class="fix_time_check" style="margin-right: 20px;">
+			<i class="ico_sprite map_cancel_ico" ng-click="get_search(1)" ng-class="offline?'map_offline_ico':''"></i>
+			<span style="display: inline-block;width: 15px;height:21px;background: transparent;position: absolute;top:3px;left: 0px;" ng-show="offline_disabled"></span>
+			未联网:
+			<font>{{map_counts.allOnline - map_counts.online}}</font> 家</span>
+		<span class="fix_time_check" style="margin-right: 20px;">
+			<i class="ico_sprite map_fire_cancel_ico" ng-click="fire_click()" ng-class="fire?'map_fire_ico':''"></i>火警
+		</span>
 	</div>
 </div>
 <div class="full_map_search" ng-show="show_search">
-	<span class="full_map_search_btn" ng-click="show_search = false;search_key = null" style="width: 39px;"><i class="ico_sprite ico_map_back"></i></span>
+	<!--<span class="full_map_search_btn" ng-click="show_search = false;search_key = null" style="width: 39px;"><i class="ico_sprite ico_map_back"></i></span>-->
+	<span class="full_map_search_btn" ng-click="show_search_back()" style="width: 39px;"><i class="ico_sprite ico_map_back"></i></span>
 	<input type="text" ng-model="search_key" class="enter_press"/>
 	<span class="full_map_search_btn full_map_srh_blue" ng-click="get_search()"><i class="ico_sprite ico_mao_search"></i></span>
 </div>

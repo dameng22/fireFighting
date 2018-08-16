@@ -142,7 +142,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 		if(exp_tool.is_chinese(region)){
 			region = null
 		}
-		if($scope.selected != 2){
+		//if($scope.selected != 2){
 			if($("#start").val()!=''){
 				start = new Date($("#start").val()+" "+'00:00:00').getTime();
 			}else if($("#start").val() == '' && $scope.isFirst == false){
@@ -152,11 +152,22 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				start = null;
 				$("#start")[0].value = "";
 			}
+//			if($("#end").val()!=''){
+//				end = new Date($("#end").val()+" "+'23:59:59').getTime();
+//			}else if($("#end").val() == '' && $scope.isFirst == false){
+//				$("#end")[0].value = timeStamp;				
+//				end = new Date(nowDate+" "+'23:59:59').getTime();
+//			}else if($scope.isFirst == true){
+//				end = null;
+//				$("#end")[0].value = "";
+//			}
 			if($("#end").val()!=''){
-				end = new Date($("#end").val()+" "+'23:59:59').getTime();
+				var eTime = new Date($("#end").val()+" "+'00:00:00');
+				end = ((eTime/1000+86400)*1000);				
 			}else if($("#end").val() == '' && $scope.isFirst == false){
 				$("#end")[0].value = timeStamp;				
-				end = new Date(nowDate+" "+'23:59:59').getTime();
+				var eTime = new Date($("#end").val()+" "+'00:00:00');
+				end = ((eTime/1000+86400)*1000);
 			}else if($scope.isFirst == true){
 				end = null;
 				$("#end")[0].value = "";
@@ -170,7 +181,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 					return;
 				}
 			}
-		}
+		//}
 		//console.log($filter("date")(start,'yyyy-MM-dd'));
 		if($scope.selected == 0){ //火警报警记录
 			var end_state = angular.copy($scope.end_state);
@@ -200,7 +211,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
             }else {
                 get_data = acceptance_http.get_supervise_record;
             }
-			param = {codeOrName:$scope.search_key,pageNum:page_num,pageSize:page_size,regionId:region};
+			param = {codeOrName:$scope.search_key,pageNum:page_num,pageSize:page_size,beginUpdateTime:start,lastUpdateTime:end,regionId:region};
 		}else if($scope.selected == 3){ //查岗
 			if($stateParams.view_record){
 				get_data = acceptance_http.get_subs_task;

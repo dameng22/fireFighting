@@ -25,7 +25,11 @@ config.value('menu_list', [
 	{id:'fams_P004',name:'排名统计',links:'rankingStatistics'},
 	{id:'fams_P006',name:'区域警情',links:'areaStatistics'},
 	{id:'fams_P008',name:'单位类型火灾统计',links:'unitStatistics'},
+	
 	{id:'fams_P010',name:'设备安装统计',links:'deviceStatistics'},
+	{id:'fams_P013',name:'火灾控制器品牌统计',links:'deviceStatistics_alarm'},
+	{id:'fams_P015',name:'接口方式统计',links:'deviceStatistics_interface'},
+	
 	{id:'fams_P122',name:'发布通知',links:'makeAnnouncement'},
 	{id:'fams_P601',name:'统计分析',links:'unitCount'},//用户
 	{id:'fams_P611',name:'火灾报警',links:'unitFireAlarm'},
@@ -282,12 +286,15 @@ config.value('all_dic',{
         {id: 10, name: "平面图"}
     ],
     alarm_type:[
-		{'id':1,'name':'火灾报警'},
-		{'id':2,'name':'电气火灾报警'},
-		{'id':3,'name':'水系统报警'}
+//		{'id':1,'name':'火灾报警'},
+//		{'id':2,'name':'电气火灾报警'},
+//		{'id':3,'name':'水系统报警'} 
+		{'id':1,'name':'火灾监控设备'},
+		{'id':2,'name':'电气火灾监控设备'},
+		{'id':3,'name':'水系统监控设备'}
 	],
     trouble_type:[
-		//{'id':0,'name':'其他故障'},
+        	//{'id':0,'name':'其他故障'},
 		{'id':2,'name':'主电故障'},
 		{'id':3,'name':'备电故障'},
 		{'id':5,'name':'与监控中心通信信道故障'},
