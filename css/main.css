@@ -505,7 +505,7 @@ textarea{resize: none;}
 .nav_select .fixTiming,.nav_left li:hover .fixTiming{
 	background-position:-8px -610px;
 }
-.statistics,.alarmStatistics,.rankingStatistics,.areaStatistics,.unitStatistics,.unitCount,.onlineCount,.deviceStatistics,.onlineStatistics,.deviceStatistics_interface,.deviceStatistics_alarm{
+.statistics,.alarmStatistics,.rankingStatistics,.areaStatistics,.unitStatistics,.unitCount,.onlineCount,.deviceStatistics,.onlineStatistics,.interfaceStatistics,.alarmControls{
 	width: 16px;
 	height: 14px;
 	background-position:-44px -658px;
@@ -514,8 +514,8 @@ textarea{resize: none;}
 .nav_select .rankingStatistics,.nav_left li:hover .rankingStatistics,.nav_select .areaStatistics,.nav_left li:hover .areaStatistics,
 .nav_select .unitStatistics,.nav_left li:hover .unitStatistics,.nav_select .unitCount,.nav_left li:hover .unitCount,
 .nav_select .onlineCount,.nav_left li:hover .onlineCount,.nav_select .deviceStatistics,.nav_left li:hover .deviceStatistics,
-.nav_select .deviceStatistics_alarm,.nav_left li:hover .deviceStatistics_alarm,.nav_select .deviceStatistics_interface,
-.nav_left li:hover .deviceStatistics_interface,.nav_select .onlineStatistics,.nav_left li:hover .onlineStatistics{
+.nav_select .alarmControls,.nav_left li:hover .alarmControls,.nav_select .interfaceStatistics,
+.nav_left li:hover .interfaceStatistics,.nav_select .onlineStatistics,.nav_left li:hover .onlineStatistics{
 	background-position:-7px -658px;
 }
 .setUnitOnline{

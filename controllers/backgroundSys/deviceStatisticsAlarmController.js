@@ -116,8 +116,8 @@ app.controller('deviceStatisticsAlarmController', ['$scope','background_http','$
         type: 'value'
     };
 	options.yAxis={
-		min:0,
-        max:30,
+//		min:0,
+//      max:25,
         type: 'category',
         data: [], //键
         axisTick: {

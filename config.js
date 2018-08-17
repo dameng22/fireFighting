@@ -27,8 +27,8 @@ config.value('menu_list', [
 	{id:'fams_P008',name:'单位类型火灾统计',links:'unitStatistics'},
 	
 	{id:'fams_P010',name:'设备安装统计',links:'deviceStatistics'},
-	{id:'fams_P013',name:'火灾控制器品牌统计',links:'deviceStatistics_alarm'},
-	{id:'fams_P015',name:'接口方式统计',links:'deviceStatistics_interface'},
+	{id:'fams_P013',name:'火灾控制器品牌统计',links:'alarmControls'},
+	{id:'fams_P015',name:'接口方式统计',links:'interfaceStatistics'},
 	
 	{id:'fams_P122',name:'发布通知',links:'makeAnnouncement'},
 	{id:'fams_P601',name:'统计分析',links:'unitCount'},//用户

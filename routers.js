@@ -411,18 +411,18 @@ routers.config(['$stateProvider', '$urlRouterProvider','$httpProvider', function
 				return $ocLazyLoad.load('./controllers/backgroundSys/deviceStatisticsController.js?pro=35');
 			}]
         }
-    }).state('deviceStatistics_alarm', { //后台管理 火灾控制器品牌统计
-        url:'/deviceStatistics_alarm/:token/:unit/:sys',
-        templateUrl: './template/backgroundSys/deviceStatistics_alarm.html',
+    }).state('alarmControls', { //后台管理 火灾控制器品牌统计
+        url:'/alarmControls/:token/:unit/:sys',
+        templateUrl: './template/backgroundSys/alarmControls.html',
         controller:'deviceStatisticsAlarmController',
         resolve:{
             deps:['$ocLazyLoad', function($ocLazyLoad){
 				return $ocLazyLoad.load('./controllers/backgroundSys/deviceStatisticsAlarmController.js?pro=35');
 			}]
         }
-    }).state('deviceStatistics_interface', { //后台管理 接口方式统计
-        url:'/deviceStatistics_interface/:token/:unit/:sys',
-        templateUrl: './template/backgroundSys/deviceStatistics_interface.html',
+    }).state('interfaceStatistics', { //后台管理 接口方式统计
+        url:'/interfaceStatistics/:token/:unit/:sys',
+        templateUrl: './template/backgroundSys/interfaceStatistics.html',
         controller:'deviceStatisticsInterfaceController',
         resolve:{
             deps:['$ocLazyLoad', function($ocLazyLoad){
