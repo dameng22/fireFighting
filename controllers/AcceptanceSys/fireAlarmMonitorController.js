@@ -1,8 +1,8 @@
 /**
  * Created by Lxy on 2017/12/9.
  */
-app.controller('fireAlarmMonitorController', ['$scope','$location','acceptance_http','myself_alert','all_dic','dic_http','$timeout','$interval','new_fire','$base64','$stateParams',
-	function($scope,$location,acceptance_http,myself_alert,all_dic,dic_http,$timeout,$interval,new_fire,$base64,$stateParams){
+app.controller('fireAlarmMonitorController', ['$scope','$location','acceptance_http','myself_alert','all_dic','dic_http','$timeout','$interval','new_fire','$base64','$stateParams','$filter',
+	function($scope,$location,acceptance_http,myself_alert,all_dic,dic_http,$timeout,$interval,new_fire,$base64,$stateParams,$filter){
 	//分屏火灾报警监控器
     var limits = true;
 	var page_num = 0;

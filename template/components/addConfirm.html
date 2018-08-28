@@ -1,0 +1,10 @@
+<div ng-class="$ctrl.is_or_no_alert()">
+	<div class="add_confirm">
+		<i class="ico_sprite ico_close" ng-click="$root.add_now=false"></i>
+		<p class="add_confirm_title text-center">设备已存在,是否确认添加？</p>
+		<p class="text-center">
+			<span class="btn_size btn_blue" ng-click="$root.add_func()" style="margin-right: 30px;">确认</span>
+			<span class="btn_size btn_blue" ng-click="$root.add_cancel()">取消</span>
+		</p>
+	</div>
+</div>

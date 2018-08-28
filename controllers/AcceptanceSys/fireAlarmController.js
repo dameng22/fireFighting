@@ -8,6 +8,7 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
         var url = $location.absUrl().split("#/")[0]+'#/fireAlarmMonitor'+'/'+$stateParams.token+'/'+$stateParams.unit+'/'+$stateParams.sys; 
         window.open(url,"_blank"); 
     }; 
+	
     var limits = true;
 	var page_num = 0;
   	var page_size = 20;
@@ -354,6 +355,9 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
     	$scope.show_alert = true;
     	acceptance_http.get_fire_alert_info({alertId:$scope.unit_ids[0],customerSiteId:detail_ids[0],requestFlag:4},function(result){
     		$scope.fire_details = result;
+    		for(var i in $scope.fire_details.appearancePicture){
+    			$scope.fam_customer_site = $scope.fire_details.appearancePicture[i].famPointPositions;
+    		}
     		$timeout($scope.initMap($scope.fire_details.relay),100);
     		$scope.outside = $filter("filter")($scope.fire_details.appearancePicture,function(item){if(item.pictureType == 2){return item}});
     		$scope.surface = $filter("filter")($scope.fire_details.appearancePicture,function(item){if(item.pictureType == 10){return item}});
@@ -478,13 +482,63 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
 			$scope.unit_name = angular.copy($scope.base_info.name);
 		});
 		//获取建筑物
-		acceptance_http.get_unit_all_build({customerSiteId:detail_ids[0]},function(result){
+		acceptance_http.get_unit_all_build({customerSiteId:$stateParams.unit_id},function(result){
 			$scope.buildings_info = result;
+//			for(var i in $scope.buildings_info){
+//				var val_id = $scope.buildings_info[i].id;
+//				return val_id;
+//			}
 		});
+//		acceptance_http.get_building_cells({'buildId':val_id},function(result){
+//			$scope.floors = result;
+//			for(var j in $scope.floors){
+//				var vaj_id = $scope.floors[j].id;
+//				return vaj_id;
+//			}
+//		})
+//		acceptance_http.get_floor_cells({'placeId':vaj_id},function(result){
+//			$scope.floor_list = result;
+//		})
+
+		//获取建筑物
+//	acceptance_http.get_unit_all_build({customerSiteId:detail_ids[0]},function(result){
+//		$scope.buildings_info = result;
+//		if($scope.buildings_info.length>0){
+//			$scope.build_id = $scope.buildings_info[0].id;
+//			$scope.get_cell();
+//		}
+//	});
+//	//获取建筑物层数
+//	var start = 0;
+//	$scope.get_cell = function(){
+//		acceptance_http.get_building_cells({'buildId':$scope.build_id},function(result){
+//			$scope.floors = result;			
+//			//初始化
+//			//start = start + 1;
+//			if($scope.floors.length>0){
+//				$scope.floor_id = $scope.floors[0].id;
+//				$scope.get_floor();
+//			}
+//		})
+//	};
+//
+//	$scope.get_floor = function(){
+//		if($scope.floor_id){ //判断如果floor_id为空不调用接口，避免500
+//			acceptance_http.get_floor_cells({'placeId':$scope.floor_id},function(result){
+//				$scope.floor_list = result;
+//			})
+//		}
+//	};
+
+
+
+
 		//传输设备
 		acceptance_http.get_unit_info_trans({customerSiteId:detail_ids[0]},function(result){
 			$scope.device_list = result;
 		});
+		
+		
   	};
   	
   	//获取单位类别

@@ -117,13 +117,16 @@ app.controller('deviceStatisticsInterfaceController', ['$scope','background_http
         type: 'value'
    };
 	options.yAxis={
-		min:0,
-        max:20,
+//		min:0,
+//      max:20,
         type: 'category',
         data: [], //键
         axisTick: {
             alignWithLabel: true
-        }
+        },
+        axisLabel: {
+			fontSize: 13,
+		},
    	};
 	options.series = {
         type: 'bar',
@@ -131,7 +134,7 @@ app.controller('deviceStatisticsInterfaceController', ['$scope','background_http
         label: {
             normal: {
                 show: true,
-                position: 'right',
+                position: 'inside',
             }
             
         },

@@ -629,14 +629,14 @@
 		<div class="fire_alarm_right_top surface_bg_top border_radius_top_4">
 			<select class="select_text margin_btm_15"
                     ng-options="build.id as build.name for build in $ctrl.buildings_info"
-                    ng-model="$ctrl.build_id" ng-change="$ctrl.get_cell()">
+                    ng-model="$ctrl.build_id" ng-change="$ctrl.get_cell()" ng-show="$ctrl.isShowCell">
           	</select>	
 			<select class="select_text"
                     ng-options="floor.id as floor.placeName for floor in $ctrl.floors"
-                    ng-model="$ctrl.floor_id" ng-change="$ctrl.get_floor()">
+                    ng-model="$ctrl.floor_id" ng-change="$ctrl.get_floor()" ng-show="$ctrl.isShowFloor">
           	</select>	
 		</div>
-		<ul class="fire_alarm_ul">
+		<ul class="fire_alarm_ul" style="display: none;">
 			<li ng-repeat="l in $ctrl.floor_list track by $index" ng-click="$ctrl.show_surface(l.index)" ng-style="l.index == $ctrl.sur_selected?{'background':'#ECECEC'}:''">
 				{{l.name}}
 			</li>

@@ -66,7 +66,7 @@
 			
 			<span class="record_search_type" ng-if="selected==0" style="width: 15%;">警情类型</span>
 			<span class="record_search_type" ng-if="selected==1" style="width: 16%;">故障类型</span>
-			<span class="record_search_time" style="width: 21%;">报警时间</span>
+			<span class="record_search_time" style="width: 18%;">报警时间</span>
 			<span class="record_search_time" ng-if="selected!=2" style="width: 22%;">处理时间</span>
 			<span class="record_search_time" ng-if="selected==2">接警时间</span>
 		</p>
@@ -79,7 +79,7 @@
 				
 				<span class="record_search_type" ng-if="selected==0" style="width: 15%;">{{l.endStateId | dic_filter:fire_states}}</span>
 				<span class="record_search_type" ng-if="selected==1" style="width: 16%;">{{device_broke(l)}}</span>
-				<span class="record_search_time" style="width: 21%;">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="record_search_time" style="width: 18%;">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="record_search_time" ng-if="selected!=2" style="width: 22%;">{{l.lastUpdateTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="record_search_time" ng-if="selected==2">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 			</p>
@@ -106,6 +106,6 @@
 		</div>
 	</div>
 </div>
-<record-search-alert show-alert="record_show" base-info="base_info" records-details="records_details" inside="inside" outside="outside"></record-search-alert>
+<record-search-alert show-alert="record_show" base-info="base_info" records-details="records_details" base_fire_info="base_fire_info" records_codes="records_codes" inside="inside" outside="outside"></record-search-alert>
 
 

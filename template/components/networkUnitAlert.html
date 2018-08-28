@@ -571,8 +571,17 @@
 			<div class="fix_time_data min_width_550">
 				<div class="surface_big_pic">
 					<p class="surface_big_title" ng-show="$ctrl.re_floor.placeName">{{$ctrl.re_floor.placeName}}：地上{{$ctrl.re_floor.floorUpQuantity?$ctrl.re_floor.floorUpQuantity:0}}层 |  地下{{$ctrl.re_floor.floorDownQuantity?$ctrl.re_floor.floorDownQuantity:0}}层</p>
-					<a href="{{$root.qiuNiuUrl+$ctrl.info[0].qiniuName}}" data-lightbox="roadtrip">
-						<img ng-src="{{$ctrl.info[0].qiniuName?($root.qiuNiuUrl+$ctrl.info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" /> <!-- images/add_pic.png -->
+					<!--<a href="{{$root.qiuNiuUrl+$ctrl.info[0].qiniuName}}" data-lightbox="roadtrip">
+						<img ng-src="{{$ctrl.info[0].qiniuName?($root.qiuNiuUrl+$ctrl.info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" />
+					</a>-->
+					<a style="position: relative;display: inline-block;">
+						<img ng-src="{{$ctrl.info[0].qiniuName?($root.qiuNiuUrl+$ctrl.info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}"/>
+						<div id="img_surface_id" style="position: absolute;top: 0px;left: 0px;width: 100%;height:calc(100% - 60px);margin-top:60px;">
+							<span ng-repeat="l in $ctrl.famPointPosition track by $index" id="dot_span" ng-mouseenter="show_dots = true" ng-mouseleave="show_dots = false"
+								ng-style="{'top':l.coordinateY+'px','left':l.coordinateX+'px'}" class="surface_dot_span">
+								<span ng-show="show_dots" style="line-height: 34px;">{{l.detectorCode}}</span>
+							</span>
+						</div>
 					</a>
 				</div>
 			</div>

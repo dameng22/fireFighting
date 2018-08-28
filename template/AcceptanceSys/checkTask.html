@@ -4,7 +4,10 @@
 			<ul class="check_task_tab border_radius_4">
 				<li ng-class="($index==selected)?'check_task_selected':''" ng-click="show_tab($index)" ng-repeat="l in tab_list">{{l.name}}<hr class="check_task_tab_line" ng-if="!$last"/></li>
 			</ul>
-			<span class="search_wrap"><input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="rsearch_list()"></i></span>
+			<span class="search_wrap">
+				<input class="input_text width_240 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/>
+				<i class="ico_sprite search_ico" ng-click="rsearch_list()"></i>
+			</span>
 			<!--<select class="select_text width_240" ng-model="task_type" ng-change="rsearch_list()">
 				<option>选择任务类型</option>
 				<option ng-repeat="l in task_select" value="{{l.id}}">{{l.name}}</option>
@@ -33,7 +36,7 @@
 			<span class="check_task_time" ng-if="selected == 2">任务预计完成时间</span>
 			<span class="check_task_code" ng-if="selected == 1">周期查岗</span>
 			<span class="check_task_time" ng-if="selected == 1">任务间隔时间(小时)</span>
-			<span class="check_task_person" ng-if="selected != 1">查岗人</span>
+			<span class="check_task_person">查岗人</span>
 			<span class="check_task_code" ng-show="selected == 0"></span>
 		</p>
 		<div class="list_data_scroll fix_check_task min_width_1100" id="task">
@@ -54,7 +57,7 @@
 				<span class="check_task_time" ng-if="selected == 2">{{l.endTime | date:'yyyyMMdd HH:mm:ss'}}</span><!--任务完成-->
 				<span class="check_task_code" ng-if="selected == 1">{{l.intervalTime?'是':'否'}}</span>
 				<span class="check_task_time" ng-if="selected == 1">{{l.intervalTime}}<font ng-if="l.intervalTime">小时</font><font ng-if="!l.intervalTime">--</font></span>
-				<span class="check_task_person" ng-if="selected != 1">{{l.person.givenNameOriental}}</span>
+				<span class="check_task_person">{{l.person.givenNameOriental}}</span>
 				<span class="check_task_code" ng-click="view_detail(l.recordId)" ng-show="selected == 0"><font>查看详情</font></span>
 				<span class="check_task_code" ng-click="check_view_detail(l.id)" ng-show="selected != 0"><font>查看详情</font></span>
 			</p>
@@ -78,7 +81,10 @@
 						<option>按区域筛选</option>
 						<option ng-repeat="l in net_areas" value="{{l.id}}">{{l.regionName}}</option>
 					</select>
-					<span class="search_wrap"><input class="input_text width_240 unit_press" placeholder="请输入关键字搜索" ng-model="search_unit"/><i class="ico_sprite search_ico" ng-click="rsearch_unit()"></i></span>
+					<span class="search_wrap">
+						<input class="input_text width_240 unit_press" placeholder="请输入关键字搜索" ng-model="search_unit"/>
+						<i class="ico_sprite search_ico" ng-click="rsearch_unit()"></i>
+					</span>
 				</div>
 			</div>
 			<div class="check_task_scroll border_radius_4 check_task_setting check_task_set">

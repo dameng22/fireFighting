@@ -341,6 +341,14 @@ services.factory('acceptance_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	        },
+	        get_dot_info_detect: function(params, successDo, errorDo){ //get点位
+	            httpBase.get({
+	                url:'famDetectors',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	        },
 	        edit_unit_info_detect: function(params, successDo, errorDo){ //点位
 	            httpBase.put({
 	                url:'famDetectors',
@@ -352,6 +360,14 @@ services.factory('acceptance_http', ['httpBase', function(httpBase){
 	        del_unit_info_detect: function(params, successDo, errorDo){ //点位
 	            httpBase.delete({
 	                url:'famDetectors',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	        },
+	        del_dot_info_detect: function(params, successDo, errorDo){ //点位
+	            httpBase.delete({
+	                url:'famDetectors/pointPosition',
 	                params: params,
 	                successDo: successDo,
 	                errorDo: errorDo

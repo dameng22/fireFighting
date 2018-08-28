@@ -1,16 +1,35 @@
 /**
  * Created by Lxy on 2018/01/09.
  */
-app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','all_dic','$state','dic_http','$stateParams','myself_alert','$timeout','$rootScope', function($scope,$rootScope,acceptance_http,all_dic,$state,dic_http,$stateParams,myself_alert,$timeout,$rootScope){
+app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','all_dic','$state','dic_http','$stateParams','myself_alert','$timeout','$rootScope','$base64', 
+function($scope,$rootScope,acceptance_http,all_dic,$state,dic_http,$stateParams,myself_alert,$timeout,$rootScope,$base64){
 	//后退
 	$scope.alert_cancel=function(){
 		$state.go("setUnitOnline",{'token':$stateParams.token,'sys':$stateParams.sys,'unit':$stateParams.unit})
 	}
+	
 	//单位id
 	$scope.unit_ids = $stateParams.unit_id;
 	$scope.isShowFloor = false;
 	$scope.isShowCell = true;
-
+	$scope.dot_info = false;
+	$scope.remark = "";
+	$scope.show_draw_dot = false;
+	$scope.dotRemark = false;
+	$scope.famPointPosition = [];
+	function init_data(){
+		$scope.add_info = {
+	        "address": {
+	            "address": ""
+	        },
+	        "code": "",
+	        "customerId": $base64.decode($stateParams.unit),
+	        "customerSiteId": $stateParams.unit_id,
+	        "deviceCategoryId": 1,
+	        "relayId": ""
+	    };
+	}
+    init_data();
 	//下拉加载
 	function scrollDate(){
 		$(".fix_time_data").mCustomScrollbar({theme:"minimal-dark",autoHideScrollbar:true});
@@ -94,15 +113,43 @@ app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','al
 	};
 	//显示平面图
 	$scope.show_surface = function(floor){
+		//$scope.add_info.code = "";
+		$scope.famPointPosition = [];
+		$scope.pictureId = null;
 		$scope.selected = floor;
+		$scope.dot_info = false;
 		acceptance_http.get_cells_pic({'customerSiteId':$stateParams.unit_id,'pictureTypeIds':10,'placeId':$scope.floor_id,'storeyId':floor,'pageNum':1,'pageSize':1},function(result){
 			$scope.info = result.results;
+			for(var i in $scope.info){
+				$scope.pictureId = $scope.info[i].id;
+				$scope.famPointPosition = $scope.info[i].famPointPositions;
+			}
+			
+//			if($scope.info.length > 0){
+//				if($scope.info.length == 0){//
+//					$scope.show_draw_dot = false;
+//					$("#img_surface_id").hide();
+//				} else if($scope.famPointPosition.length == 0 && $scope.info.length >= 1){
+//					$scope.show_draw_dot = true;
+//					$("#img_surface_id").show();
+//					$scope.dotRemark = false;
+//				} else {
+//					$scope.show_draw_dot = true;
+//					$("#img_surface_id").show();
+//				}
+//			} else {
+//					$scope.show_draw_dot = false;
+//					$("#img_surface_id").hide();
+//			}
+			
 		})
 	};
 	//查询
 	$scope.research_list=function(){
 		$scope.info = [];
 		$scope.show_surface($scope.selected);
+		$scope.famPointPosition = [];
+		$scope.dot_list = [];
 	};
 	//删除图片
 	$scope.del_pic = function(id){
@@ -195,7 +242,137 @@ app.controller('surfaceController', ['$scope','$rootScope','acceptance_http','al
 			$scope.show_floor_child = true;
 			storey = storey * 1 - 0.1;
 			$scope.buliding = {'id':id,'storeyNum':storey};
-			
 		}
 	};
+	
+	$scope.isClickDot = false;
+	//传输设备
+	acceptance_http.get_unit_info_trans({customerSiteId:$stateParams.unit_id},function(result){
+		$scope.device_list = result;
+		for(var i in result){
+			$scope.relayId = result[i].id;
+		}
+		return $scope.relayId;
+	});
+	
+	$scope.drawDot = function(x,y,color,size,num){
+	   //新建一个div
+//	   var div = "<div class='surface_dot' id='dot_div' style='position:absolute;line-height:33px; border:0;left:"+(x) +"; top:"+(y)+
+//		";background-color:"+color+";width:"+size+";height:"+size+";'"+">"+num+"</div>";
+//      return div;
+//		$scope.famPointPosition.push({
+//			'coordinateY' : 55,
+//			'coordinateX' :55,
+//		});
+	};
+	
+//	$("body").on('mousedown','#dot_div', function(){//事件代理})
+	
+	$scope.new_dot = function(id,type){
+		$scope.dot_info = true;	
+	};
+	
+	$scope.drawPt = function(){
+//		$scope.drawDot()
+		$scope.isClickDot = true;
+		if($scope.dotRemark == true){
+			$scope.rename();
+			var id = document.getElementById('img_surface_id');
+			var le=$("#surface_img_center")[0].offsetLeft-5;
+//			var x=event.offsetX+le+'px';
+//			var y=event.offsetY+'px';
+			var num = Number($scope.add_info.code);
+			$scope.add_info.code = num+1;
+//			if($scope.add_info.code){
+//				$scope.other_code = true;
+//			} 
+//			if($scope.other_code == true){
+//				$scope.add_info.re_code = $scope.add_info.code-1;
+//			}
+//			var div = $scope.drawDot(x,y,"red",5,num);
+//			id.innerHTML += div;
+			
+			$scope.coor_x = event.offsetX+le;
+			//$scope.coor_y = event.offsetY+132.5;
+			$scope.coor_y = event.offsetY;
+		}
+	};
+	
+	$scope.rename = function(){
+		acceptance_http.get_dot_info_detect({detectorCode:$scope.add_info.code,relayId:$scope.relayId,customerSiteId:$stateParams.unit_id},function(result){
+			var info_list = result;
+			if(result.id != null){ //重复
+				//确认添加	
+				$rootScope.add_now = true;
+				$rootScope.add_func = function(){
+					$rootScope.add_now = false;
+					if($scope.isClickDot == true){
+						var famPointPosition = {
+				            "coordinateX": $scope.coor_x,
+						  	"coordinateY": $scope.coor_y,
+						  	"pictureId": $scope.pictureId,
+						  	"remarks": $scope.remark,
+						}
+						acceptance_http.edit_unit_info_detect({"code":info_list.code,"customerId":info_list.customerId,
+							"customerSiteId":info_list.customerSiteId,"deviceCategoryId":info_list.deviceCategoryId,"relayId":info_list.relayId,
+							"famPointPosition":famPointPosition,"id":info_list.id,
+							},function(result){
+								$scope.dot_list = result;
+								$scope.famPointPosition.push(result.famPointPosition)
+								myself_alert.dialog_show("保存成功!");	
+								$scope.research_list();
+						})
+					}
+				};
+				$rootScope.add_cancel = function(){
+					$("#dot_div").hide();
+					$rootScope.add_now = false;
+				};
+			} else {
+				if($scope.isClickDot == true){
+					var famPointPosition = {							
+			            "coordinateX": $scope.coor_x,
+					  	"coordinateY": $scope.coor_y,
+					  	"pictureId": $scope.pictureId,
+					  	"remarks": $scope.remark,					        				        
+					}
+					acceptance_http.edit_unit_info_detect({"famPointPosition":famPointPosition,"code":$scope.add_info.code,
+						"customerId":$base64.decode($stateParams.unit),"customerSiteId":$stateParams.unit_id,"deviceCategoryId":1,
+						"relayId":$scope.relayId,
+						},function(result){
+							$scope.dot_list = result;
+							myself_alert.dialog_show("保存成功!");	
+							$scope.research_list();
+					})
+				}
+				
+			}
+		});
+	};
+	$scope.dot_remark = function(){
+		$scope.dotRemark = true;
+		if($scope.add_info.code == ""){
+			myself_alert.dialog_show("请输入设备编号!");
+            return;
+		} if(isNaN(Number($scope.add_info.code))){
+			myself_alert.dialog_show("设备编号请输入数字!");
+            return;
+		}
+	};
+	$scope.delete_dot = function(id,$index){
+		$rootScope.delete_now = true;
+		$rootScope.delete_func = function(){
+			acceptance_http.del_dot_info_detect({id:id},function(){
+				myself_alert.dialog_show("删除成功!");
+				$scope.research_list();
+				$rootScope.delete_now = false;
+			})
+		}
+	};
+	
+	//获取设备类型
+	dic_http.get_device_type({},function(result){
+		$scope.device_type = result;
+	});
+
 }]);

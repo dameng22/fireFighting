@@ -225,6 +225,23 @@ components.component('networkUnitAlert', {
 						self.sur_selected = floor;
 						acceptance_http.get_cells_pic({'customerSiteId':self.id,'pictureTypeIds':10,'placeId':self.floor_id,'storeyId':floor,'pageNum':1,'pageSize':1},function(result){
 							self.info = result.results;
+							for(var i in self.info){
+								self.pictureId = self.info[i].id;
+								self.famPointPosition = self.info[i].famPointPositions;
+								if(self.famPointPosition.length == 0){
+									$("#img_surface_id").hide();
+									self.dot_info = false;
+								} else {
+									$("#img_surface_id").show();
+									self.dot_info = true;
+								}
+							}
+							if(self.info.length == 0){//
+								self.show_draw_dot = false;
+								self.famPointPosition = [];
+							} else {
+								self.show_draw_dot = true;
+							}
 						})
 					};
 				  	break;
@@ -589,6 +606,8 @@ components.component('recordSearchAlert', {
         showAlert:'=',
         baseInfo:'=',
         recordsDetails:'=',
+        baseFireInfo:'=',
+        recordsCodes:'=',
         type:'=',
         outside:'=',
         inside:'=',
@@ -815,22 +834,33 @@ components.component('unitDetailAlert', {
 	   				self.floor_list=[];
 	   				self.info=[];
 	   				self.re_floor = {};
+	   				self.isShowCell = true;
 					//获取建筑物
 					acceptance_http.get_unit_all_build({customerSiteId:self.id},function(result){
 						self.buildings_info = result;
 						if(self.buildings_info.length>0){
 							self.build_id = self.buildings_info[0].id;
 							self.get_cell();
+						} else {
+							self.isShowCell = false;
 						}
 					});
 					//获取建筑物层数
 					var start = 0;
+					self.isShowFloor = false;
 					self.get_cell = function(){
 						if(!self.build_id){
 							return;
 						}
 						acceptance_http.get_building_cells({'buildId':self.build_id},function(result){
 							self.floors = result;
+							self.floor_id = self.floors[0].id;
+							for(var i in self.floors){
+								var val = self.floors[i];
+								if(val.buildId){
+									self.isShowFloor = true;
+								} 
+							}	
 							//初始化
 							start = start + 1
 							if(self.floors.length>0&&start<=1){
@@ -842,14 +872,16 @@ components.component('unitDetailAlert', {
 					//楼层
 					self.get_floor = function(){
 						self.floor_list = [];
-//						for(var i=0;i<self.floors.length;i++){
-//							if(self.floors[i].id == self.floor_id){
-//								self.re_floor = self.floors[i];
-//							}
-//						}
+						if(self.floor_id){
+							acceptance_http.get_floor_cells({'placeId':self.floor_id},function(result){
+								self.floor_list = result;
+							});
+						}
+
 						acceptance_http.get_floor_cells({'placeId':self.floor_id},function(result){
 							self.floor_list = result;
 						})
+
 		
 						for(var i = self.re_floor.floorUpQuantity;i>0;i--){
 							self.floor_list.push({'index':i,'name':'地上'+i+'层'})
@@ -1321,6 +1353,26 @@ components.component('deleteConfirm', {
     },
     templateUrl:'./template/components/deleteConfirm.html'
 });
+//确认添加
+components.component('addConfirm', {
+    bindings:{
+        showAlert:'='
+    },
+    controller:function(){
+        var self = this;
+        self.is_or_no_alert = function(){
+            if(typeof(self.showAlert) == 'undefined'){
+                return 'relieve_guard_wrap';
+            }
+            if(self.showAlert){
+            	return 'relieve_guard_wrap fams_alert_enter';
+            }else{
+            	return 'relieve_guard_wrap fams_alert_none';
+            }
+        }
+    },
+    templateUrl:'./template/components/addConfirm.html'
+});
 //确认火警
 components.component('fireConfirm', {
     bindings:{
@@ -1538,7 +1590,8 @@ components.component('fireDropAlert', {
         showAlert:'=',
         fireDetails:'=',
         outside:'=',
-        surface:'='
+        surface:'=',
+        famCustomerSite:'=',
     },
     controller:function(){
         var self = this;

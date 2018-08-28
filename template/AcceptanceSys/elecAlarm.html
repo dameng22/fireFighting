@@ -260,7 +260,10 @@
 	<div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden">
 		<div class="fire_alarm_right_top border_radius_top_4" style="height: 81px;">
 			<div class="fire_alarm_right_title">单位实时信息</div>
-			<span class="search_wrap margin_left_9"><input class="input_text width_168 right_enter_press" placeholder="请输入关键字搜索" /><i class="ico_sprite search_ico"></i></span>
+			<span class="search_wrap margin_left_9">
+				<input class="input_text width_168 right_enter_press" placeholder="请输入关键字搜索"/>
+				<i class="ico_sprite search_ico" ng-show="show_search_icon"></i>
+			</span>
 		</div>
 		<ul class="fire_alarm_ul">
 			<li ng-click="detail_wa_click()" ng-class="detail_wa_show?'dpds_wa':'bg_color'" class="aaa">东圃大厦</li>

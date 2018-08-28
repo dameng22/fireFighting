@@ -8,11 +8,12 @@
 		<span class="fix_time_check full_map_all"><font>{{map_counts.allOnline}}</font> 家单位 <hr class="full_map_line"/></span>
 		<span class="fix_time_check" style="margin-right: 20px;">
 			<i class="ico_sprite map_cancel_ico" ng-click="get_search(0)" ng-class="online?'map_online_ico':''"></i>
-			<span style="display: inline-block;width: 15px;height:21px;background: transparent;position: absolute;top:3px;left: 0px;" ng-show="online_disabled"></span>联网:<font>{{map_counts.online}}</font> 家
+			<!--<span style="display: inline-block;width: 15px;height:21px;background: transparent;position: absolute;top:3px;left: 0px;" ng-show="online_disabled"></span>-->
+			联网:<font>{{map_counts.online}}</font> 家
 		</span>
 		<span class="fix_time_check" style="margin-right: 20px;">
 			<i class="ico_sprite map_cancel_ico" ng-click="get_search(1)" ng-class="offline?'map_offline_ico':''"></i>
-			<span style="display: inline-block;width: 15px;height:21px;background: transparent;position: absolute;top:3px;left: 0px;" ng-show="offline_disabled"></span>
+			<!--<span style="display: inline-block;width: 15px;height:21px;background: transparent;position: absolute;top:3px;left: 0px;" ng-show="offline_disabled"></span>-->
 			未联网:
 			<font>{{map_counts.allOnline - map_counts.online}}</font> 家</span>
 		<span class="fix_time_check" style="margin-right: 20px;">

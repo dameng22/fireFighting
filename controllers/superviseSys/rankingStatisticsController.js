@@ -59,39 +59,74 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
 	
   	acceptance_http.get_unit_info_areas({customerId:$base64.decode($stateParams.unit)},function(result){
   		$scope.net_areas = result;
-  		$scope.current_area = $scope.net_areas[1].id;
+  		//$scope.current_area = $scope.net_areas[1].id;
+  		$scope.current_area = '广州市';
   		$scope.get_region_data();
   	});
   	
   	$scope.get_region_data = function(){
   		if ($rootScope.system_name == '消防监管单位管理系统'){
-  			fire_top_ten_system({regionId:$scope.current_area},function(result){
-				$scope.fire_top = result;
-		        $scope.init_lines(result,0);
-			});
-			trouble_top_ten_system({regionId:$scope.current_area},function(result){
-				$scope.trouble_top = result;
-			});
-			out_rate_percent_system({regionId:$scope.current_area},function(result){
-				$scope.rate_out_top = result;
-			});
-			on_rate_percent_system({regionId:$scope.current_area},function(result){
-				$scope.rate_in_top = result;
-			});
+  			if($scope.current_area == '广州市'){
+  				fire_top_ten_system({},function(result){
+					$scope.fire_top = result;
+			        $scope.init_lines(result,0);
+				});
+				trouble_top_ten_system({},function(result){
+					$scope.trouble_top = result;
+				});
+				out_rate_percent_system({},function(result){
+					$scope.rate_out_top = result;
+				});
+				on_rate_percent_system({},function(result){
+					$scope.rate_in_top = result;
+				});
+  			} else {
+  				fire_top_ten_system({regionId:$scope.current_area},function(result){
+					$scope.fire_top = result;
+			        $scope.init_lines(result,0);
+				});
+				trouble_top_ten_system({regionId:$scope.current_area},function(result){
+					$scope.trouble_top = result;
+				});
+				out_rate_percent_system({regionId:$scope.current_area},function(result){
+					$scope.rate_out_top = result;
+				});
+				on_rate_percent_system({regionId:$scope.current_area},function(result){
+					$scope.rate_in_top = result;
+				});
+  			}
+  			
   		} else {
-  			fire_top_ten({regionId:$scope.current_area},function(result){
-				$scope.fire_top = result;
-				$scope.init_lines(result,0);
-			});
-			trouble_top_ten({regionId:$scope.current_area},function(result){
-				$scope.trouble_top = result;
-			});
-			out_rate_per({regionId:$scope.current_area},function(result){
-				$scope.rate_out_top = result;
-			});
-			on_rate_per({regionId:$scope.current_area},function(result){
-				$scope.rate_in_top = result;
-			});
+  			if($scope.current_area == '广州市'){
+  				fire_top_ten({},function(result){
+					$scope.fire_top = result;
+					$scope.init_lines(result,0);
+				});
+				trouble_top_ten({},function(result){
+					$scope.trouble_top = result;
+				});
+				out_rate_per({},function(result){
+					$scope.rate_out_top = result;
+				});
+				on_rate_per({},function(result){
+					$scope.rate_in_top = result;
+				});
+  			} else {
+  				fire_top_ten({regionId:$scope.current_area},function(result){
+					$scope.fire_top = result;
+					$scope.init_lines(result,0);
+				});
+				trouble_top_ten({regionId:$scope.current_area},function(result){
+					$scope.trouble_top = result;
+				});
+				out_rate_per({regionId:$scope.current_area},function(result){
+					$scope.rate_out_top = result;
+				});
+				on_rate_per({regionId:$scope.current_area},function(result){
+					$scope.rate_in_top = result;
+				});
+  			}
+  			
   		}	
 	};
 	

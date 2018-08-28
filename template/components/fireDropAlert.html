@@ -62,12 +62,21 @@
 				</td>
 			</tr>
 		</table>
-		<div class="fire_alert_wrap">
+		<div ng-class="$ctrl.surface[0].qiniuName?'fire_alert_wrap':'fire_alert_tu'">
 			<p class="fire_alert_title">平面图</p>
-			<a href="{{$root.qiuNiuUrl+$ctrl.surface[0].qiniuName}}" data-lightbox="roadtrip">
+			<!--<a href="{{$root.qiuNiuUrl+$ctrl.surface[0].qiniuName}}" data-lightbox="roadtrip">
 				<img ng-src="{{$ctrl.surface[0].qiniuName?($root.qiuNiuUrl+$ctrl.surface[0].qiniuName):''}}" class="fire_alert_img"/>
+			</a>-->
+			<a style="position: relative;display: inline-block;">
+				<img ng-src="{{$ctrl.surface[0].qiniuName?($root.qiuNiuUrl+$ctrl.surface[0].qiniuName):''}}" class="fire_alert_img"/>
+				<div id="img_surface_id" ng-click="drawPt()" style="position: absolute;top: 0px;left: 0px;width: 100%;height:calc(100% - 60px);">
+					<span ng-repeat="l in $ctrl.famCustomerSite track by $index" id="dot_span" ng-mouseenter="show_dots = true" ng-mouseleave="show_dots = false"
+						ng-style="{'top':l.coordinateY+'px','left':l.coordinateX+'px'}" class="surface_dot_span">
+						<span ng-show="show_dots" style="line-height: 34px;">{{l.detectorCode}}</span>
+					</span>
+				</div>
 			</a>
-			<p>信息待维护</p>
+			<p ng-show="!$ctrl.surface[0].qiniuName">信息待维护......</p>
 		</div>
 		<div class="fire_alert_wrap">
 			<p class="fire_alert_title">外观图</p>

@@ -9,7 +9,10 @@
 			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('real')" ng-class="real?'check_box_select':''"></i>自动火警</span>
 			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('fake')" ng-class="fake?'check_box_select':''"></i>确认火警</span>
 			<span class="fix_time_check"><i class="ico_sprite check_box_normal" ng-click="get_search('test')" ng-class="test?'check_box_select':''"></i>紧急火警</span>
-			<span class="search_wrap min_1024"><input class="input_text width_143 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/><i class="ico_sprite search_ico" ng-click="get_search('text')"></i></span>
+			<span class="search_wrap min_1024">
+				<input class="input_text width_143 enter_press" placeholder="请输入关键字搜索" ng-model="search_key"/>
+				<i class="ico_sprite search_ico" ng-click="get_search('text')"></i>
+			</span>
 			<span ng-click="go_monitor()" class="min_1024"><i class="ico_sprite fire_alerm_full"></i></span>
 		</div>
 	</div>
@@ -79,7 +82,10 @@
 <div class="content_left top_right_0 width_186 border_radius_4 overflow_hidden fire_alarm_gray_bg">
 	<div class="fire_alarm_right_top border_radius_top_4">
 		<div class="fire_alarm_right_title">火灾报警单位列表</div>
-		<span class="search_wrap margin_left_9"><input class="input_text width_168 right_enter_press" placeholder="请输入关键字搜索" ng-model="right_unit_srh"/><i class="ico_sprite search_ico" ng-click="get_right_unit('srh')"></i></span>
+		<span class="search_wrap margin_left_9">
+			<input class="input_text width_168 right_enter_press" placeholder="请输入关键字搜索" ng-model="right_unit_srh"/>
+			<i class="ico_sprite search_ico" ng-click="get_right_unit('srh')"></i>
+		</span>
 		<span class="fix_time_check margin_left_9" style="line-height: 39px;"><i class="ico_sprite radio_box_normal" ng-class="!right_unit.length?'radio_box_check':''" ng-click="get_right_unit('all')"></i>全部单位</span>
 	</div>
 	<ul class="fire_alarm_ul">
@@ -89,4 +95,4 @@
 </div>
 <unit-detail-alert show-alert="show_unit_alert" info="base_info" id="current_id" selected="current_tab" unit-name="unit_name" device-list="device_list" buildings-info="buildings_info"></unit-detail-alert>
 <!--火灾报警信息详情-->
-<fire-drop-alert show-alert="show_alert" fire-details="fire_details" surface="surface" outside="outside"></fire-drop-alert>
+<fire-drop-alert show-alert="show_alert" fire-details="fire_details" surface="surface" outside="outside" fam-customer-site="fam_customer_site"></fire-drop-alert>

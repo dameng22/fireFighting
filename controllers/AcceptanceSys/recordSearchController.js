@@ -77,6 +77,7 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 	    	})
 			acceptance_http.get_fire_alert_info({alertId:alert,customerSiteId:id,requestFlag:4},function(result){
 	    		$scope.base_info = result.site;
+	    		$scope.base_fire_info = result;
 	    		$timeout($scope.initMap(result.relay),100);
 	    		$scope.outside = $filter("filter")(result.appearancePicture,function(item){if(item.pictureType == 2){return item}});
 	    		$scope.surface = $filter("filter")(result.appearancePicture,function(item){if(item.pictureType == 10){return item}});
@@ -88,6 +89,13 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 			});
 			acceptance_http.get_troubles_detail({id:alert,requestFlag:4},function(result){
 	    		$scope.records_details = result;
+	    		if($scope.records_details.detectorCode != null){
+	    			$scope.records_codes = $scope.records_details.detectorCode;
+	    		} else if ($scope.records_details.detectorCode == null && $scope.records_details.facuCode != null){
+	    			$scope.records_codes = $scope.records_details.facuCode;
+	    		} else {
+	    			$scope.records_codes = $scope.records_details.reportingDevice.code;
+	    		}
 	    	})
 		}
 		$scope.record_show = true

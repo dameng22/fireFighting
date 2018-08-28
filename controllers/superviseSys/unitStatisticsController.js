@@ -1,12 +1,26 @@
 /**
  * Created by Lxy on 2017/12/10.
  */
-app.controller('unitStatisticsController', ['$scope','$timeout','echart_round','superivse_http','$rootScope','$base64','$stateParams','downloadFiles', function($scope,$timeout,echart_round,superivse_http,$rootScope,$base64,$stateParams,downloadFiles){
+app.controller('unitStatisticsController', ['$scope','$timeout','echart_round','superivse_http','acceptance_http','$rootScope','$base64','$stateParams','downloadFiles', function($scope,$timeout,echart_round,superivse_http,acceptance_http,$rootScope,$base64,$stateParams,downloadFiles){
 	var values = [];
+	
+	//获取区域
+  	acceptance_http.get_unit_info_areas({customerId:$base64.decode($stateParams.unit)},function(result){
+  		$scope.net_areas = result;
+  	});
+  	
+  	//火警记录状态
+	$scope.fire_states=[
+		{id:1,name:'误报火警'},
+		{id:2,name:'真实火警'},
+		{id:3,name:'测试火警'}
+	];
+	
 	//单位类型
 	$scope.unit_statics_show = false;
 	$scope.categorys = [];
 	$scope.name = [];
+	$scope.cateyName = "";
 	superivse_http.get_site_type({customerId:$base64.decode($stateParams.unit)},function(result_categorys){
         for(var i=0;i<result_categorys.length;i++){
         	$scope.categorys.push(result_categorys[i].name);
@@ -29,6 +43,7 @@ app.controller('unitStatisticsController', ['$scope','$timeout','echart_round','
 	    					$scope.name.push(result_categorys[ii].name);
 				        	if(param.name == result_categorys[ii].name){
 				        		$scope.siteTypeId = result_categorys[ii].id;
+				        		$scope.cateyName = param.name;
 				        	}
 				        }						
 	    				$scope.get_search();
@@ -54,6 +69,7 @@ app.controller('unitStatisticsController', ['$scope','$timeout','echart_round','
 	    					$scope.name.push(result_categorys[ii].name);
 				        	if(param.name == result_categorys[ii].name){
 				        		$scope.siteTypeId = result_categorys[ii].id;
+				        		$scope.cateyName = param.name;
 				        	}
 				       }						
 	    				$scope.get_search();
@@ -79,14 +95,20 @@ app.controller('unitStatisticsController', ['$scope','$timeout','echart_round','
 	   	param = {'alertType':0,'endStatus':$scope.type_id,'siteType':$scope.siteTypeId};
 	   	if ($rootScope.system_name == '消防监管单位管理系统'){
 	   		superivse_http.get_unit_statist_alert_system(param,function(result){
-				$scope.unit_statistic_list = $scope.unit_statistic_list.concat(result.results);
+	   			if(result.results.length > 0){
+	   				$scope.unit_statistic_list = $scope.unit_statistic_list.concat(result.results);
+	   			}
+				
 				limits = true;
 				total_page = result.totalPage;
 				$scope.all_count = result.count;
 			});
 	   	} else {
 	   		superivse_http.get_unit_statist_alert(param,function(result){
-				$scope.unit_statistic_list = $scope.unit_statistic_list.concat(result.results);
+	   			if(result.results.length > 0){
+	   				$scope.unit_statistic_list = $scope.unit_statistic_list.concat(result.results);
+	   			}
+				
 				limits = true;
 				total_page = result.totalPage;
 				$scope.all_count = result.count;
@@ -206,4 +228,9 @@ app.controller('unitStatisticsController', ['$scope','$timeout','echart_round','
 		filenames = '年度各类型单位火灾报警数量统计';
         downloadFiles.download(urls,params,'',"GET",filenames);
    	};
+   	
+// 	$scope.printFunc=function(){
+// 		$("#unit_statics_div")[0].innerHTML;
+// 		window.print();
+//  }
 }]);

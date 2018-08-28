@@ -811,6 +811,9 @@ textarea{resize: none;}
 .width_140{
 	width: 140px;
 }
+.width_150{
+	width: 150px!important;
+}
 .width_101{
 	width: 101px;
 }
@@ -827,7 +830,14 @@ textarea{resize: none;}
 .search_ico{
 	width:12px;
 	height: 12px;
-	background-position:-78px -364px;
+	/*background-position:-78px -364px;*/
+	background-position:-186px -364px;
+	cursor: pointer;
+}
+.search_icon_blue{
+	width: 16px;
+	height: 16px;
+	background-image: url('../images/search_blue.png');
 	cursor: pointer;
 }
 .search_wrap{
@@ -2050,7 +2060,7 @@ textarea{resize: none;}
 	padding-left: 14px!important;
 }
 .ranking_info_index{
-	width: 7%;
+	width: 5%;
 }
 .ranking_info_name{
 	width: 18%;
@@ -2062,16 +2072,17 @@ textarea{resize: none;}
 	width: 26%;
 }
 .ranking_info_describ{
-	width: 10%;
+	width: 8%;
 }
-.ranking_info_status{
-	width: 10%;
-}
+
 .ranking_info_task{
 	width: 15%;
 }
 .ranking_info_require{
 	width: 20%;
+}
+.ranking_info_receiv{
+	width: 16%;
 }
 .ranking_info_scroll .list_data_scroll p:nth-child(2n){
 	background: #eef1f7;
@@ -2082,7 +2093,6 @@ textarea{resize: none;}
 	line-height: 23px;
 	font-size: 12px;
 }
-
 
 /*记录查询*/
 .record_search_title{
@@ -2099,7 +2109,7 @@ textarea{resize: none;}
 	width: 9%;
 }
 .record_search_pos{
-	width: 11%;
+	width: 14%;
 }
 .record_search_time{
 	width: 13%;
@@ -2641,6 +2651,15 @@ textarea{resize: none;}
 	right: 30px;
 	bottom: 20px;
 	font-size: 0;
+}
+.surface_dot_span{
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background: red;
+	border-radius: 50%;
+	position: absolute;
+	cursor: pointer;
 }
 .surface_delete{
 	background: #3CC798;
@@ -3482,6 +3501,9 @@ option[value="?"]{
 	vertical-align: top;
 	padding-bottom: 30px;
 }
+.device_eip_div{
+	margin-top: 13%;
+}
 #device_pie1,#device_pie2,#device_pie3,#device_pie4{
 	height: 100%;
 }
@@ -3547,4 +3569,11 @@ option[value="?"]{
     #wa_id {
         width: 989px;
     }
+}
+
+.surface_dot{
+   width:10px;
+   height:10px;
+   border-radius: 50%; 
+   //background-image: url(../images/icon_fire.png);
 }

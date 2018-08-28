@@ -15,7 +15,8 @@
 				</tr>
 				<tr>
 					<td class="tb_head">设备编码：</td>
-					<td>{{$ctrl.recordsDetails.reportingDevice.code}}</td>
+					<td ng-if="$parent.selected == 0">{{$ctrl.recordsDetails.reportingDevice.code}}</td>
+					<td ng-if="$parent.selected == 1">{{$ctrl.recordsCodes}}</td>
 					<td class="tb_head">设备名称：</td>
 					<td>{{$ctrl.recordsDetails.reportingDevice.name}}</td>
 				</tr>
@@ -47,7 +48,7 @@
 			<table style="width: 100%" ng-if="$parent.selected == 0" class="record_alert_deal record_alert_deal_new">
 				<tr>
 					<td class="tb_head" rowspan="2">{{$ctrl.recordsDetails.alertTime | date:'yyyyMMdd HH:mm:ss'}}</td>
-					<td style="width: 88%;"><font>报警位置：</font>{{$ctrl.recordsDetails.reportingDevice.address.address}}</td>
+					<td style="width: 88%;"><font>报警位置：</font>{{$ctrl.baseFireInfo.reportingDevice.address.address}}</td>
 				</tr>
 				<tr>
 					<td style="width: 88%;"><font>警情概述：</font>{{$ctrl.danger_status($ctrl.recordsDetails.reportingDevice.name,$ctrl.recordsDetails.remarks)}}</td>

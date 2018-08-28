@@ -108,10 +108,10 @@ app.controller('deviceStatisticsController', ['$scope','background_http','$timeo
 	$scope.get_dic();
 	var resise;
    	$(window).resize(function(){
-   		for(var i = 1;i<5;i++){
-   			resise = echarts.init(document.getElementById('device_pie'+i));
-   			$timeout(resise.resize, 100);
-   		};
+		resise = echarts.init(document.getElementById('device_pie1'));
+		resise2 = echarts.init(document.getElementById('device_pie2'));
+		$timeout(resise.resize, 100);
+		$timeout(resise2.resize, 100);
     });
 	//获取区域
   	acceptance_http.get_unit_info_areas({customerId:$base64.decode($stateParams.unit)},function(result){

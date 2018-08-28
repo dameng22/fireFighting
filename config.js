@@ -88,7 +88,7 @@ config.value('echart_pie',{
         text: '',
         x: 'center',
         fontSize:16,
-        padding:20,
+        padding:0,
 	},
 	color: ['#5EBFFF','#D1FC95','#8B84FD','#FF808A','#03F3C6'],
     legend:{
@@ -120,7 +120,7 @@ config.value('echart_pie',{
     yAxis: [],
     series: [{
     	type:'pie',
-		radius : '55%',
+		radius : '80%',
 		center: ['50%', '55%'],
 		label: {
             normal: {
@@ -130,7 +130,7 @@ config.value('echart_pie',{
         },
 		data:[]
     }]
-})
+});
 
 //字典项
 config.value('all_dic',{

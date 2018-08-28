@@ -135,6 +135,23 @@ app.controller('networkUnitController', ['$scope','acceptance_http','all_dic','e
 					$scope.sur_selected = floor;
 					acceptance_http.get_cells_pic({'customerSiteId':localStorage.unit_id,'pictureTypeIds':10,'placeId':$scope.floor_id,'storeyId':floor,'pageNum':1,'pageSize':1},function(result){
 						$scope.info = result.results;
+						for(var i in $scope.info){
+							$scope.pictureId = $scope.info[i].id;
+							$scope.famPointPosition = $scope.info[i].famPointPositions;
+							if($scope.famPointPosition.length == 0){
+								$("#img_surface_id").hide();
+								$scope.dot_info = false;
+							} else {
+								$("#img_surface_id").show();
+								$scope.dot_info = true;
+							}
+						}
+						if($scope.info.length == 0){//
+							$scope.show_draw_dot = false;
+							$scope.famPointPosition = [];
+						} else {
+							$scope.show_draw_dot = true;				
+						}
 					})
 				};
 			  	break;

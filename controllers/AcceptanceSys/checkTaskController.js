@@ -37,7 +37,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 //	$scope.tab_list=[	
 //		{name:'已完成'},
 //		{name:'进行中'}
-//	];
+//	];	
 	$scope.tab_list=[	
 		{name:'完成清单'},
 		{name:'任务清单'},

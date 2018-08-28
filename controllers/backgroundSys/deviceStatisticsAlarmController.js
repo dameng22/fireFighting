@@ -122,7 +122,10 @@ app.controller('deviceStatisticsAlarmController', ['$scope','background_http','$
         data: [], //键
         axisTick: {
             alignWithLabel: true
-        } 
+        }, 
+        axisLabel: {
+			fontSize: 13,
+		}, 
    	};
 	options.series = {
         type: 'bar',

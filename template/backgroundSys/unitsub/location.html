@@ -15,7 +15,7 @@
 				<span class="loaction_type">设备类型</span>
 				<span class="loaction_type">子系统类型</span>
 				<span class="loaction_code">传输设备编码</span>
-				<span class="loaction_add">设备位置</span>
+				<!--<span class="loaction_add">设备位置</span>-->
 				<span class="loaction_operate">操作</span>
 			</p>
 			<div class="list_data_scroll fix_time_data">
@@ -39,7 +39,7 @@
                                 ng-model="add_info.relayId">
                       	</select>
                     </span>
-					<span class="loaction_add"><input type="text" class="input_text" ng-model="add_info.address.address" /></span>
+					<!--<span class="loaction_add"><input type="text" class="input_text" ng-model="add_info.address.address" /></span>-->
 					<span class="loaction_operate location_edit"><font ng-click="save_data_btn(add_info,'add');add_show=false">保存</font> | <font ng-click="add_show=false">取消</font></span>
 				</p>
 				<p class="list_data cursor_normal" ng-repeat="l in info track by $index">
@@ -68,10 +68,10 @@
                       	</select>
 						<font ng-if="!l.read">{{l.relayId | bulding_filter:device_list}}</font>
 					</span>
-					<span class="loaction_add">
+					<!--<span class="loaction_add">
 						<input type="text" class="input_text" ng-model="l.address.address" ng-if="l.read"/>
 						<font ng-if="!l.read">{{l.address.address}}</font>
-					</span>
+					</span>-->
 					<span class="loaction_operate" ng-class="l.read?'location_edit':''">
 						<font ng-if="!l.read" ng-click="l.read=true">修改</font><font ng-if="l.read" ng-click="save_data_btn(l,'edit')">保存</font> | 
 						<font ng-if="l.read" ng-click="l.read=false">取消</font></font><font ng-if="!l.read" ng-click="del_data(l.id)">删除</font>

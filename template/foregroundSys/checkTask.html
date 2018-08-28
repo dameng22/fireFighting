@@ -34,7 +34,7 @@
 			<span class="check_task_time" ng-if="selected == 2">任务预计完成时间</span>
 			<span class="check_task_code" ng-if="selected == 1">周期查岗</span>
 			<span class="check_task_time" ng-if="selected == 1">任务间隔时间(小时)</span>
-			<span class="check_task_person" ng-if="selected != 1">查岗人</span>
+			<span class="check_task_person">查岗人</span>
 			<span class="check_task_code" ng-show="selected == 0"></span>
 		</p>
 		<div class="list_data_scroll fix_check_task min_width_1100" id="task">
@@ -55,7 +55,7 @@
 				<span class="check_task_time" ng-if="selected == 2">{{l.endTime | date:'yyyyMMdd HH:mm:ss'}}</span><!--任务完成-->
 				<span class="check_task_code" ng-if="selected == 1">{{l.intervalTime?'是':'否'}}</span>
 				<span class="check_task_time" ng-if="selected == 1">{{l.intervalTime}}<font ng-if="l.intervalTime">小时</font><font ng-if="!l.intervalTime">--</font></span>
-				<span class="check_task_person" ng-if="selected != 1">{{l.person.givenNameOriental}}</span>
+				<span class="check_task_person">{{l.person.givenNameOriental}}</span>
 				<span class="check_task_code" ng-click="view_detail(l.recordId)" ng-show="selected == 0"><font>查看详情</font></span>
 				<span class="check_task_code" ng-click="check_view_detail(l.id)" ng-show="selected != 0"><font>查看详情</font></span>
 			</p>

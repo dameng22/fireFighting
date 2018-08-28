@@ -569,8 +569,17 @@
 			<div class="fix_time_data min_width_550">
 				<div class="surface_big_pic">
 					<p class="surface_big_title" ng-show="re_floor.placeName">{{re_floor.placeName}}：地上{{re_floor.floorUpQuantity?re_floor.floorUpQuantity:0}}层 |  地下{{re_floor.floorDownQuantity?re_floor.floorDownQuantity:0}}层</p>
-					<a href="{{qiuNiuUrl+info[0].qiniuName}}" data-lightbox="roadtrip">
-						<img ng-src="{{info[0].qiniuName?(qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" /> <!-- images/add_pic.png -->
+					<!--<a href="{{qiuNiuUrl+info[0].qiniuName}}" data-lightbox="roadtrip">
+						<img ng-src="{{info[0].qiniuName?(qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" /> 
+					</a>-->
+					<a style="position: relative;display: inline-block;">
+						<img ng-src="{{info[0].qiniuName?($root.qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}"/>
+						<div id="img_surface_id" style="position: absolute;top: 0px;left: 0px;width: 100%;height:calc(100% - 60px);margin-top:60px;">
+							<span ng-repeat="l in famPointPosition track by $index" id="dot_span" ng-mouseenter="show_dots = true" ng-mouseleave="show_dots = false"
+								ng-style="{'top':l.coordinateY+'px','left':l.coordinateX+'px'}" class="surface_dot_span">
+								<span ng-show="show_dots" style="line-height: 34px;">{{l.detectorCode}}</span>
+							</span>
+						</div>
 					</a>
 				</div>
 			</div>

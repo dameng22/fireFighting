@@ -1,20 +1,55 @@
 		<div class="surface_con_bg">
 			<div class="network_alert_head border_radius_top_4">
-				<i class="ico_sprite ico_back" ng-click="alert_cancel()"></i>
+				<i class="ico_sprite ico_back" ng-click="alert_cancel()" style="float:left;top: 20px;"></i>
 				<span class="btn_size btn_blue" ui-sref="setUnitDetail.surface.location({'token':sys_token,'unit':sys_unit,'sys':sys_role})">编码表</span>
 				<span class="btn_size btn_blue" ng-click="del_build()" ng-show="floor_id">删除楼栋</span>
 				<span class="btn_size btn_blue" ng-click="modify_build(floor_id,'edit')" ng-show="floor_id">编辑楼栋</span>
 				<span class="btn_size btn_blue" ng-click="modify_build(floor_id,'add')" ng-show="build_id">新增楼栋</span>
-				
+				<span class="btn_size btn_blue" ng-click="new_dot()" style="float: left;margin-left: 10px;" ng-show="pictureId">标点位</span>
 			</div>
 			<!--图片信息-->
-			<div class="surface_bg_scroll" style="background: #FFFFFF;"> 
+			<div class="surface_bg_scroll" style="background: #FFFFFF;" id="surface_total_div"> 
 				<div class="fix_time_data min_width_550">
 					<div class="surface_big_pic">
 						<p class="surface_big_title" ng-show="re_floor.placeName">{{re_floor.placeName}}：地上{{re_floor.floorUpQuantity?re_floor.floorUpQuantity:0}}层 |  地下{{re_floor.floorDownQuantity?re_floor.floorDownQuantity:0}}层</p>
 						<p class="surface_big_title" ng-show="!re_floor.placeName">请选择建筑物及楼栋</p>
-						<a href="{{qiuNiuUrl+info[0].qiniuName}}" data-lightbox="roadtrip">
-							<img ng-src="{{info[0].qiniuName?(qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" /> <!-- images/add_pic.png -->
+						
+						<div ng-show="pictureId">
+							<span>设备类型</span>
+							<select class="select_text width_150" title=""
+                                ng-options="type.id as type.name for type in device_type"
+                                ng-model="add_info.deviceCategoryId">
+                      		</select>
+							<span>设备编号</span>
+							<input class="input_text width_150" ng-model="add_info.code"/>
+							<!--<input class="input_text width_150" ng-model="add_info.re_code" ng-show="other_code"/>-->
+							<span>设备说明</span>
+							<input class="input_text width_150" ng-model="add_info.remark"/>
+							<!--<span class="btn_size btn_blue" ng-click="dot_search()">搜索</span>-->
+							<span class="btn_size btn_blue" ng-click="dot_remark()">标注</span>
+						</div>
+						
+						
+						<!--xy<a href="{{qiuNiuUrl+info[0].qiniuName}}" data-lightbox="roadtrip">
+							<img ng-src="{{info[0].qiniuName?(qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" />
+						</a>						-->
+						<!--平面图描点-->
+						<!--<a style="position: relative;display: inline-block;">
+							<img ng-src="{{info[0].qiniuName?(qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" id="surface_img_center"/>
+							<div id="img_surface_id" ng-click="drawPt()" style="position: absolute;top: 0px;left: 0px;width: 100%;height:calc(100% - 60px);margin-top:60px;">
+								<span ng-repeat="l in famPointPosition" ng-style="{'margin-top':l.coordinateY+'px','margin-left':l.coordinateX+'px'}" style="display: inline-block;width: 10px;height: 10px;background: red;border-radius: 50%;" ng-click='delete(l.id)'>
+								</span>
+								
+							</div>
+						</a>						-->
+						<a style="position: relative;display: inline-block;">
+							<img ng-src="{{info[0].qiniuName?(qiuNiuUrl+info[0].qiniuName+'?imageView2/2/w/550/'):'images/add_pic.png'}}" id="surface_img_center"/>
+							<div id="img_surface_id" ng-click="drawPt()" style="position: absolute;top: 0px;left: 0px;width: 100%;height:calc(100% - 60px);margin-top:60px;" ng-show="pictureId">
+								<span ng-repeat="l in famPointPosition track by $index" id="dot_span" ng-mouseenter="show_dots = true" ng-mouseleave="show_dots = false"
+									ng-style="{'top':l.coordinateY+'px','left':l.coordinateX+'px'}" class="surface_dot_span" ng-click='delete_dot(l.id,$index)'>
+									<span ng-show="show_dots" style="line-height: 34px;">{{l.detectorCode}}</span>
+								</span>
+							</div>
 						</a>
 					</div>
 				</div>
@@ -60,4 +95,3 @@
 		<build-edit-alert show-alert="show_build_edit" build-id="build_id" get-cell="get_cell()" item="buliding"></build-edit-alert>	
 		<floor-alert show-alert="show_floor_edit" floor_id="floor_id" get-floor="get_floor()" item="buliding"></floor-alert>	
 		<child-alert show-alert="show_floor_child" floor_id="floor_id" get-floor="get_floor()" item="buliding"></child-alert>
-		
