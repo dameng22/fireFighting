@@ -16,10 +16,14 @@
 						
 						<div ng-show="pictureId">
 							<span>设备类型</span>
-							<select class="select_text width_150" title=""
-                                ng-options="type.id as type.name for type in device_type"
-                                ng-model="add_info.deviceCategoryId">
-                      		</select>
+							<select class="select_text width_150" ng-model="device_type" ng-change="selectTypeChange();">
+								<!--<option ng-repeat="l in device_types" value="{{l.id}}">{{l.name}}</option>-->
+								<option value="42">线型光电感烟火灾探测器</option>
+								<option value="23" ng-selected="true">手动火灾报警按钮</option>
+								<option value="30">感温火灾探测器</option>
+								<option value="10">可燃气体探测器</option>
+								<option value="24">消火栓按钮</option>
+							</select>
 							<span>设备编号</span>
 							<input class="input_text width_150" ng-model="add_info.code"/>
 							<!--<input class="input_text width_150" ng-model="add_info.re_code" ng-show="other_code"/>-->
@@ -47,7 +51,7 @@
 							<div id="img_surface_id" ng-click="drawPt()" style="position: absolute;top: 0px;left: 0px;width: 100%;height:calc(100% - 60px);margin-top:60px;" ng-show="pictureId">
 								<span ng-repeat="l in famPointPosition track by $index" id="dot_span" ng-mouseenter="show_dots = true" ng-mouseleave="show_dots = false"
 									ng-style="{'top':l.coordinateY+'px','left':l.coordinateX+'px'}" class="surface_dot_span" ng-click='delete_dot(l.id,$index)'>
-									<span ng-show="show_dots" style="line-height: 34px;">{{l.detectorCode}}</span>
+									<span ng-show="show_dots" style="line-height: 62px;">{{l.detectorCode}}</span>
 								</span>
 							</div>
 						</a>

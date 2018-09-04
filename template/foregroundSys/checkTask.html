@@ -16,6 +16,7 @@
 			<hr class="seprate_line" ng-show="selected==1">
 			<span class="btn_size btn_light_blue" ng-click="del_check()" ng-class="tasks_ids.length&&selected == 1 || all_task&&task_list.length&&selected == 1?'btn_blue':''" ng-show="selected==1">删除任务</span>
 			<span class="btn_size btn_green" ng-click="add_task_btn()" ng-show="selected==1">新增任务</span>
+			<span class="btn_size btn_green" ng-click="stop_task_btn()" ng-show="selected==1">结束任务</span>
 		</div>
 	</div>
 	<div class="check_task_scroll border_radius_4 check_task_list">

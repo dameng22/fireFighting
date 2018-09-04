@@ -44,22 +44,8 @@
 		</div>	
 	</div>	
 </div>
-<div class="content_right fire_alarm_center_btm height_174 border_radius_4" style="margin-right: 0;">
+<!--<div class="content_right fire_alarm_center_btm height_174 border_radius_4" style="margin-right: 0;">
 	<div class="check_task_scroll border_radius_4 check_task_setting unit_wrap_btm">
-		<!--<p class="list_data list_data_head min_width_793">
-			<span class="unit_alarm_type">设备类型</span>
-			<span class="unit_alarm_name">设备名称</span>
-			<span class="unit_alarm_code">设备型号</span>
-			<span class="unit_alarm_status">设备状态</span>
-		</p>
-		<div class="list_data_scroll fix_check_task min_width_793">
-			<p class="list_data" ng-repeat="l in device_info track by $index">
-				<span class="unit_alarm_type">传输装置</span>
-				<span class="unit_alarm_name">{{l.name}}</span>
-				<span class="unit_alarm_code">{{l.modelName}}</span>
-				<span class="unit_alarm_status">{{l.status==0?'在线':'离线'}}</span>
-			</p>
-		</div>	-->
 		<p class="list_data list_data_head min_width_793">
 			<span class="unit_alarm_type">单位编码</span>
 			<span class="unit_alarm_name">单位名称</span>
@@ -70,7 +56,7 @@
 			<span class="unit_alarm_receiv">接警时间</span>
 		</p>
 		<div class="list_data_scroll fix_check_task min_width_793">
-			<p class="list_data" ng-repeat="l in touble_list track by $index"><!--已改为和上边表格同步的接口数据-->
+			<p class="list_data" ng-repeat="l in touble_list track by $index">
 				<span class="unit_alarm_type">{{l.relay.famCustomerSite.code}}</span>
 				<span class="unit_alarm_name">{{l.relay.famCustomerSite.name}}</span>
 				<span class="unit_alarm_code">{{l.reportingDevice.address.address}}</span>
@@ -80,6 +66,32 @@
 				<span class="unit_alarm_receiv">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 			</p>
 		</div>	
+	</div>	
+</div>-->
+
+
+<div class="content_right fire_alarm_center_btm height_174 border_radius_4" style="margin-right: 0;">
+	<div class="check_task_scroll border_radius_4 check_task_setting unit_wrap_btm">
+		<p class="list_data list_data_head min_width_793">
+			<span class="unit_alarm_status">序号</span>
+			<span class="unit_alarm_type">设备类型</span>
+			<span class="unit_alarm_name">设备名称</span>
+			<span class="unit_alarm_model">设备型号</span>
+			<span class="unit_alarm_status">联网方式</span>
+			<span class="unit_alarm_status">在线状态</span>
+			<span class="unit_alarm_name">最后一次联网时间</span>
+		</p>
+		<div class="list_data_scroll fix_check_task min_width_793">
+			<p class="list_data" ng-repeat="l in device_info track by $index">
+				<span class="unit_alarm_status">{{$index+1}}</span>
+				<span class="unit_alarm_type">传输装置</span>
+				<span class="unit_alarm_name">{{l.name}}</span>
+				<span class="unit_alarm_model">{{l.modelName}}</span>
+				<span class="unit_alarm_status">{{l.modelTypeId | model_filter:communication_mdl}}</span>
+				<span class="unit_alarm_status">{{l.status==0?'在线':'离线'}}</span>
+				<span class="unit_alarm_name">{{l.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+			</p>
+		</div>
 	</div>	
 </div>
 

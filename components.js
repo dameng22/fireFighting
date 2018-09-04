@@ -1020,7 +1020,27 @@ components.component('announcementAlert', {
         		submit_notice()
         	}
         };
+        
+        function strlen(str){
+		    var len = 0;
+		    for (var i=0; i<str.length; i++) { 
+		     var c = str.charCodeAt(i); 
+		    //单字节加1 
+		     if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
+		       len++; 
+		     } 
+		     else { 
+		      len+=2; 
+		     } 
+		    } 
+		    return len;
+		}
         function submit_notice(){
+        	var str_len = strlen(self.remark);
+			if(str_len >= 1000){
+				myself_alert.dialog_show("输入内容不可超过1000个字符,请重新输入!");
+        		return;
+			}
         	superivse_http.add_notice({"customerId": $base64.decode($rootScope.sys_unit),"famNoticeAttachment":files,"noticeTitle":self.title,"noticeContent":self.remark},function(result){
 				myself_alert.dialog_show("添加成功!");
 				self.showAlert = false;
@@ -1079,10 +1099,13 @@ components.component('noticeDetailAlert', {
         noticeDetail:'=',
         noticeItem:'='
     },
-    controller:function(superivse_http,myself_alert,qiniu_url){
+    controller:function(superivse_http,myself_alert,qiniu_url,$window){
         var self = this;
         self.alert_cancel = function(){
             self.showAlert = false;
+            if(self.showAlert == false){
+				$window.location.reload();
+			}
         };
         self.download = function(name,origin){
         	window.open(qiniu_url+name+'?attname='+origin);
@@ -1392,6 +1415,46 @@ components.component('fireConfirm', {
         }
     },
     templateUrl:'./template/components/fireConfirm.html'
+});
+//确认火警上传119
+components.component('reportFireConfirm', {
+    bindings:{
+        showAlert:'='
+    },
+    controller:function(){
+        var self = this;
+        self.is_or_no_alert = function(){
+            if(typeof(self.showAlert) == 'undefined'){
+                return 'relieve_guard_wrap';
+            }
+            if(self.showAlert){
+            	return 'relieve_guard_wrap fams_alert_enter';
+            }else{
+            	return 'relieve_guard_wrap fams_alert_none';
+            }
+        }
+    },
+    templateUrl:'./template/components/reportFireConfirm.html'
+});
+//记录搜索无记录
+components.component('recordZeroAlert', {
+    bindings:{
+        showAlert:'='
+    },
+    controller:function(){
+        var self = this;
+        self.is_or_no_alert = function(){
+            if(typeof(self.showAlert) == 'undefined'){
+                return 'relieve_guard_wrap';
+            }
+            if(self.showAlert){
+            	return 'relieve_guard_wrap fams_alert_enter';
+            }else{
+            	return 'relieve_guard_wrap fams_alert_none';
+            }
+        }
+    },
+    templateUrl:'./template/components/recordZeroAlert.html'
 });
 //新增楼栋
 components.component('buildingAlert', {

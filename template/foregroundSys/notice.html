@@ -9,7 +9,7 @@
 		</p>
 		<div class="list_data_scroll fix_time_data min_width_793">
 			<p class="list_data cursor_normal min_width_793" ng-repeat="l in notice_list track by $index" ng-dblclick="view_notice(l.id,l)">
-				<span class="notice_index">{{$index+1}}</span>
+				<span class="notice_index"><b ng-show="l.isLook == 0" class="notice_dot_tip"></b>{{$index+1}}</span>
 				<span class="notice_title" title="{{l.noticeTitle}}">{{l.noticeTitle}}</span>
 				<span class="notice_time">{{l.noticeDate}}</span>
 				<span class="notice_from">{{l.person.givenNameOriental}}</span>

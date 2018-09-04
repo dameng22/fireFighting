@@ -8,7 +8,7 @@
 		<div class="downloads_wrap">
 			<p class="downloads_title">消防远程监控中心电话</p>
 			<div class="downloads_detail margin_btm_8">
-				<span>传输设备故障保修电话：</span>
+				<span>传输设备故障报修电话：</span>
 				<div ng-show="!can_edit">
 					<font ng-repeat="l in telephone track by $index">{{l.value}}</font>
 				</div>
@@ -39,11 +39,12 @@
 			</div>
 			<p class="downloads_title">消防远程监控中心APP下载</p>
 			<div class="pad_top_8 font_size_0">
-				<div class="downloads_code text-right">
-					<div class="downloads_inside float_right" style="margin-right: -91px;">
+				<div class="downloads_code">
+					<div class="downloads_inside float_right" style="margin-right: 91px;" id="user_img">
+						<!--<p class="user_two_code">用户版</p>-->
 						<p class="user_two_code">用户版</p>
 						<img ng-src="{{ios.length?(qiuNiuUrl+ios[0].value+'?imageView2/1/w/182/h/182'):''}}" width="182" height="182"/>
-						<!--<p>IOS系统用户</p>-->
+						<!--<p>用户版</p>-->
 						<p>
 							<span class="btn_size btn_blue btn_light_blue notice_upload" ng-show="can_edit">选择图片
 								<input type="file" id="upload_ios" style="width: 100%;"/>
@@ -51,17 +52,18 @@
 						</p>	
 					</div>
 				</div>
-				<!--<div class="downloads_code">
-					<div class="downloads_inside float_left" style="margin-left: 19px;">
+				<div class="downloads_code">
+					<div class="downloads_inside float_left" style="margin-left: 91px" id="supervise_img">
+						<p class="user_two_code">监管版</p>
 						<img ng-src="{{android.length?(qiuNiuUrl+android[0].value+'?imageView2/1/w/182/h/182'):''}}" width="182" height="182"/>
-						<p>Android系统用户</p>
+						<!--<p>监管版</p>-->
 						<p>
 							<span class="btn_size btn_blue btn_light_blue notice_upload" ng-show="can_edit">选择图片
 								<input type="file" id="upload_android" style="width: 100%;"/>
 							</span>
 						</p>	
 					</div>
-				</div>-->
+				</div>
 			</div>	
 		</div>
 	</div>

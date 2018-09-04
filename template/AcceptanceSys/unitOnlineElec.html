@@ -5,7 +5,7 @@
 				<li ng-class="($index==selected)?'check_task_selected':''" ng-click="go_state(l.id)" ng-repeat="l in alarm_type">{{l.name}}<hr class="check_task_tab_line" ng-if="!$last"/></li>
 			</ul>
 			<span class="btn_size btn_blue" ng-click="download_file()">导出</span>
-			<span class="btn_size btn_light_blue">打印</span>
+			<!--<span class="btn_size btn_light_blue">打印</span>-->
 			<span class="btn_size btn_light_blue" ng-click="alert_show(0,current_id)" ng-class="current_id?'btn_blue':''" ng-show="system_name == '消防物联网远程监控系统'">填写备注</span>
 			<span class="btn_size btn_light_blue" ng-click="add_test(current_id)" ng-class="current_id?'btn_blue':''" ng-show="system_name == '消防物联网远程监控系统'">加入测试</span>
 		</div>

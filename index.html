@@ -84,7 +84,7 @@
 			<div ng-if="foreground_show" ui-sref="notice({'token':sys_token,'unit':sys_unit,'sys':sys_role})" ng-class="router_state == 'notice'?'log_select':''" class="nav_right_new">
 				<p><i class="ico_sprite tips_ico" style="left: 34px;"></i></p>
 				<p>通知</p>
-				<b id="notice_red_tip"></b>
+				<b id="notice_red_tip">{{result}}</b>
 			</div>
 			<div class="nav_right_line" ng-if="background_show"></div>
 			<div ng-click="open_window('map')" ng-if="!foreground_show" class="nav_right_new">
@@ -92,7 +92,7 @@
 				<p>地图</p>
 			</div>
 			<div class="nav_right_line"></div>
-			<div ng-if="foreground_show || background_show" ui-sref="downloads({'token':sys_token,'unit':sys_unit,'sys':sys_role})" ng-class="router_state == 'downloads'?'log_select':''" class="nav_right_new">
+			<div ng-if="foreground_show || background_show || supervise_show" ui-sref="downloads({'token':sys_token,'unit':sys_unit,'sys':sys_role})" ng-class="router_state == 'downloads'?'log_select':''" class="nav_right_new">
 				<p><i class="ico_sprite qrs_ico"></i></p>
 				<p>帮助</p>
 			</div>
@@ -150,7 +150,11 @@
     <add-confirm show-alert="add_now"></add-confirm>
     <!--确认火警-->
     <fire-confirm show-alert="fire_now"></fire-confirm>
+    <!--确认火警上传119-->
+    <report-fire-confirm show-alert="fire_report_now"></report-fire-confirm>
 	<!--修改密码弹框-->
 	<revise-pwd-alert show-alert="pwd_show"></revise-pwd-alert>
+	<!--查询记录无条件-->
+	<record-zero-alert show-alert="record_zero"></record-zero-alert>
 </body>
 </html>

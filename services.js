@@ -1367,6 +1367,14 @@ services.factory('foreground_http', ['httpBase', function(httpBase){
 	                errorDo: errorDo
 	            });
 	        },
+	        get_notice_list: function(params, successDo, errorDo){ //3查看通知列表
+	            httpBase.get({
+	                url:'networking/noticeList/customerSiteId',
+	                params: params,
+	                successDo: successDo,
+	                errorDo: errorDo
+	            });
+	        },
 	    }
 }]);
 services.factory('background_http', ['httpBase', function(httpBase){

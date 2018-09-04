@@ -6,7 +6,7 @@
 				<li ng-class="($index==selected)?'check_task_selected':''" ng-click="show_tab($index)" ng-repeat="l in tab_list">{{l.name}}<hr class="check_task_tab_line" ng-if="!$last"/></li>
 			</ul>
 			<span class="btn_size btn_blue margin_right_4 vertical_top" ng-click="download_file()" ng-show="selected!=2">导出</span>
-			<span class="btn_size btn_light_blue">打印</span>
+			<!--<span class="btn_size btn_light_blue">打印</span>-->
 			<hr class="seprate_line margin_right_4 vertical_top" ng-show="selected!=2" style="top: 3px;">
 			<span class="btn_size btn_blue vertical_top" ng-click="reset_filter()">重制条件 </span>
 			<span class="btn_size btn_blue vertical_top" ng-click="search_list()">查询 </span>
@@ -69,8 +69,10 @@
 	</div>
 	<div class="check_task_scroll border_radius_4 check_task_list" ng-show="selected != 3 && selected != 4">
 		<p class="list_data list_data_head min_width_1100">
-			<span class="record_search_code">单位编码</span>
-			<span class="record_search_name">单位名称</span>
+			<span class="record_search_code" ng-if="selected!=2">单位编码</span>
+			<span class="record_search_code" ng-if="selected==2" style="width: 12%;">单位编码</span>
+			<span class="record_search_name" ng-if="selected!=2">单位名称</span>
+			<span class="record_search_name" ng-if="selected==2" style="width: 18%;">单位名称</span>
 			<span class="record_search_code" ng-if="selected==3&&selected==4">设备编码</span>
 			
 			<span class="record_search_name" ng-if="selected==3&&selected==4">设备名称</span>
@@ -79,36 +81,41 @@
 			
 			<span class="record_search_pos" ng-if="selected==0">报警位置</span>
 			<span class="record_search_pos" ng-if="selected==1">报警位置</span>
-			<span class="record_search_pos" ng-if="selected==2">报警位置</span>
+			<span class="record_search_pos" ng-if="selected==2" style="width: 18%;">报警位置</span>
 			
 			<span class="record_search_type" ng-if="selected==0">警情类型</span>
 			
-			<span class="record_search_time">报警时间</span>
+			<span class="record_search_time" ng-if="selected!=2">报警时间</span>
+			<span class="record_search_time" ng-if="selected==2" style="width: 19%;">报警时间</span>
 			<span class="record_search_time" ng-if="selected!=2">处理时间</span>
-			<span class="record_search_time" ng-if="selected==2">接警时间</span>
+			<span class="record_search_time" ng-if="selected==2" style="width: 19%;">接警时间</span>
 			<span class="record_search_type">所属区域</span>
 			<span class="record_search_operate" ng-if="selected!=2">操作人</span>
 		</p>
 		<div class="list_data_scroll fix_check_task min_width_1100">
 			<p class="list_data min_width_1100" ng-repeat="l in record_list track by $index" ng-click="go_detail(l.siteId,l.alertId)">
-				<span class="record_search_code">{{selected!=2?l.siteCode:l.relay.famCustomerSite.code}}</span>
-				<span class="record_search_name" title="{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}">{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}</span>
+				<span class="record_search_code" ng-if="selected!=2">{{selected!=2?l.siteCode:l.relay.famCustomerSite.code}}</span>
+				<span class="record_search_code" ng-if="selected==2" style="width: 12%;">{{l.relay.famCustomerSite.code}}</span>
+				<span class="record_search_name" title="{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}" ng-if="selected!=2">{{selected!=2?l.siteName:l.relay.famCustomerSite.name}}</span>
+				<span class="record_search_name" title="{{l.relay.famCustomerSite.name}}" ng-if="selected==2" style="width: 18%;">{{l.relay.famCustomerSite.name}}</span>
+				
 				<span class="record_search_code" ng-if="selected==3&&selected==4">{{selected!=2?l.deviceCode:l.relay.code}}</span>
 				
 				<span class="record_search_name" title="{{selected!=2?l.deviceName:l.relay.name}}" ng-if="selected==3&&selected==4">{{selected!=2?l.deviceName:l.relay.name}}</span>
 				
 				<span class="record_search_type" ng-if="selected==1">{{device_broke(l)}}</span>
 				
-				<span class="record_search_pos" ng-if="selected==0">{{l.reportingDeviceAddress.address}}</span>
-				<span class="record_search_pos" ng-if="selected==1">{{l.reportingDeviceAddress.address}}</span>
-				<span class="record_search_pos" ng-if="selected==2">{{l.reportingDeviceAddress.address}}</span>
+				<span class="record_search_pos" ng-if="selected==0" title="{{l.reportingDeviceAddress.address}}">{{l.reportingDeviceAddress.address}}</span>
+				<span class="record_search_pos" ng-if="selected==1" title="{{l.reportingDeviceAddress.address}}">{{l.reportingDeviceAddress.address}}</span>
+				<span class="record_search_pos" ng-if="selected==2" title="{{l.reportingDeviceAddress.address}}" style="width: 18%;">{{l.reportingDeviceAddress.address}}</span>
 				
 				
 				<span class="record_search_type" ng-if="selected==0">{{l.endStateId | dic_filter:fire_states}}</span>
 				
-				<span class="record_search_time">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="record_search_time" ng-if="selected!=2">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="record_search_time" ng-if="selected==2" style="width: 19%;">{{l.alertTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="record_search_time" ng-if="selected!=2">{{l.lastUpdateTime | date:'yyyyMMdd HH:mm:ss'}}</span>
-				<span class="record_search_time" ng-if="selected==2">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
+				<span class="record_search_time" ng-if="selected==2" style="width: 19%;">{{l.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</span>
 				<span class="record_search_type" ng-if="selected!=2">{{l.regionId | area_filter:net_areas}}</span>
 				<span class="record_search_type" ng-if="selected==2">{{l.relay.famCustomerSite.regionId | area_filter:net_areas}}</span>
 				<span class="record_search_operate" ng-if="selected!=2">{{l.person.givenNameOriental}}</span>

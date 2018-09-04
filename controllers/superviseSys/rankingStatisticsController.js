@@ -1,8 +1,8 @@
 /**
  * Created by Lxy on 2017/12/10.
  */
-app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round','superivse_http','$filter','$rootScope','downloadFiles','acceptance_http','$base64','$stateParams',
-	function($scope,$timeout,echart_round,superivse_http,$filter,$rootScope,downloadFiles,acceptance_http,$base64,$stateParams){
+app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round','superivse_http','$filter','$rootScope','downloadFiles','acceptance_http','$base64','$stateParams','all_dic',
+	function($scope,$timeout,echart_round,superivse_http,$filter,$rootScope,downloadFiles,acceptance_http,$base64,$stateParams,all_dic){
 	var values = [];
 	$scope.current_area = '广州市';
 	if ($rootScope.system_name == '消防监管单位管理系统'){
@@ -214,7 +214,17 @@ app.controller('rankingStatisticsController', ['$scope','$timeout','echart_round
     }
     $(window).resize(function(){
     	$timeout(chart.resize, 100);
-    })
+    });
+    //传输装置错误判断
+  	$scope.device_broke = function(l){
+		if(l.detectorId){
+			return '探测器故障';
+		}else if(l.facuId){
+			return '控制器故障';
+		}else if(l.relayId){
+			return '传输器故障';
+		}
+ 	};
 	//点击单位
 	$scope.unit_click = function(l,type,check){
 		$scope.unit = l;

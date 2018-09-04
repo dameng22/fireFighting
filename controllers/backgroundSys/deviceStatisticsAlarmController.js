@@ -12,6 +12,7 @@ app.controller('deviceStatisticsAlarmController', ['$scope','background_http','$
 			area_id = null
 		}
 		$scope.company_list = [];//清空左侧单位
+		$scope.name = "";
 		background_http.get_pie_data({'regionId':area_id},function(result){
 			init_year();
 			legend = []
@@ -35,10 +36,12 @@ app.controller('deviceStatisticsAlarmController', ['$scope','background_http','$
 			chart.off("click");
 			chart.on("click", function (param){
 				$scope.device_statics_down_show = true;
+				$scope.name = param.name;
+				$scope.excel_name = '火灾控制器品牌';
 				if(param.name == '其他'){
-					$scope.jsons = {'regionId':area_id,'facuManufacturerIdIsNull':true};
+					$scope.jsons = {'regionId':area_id,'facuManufacturerIdIsNull':true,'menuName':$scope.excel_name};
 				}else{
-					$scope.jsons = {'regionId':area_id,'facuManufacturerId':param.data.id};
+					$scope.jsons = {'regionId':area_id,'facuManufacturerId':param.data.id,'menuName':$scope.excel_name};
 				}	
 				$scope.get_search();
 			});
@@ -116,8 +119,6 @@ app.controller('deviceStatisticsAlarmController', ['$scope','background_http','$
         type: 'value'
     };
 	options.yAxis={
-//		min:0,
-//      max:25,
         type: 'category',
         data: [], //键
         axisTick: {
@@ -126,6 +127,7 @@ app.controller('deviceStatisticsAlarmController', ['$scope','background_http','$
         axisLabel: {
 			fontSize: 13,
 		}, 
+		splitNumber:8,
    	};
 	options.series = {
         type: 'bar',

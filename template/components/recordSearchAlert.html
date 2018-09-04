@@ -48,7 +48,8 @@
 			<table style="width: 100%" ng-if="$parent.selected == 0" class="record_alert_deal record_alert_deal_new">
 				<tr>
 					<td class="tb_head" rowspan="2">{{$ctrl.recordsDetails.alertTime | date:'yyyyMMdd HH:mm:ss'}}</td>
-					<td style="width: 88%;"><font>报警位置：</font>{{$ctrl.baseFireInfo.reportingDevice.address.address}}</td>
+					<td style="width: 88%;"><font>报警位置：</font>{{$ctrl.baseFireInfo.reportingDevice.address.address}}<br>
+					<font>接警时间：</font>{{$ctrl.baseFireInfo.receivingTime | date:'yyyyMMdd HH:mm:ss'}}</td>
 				</tr>
 				<tr>
 					<td style="width: 88%;"><font>警情概述：</font>{{$ctrl.danger_status($ctrl.recordsDetails.reportingDevice.name,$ctrl.recordsDetails.remarks)}}</td>
@@ -97,18 +98,40 @@
 				</tr>
 			</table>
 			<!--火灾信息-->
-			<div class="fire_alert_wrap" ng-if="$parent.selected == 0&&$ctrl.surface.length>0">
+			<!--<div class="fire_alert_wrap" ng-if="$parent.selected == 0&&$ctrl.surface.length>0">
 				<p class="fire_alert_title">平面图</p>
 				<a href="{{$root.qiuNiuUrl+$ctrl.surface[0].qiniuName}}" data-lightbox="roadtrip">
 					<img ng-src="{{$ctrl.surface[0].qiniuName?($root.qiuNiuUrl+$ctrl.surface[0].qiniuName):''}}" class="fire_alert_img"/>
 				</a>
+			</div>-->
+			<div ng-class="$ctrl.surface[0].qiniuName?'fire_alert_wrap':'fire_alert_tu'">
+				<p class="fire_alert_title">平面图</p>
+				<a style="position: relative;display: inline-block;">
+					<img ng-src="{{$ctrl.surface[0].qiniuName?($root.qiuNiuUrl+$ctrl.surface[0].qiniuName):''}}" class="fire_alert_img"/>
+					<div id="img_surface_id" ng-click="drawPt()" style="position: absolute;top: 0px;left: 0px;width: 100%;height:calc(100% - 60px);">
+						<span ng-repeat="l in $ctrl.famCustomerSite track by $index" id="dot_span" ng-mouseenter="show_dots = true" ng-mouseleave="show_dots = false"
+							ng-style="{'top':l.coordinateY+'px','left':l.coordinateX+'px'}" class="surface_dot_span">
+							<span ng-show="show_dots" style="line-height: 34px;">{{l.detectorCode}}</span>
+						</span>
+					</div>
+				</a>
+				<p ng-show="!$ctrl.surface[0].qiniuName">信息待维护......</p>
 			</div>
-			<div class="fire_alert_wrap" ng-if="$parent.selected == 0&&$ctrl.outside.length>0">
+			
+			<!--<div class="fire_alert_wrap" ng-if="$parent.selected == 0&&$ctrl.outside.length>0">
+				<p class="fire_alert_title">外观图</p>
+				<img ng-src="{{$ctrl.outside[0].qiniuName?($root.qiuNiuUrl+$ctrl.outside[0].qiniuName):''}}" class="fire_alert_img"/>
+			</div>-->
+			
+			<div class="fire_alert_wrap">
 				<p class="fire_alert_title">外观图</p>
 				<!--<a href="{{$root.qiuNiuUrl+$ctrl.outside[0].qiniuName}}" data-lightbox="roadtrip">-->
 					<img ng-src="{{$ctrl.outside[0].qiniuName?($root.qiuNiuUrl+$ctrl.outside[0].qiniuName):''}}" class="fire_alert_img"/>
 				<!--</a>-->
+				<p ng-if="$ctrl.outside.length<0">信息待维护</p>
 			</div>
+		
+		
 			<div class="fire_alert_wrap" ng-if="$parent.selected == 0">
 				<p class="fire_alert_title">地理图</p>
 				<div id="fireMap" style="width: 100%;height:420px;"></div>

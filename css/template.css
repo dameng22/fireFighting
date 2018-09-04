@@ -755,10 +755,10 @@
 .unit_detail_alert{
 	position: absolute;
 	width: 953px;
-	height: 611px;
+	height: 545px;
   	top: 50%;
   	left: 50%;
-  	margin-top: -305px;
+  	margin-top: -274px;
   	margin-left: -475px;
   	min-width: 700px;
     border-radius:4px;
@@ -787,7 +787,8 @@
 /*发布通知*/
 .notice_alert{
 	position: absolute;
-	width: 643px;
+	width: 651px;
+	height: 300px;
 	margin-left: -321px;
 	margin-top: -150px;
   	top: 50%;
@@ -822,7 +823,8 @@
 	margin: 0px;
 }
 .notice_alert .textarea_input{
-	min-height: 108px;
+	min-height: 158px;
+	overflow-y: scroll;
 }
 .notice_alert .btn_size{
 	margin-right: 14px;
@@ -887,7 +889,11 @@
 	font-size: 14px;
 	color: #000;
 	line-height: 20px;
-	margin-bottom: 26px;
+	margin-bottom: 5px;
+	min-height: 162px;
+    width: 100%;
+    border: 1px solid gainsboro;
+    border-radius: 3px;
 }
 /*添加图标*/
 .picture_alert{

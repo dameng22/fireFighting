@@ -293,7 +293,6 @@ function($scope,$rootScope,acceptance_http,all_dic,$state,dic_http,$stateParams,
 //			id.innerHTML += div;
 			
 			$scope.coor_x = event.offsetX+le;
-			//$scope.coor_y = event.offsetY+132.5;
 			$scope.coor_y = event.offsetY;
 		}
 	};
@@ -318,7 +317,7 @@ function($scope,$rootScope,acceptance_http,all_dic,$state,dic_http,$stateParams,
 							"famPointPosition":famPointPosition,"id":info_list.id,
 							},function(result){
 								$scope.dot_list = result;
-								$scope.famPointPosition.push(result.famPointPosition)
+								$scope.famPointPosition.push(result.famPointPosition);
 								myself_alert.dialog_show("保存成功!");	
 								$scope.research_list();
 						})
@@ -341,6 +340,7 @@ function($scope,$rootScope,acceptance_http,all_dic,$state,dic_http,$stateParams,
 						"relayId":$scope.relayId,
 						},function(result){
 							$scope.dot_list = result;
+							$scope.famPointPosition.push(result.famPointPosition);
 							myself_alert.dialog_show("保存成功!");	
 							$scope.research_list();
 					})
@@ -370,9 +370,25 @@ function($scope,$rootScope,acceptance_http,all_dic,$state,dic_http,$stateParams,
 		}
 	};
 	
+	
 	//获取设备类型
-	dic_http.get_device_type({},function(result){
-		$scope.device_type = result;
-	});
-
+	$scope.device_types = [
+		{'id': '42',
+		'name': '线型光电感烟火灾探测器'},
+		{'id': '23',
+		'name': '手动火灾报警按钮'},
+		{'id': '30',
+		'name': '感温火灾探测器'},
+		{'id': '10',
+		'name': '可燃气体探测器'},
+		{'id': '24',
+		'name': '消火栓按钮'},
+	];
+	
+	$scope.selectTypeChange = function(){
+		$scope.famPointPosition = [];
+		if($scope.device_type == "42"){
+		}
+	};
+	
 }]);

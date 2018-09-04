@@ -282,7 +282,8 @@ app.controller('mainController', ['$scope','$state','$location','acceptance_http
 	
 	if($rootScope.sys_role.indexOf('fams_systemuser')>=0){ //用户系统通知提醒
 		acceptance_http.get_notice_tip({'customerSiteId':localStorage.unit_id},function(result){
-		    if(result.isLook == 0){
+		    if(result){
+		    	$scope.result = result;
 		    	$("#notice_red_tip").show();	    	
 		    } else {
 		    	$("#notice_red_tip").hide();	

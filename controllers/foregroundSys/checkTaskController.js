@@ -58,6 +58,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
   	$scope.show_search = true;
   	var get_data,param,run_flag;
   	$scope.task_list = [];
+  	var runflags = [-1,0,1];
 	$scope.get_list=function(){
 		page_num = page_num+1;
 //		if($scope.selected == 0){ //已完成
@@ -98,7 +99,7 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 				task_type = null
 			}
 			get_data = foreground_http.get_processed_task;
-			param = {customerSiteId:localStorage.unit_id}
+			param = {customerSiteId:localStorage.unit_id,runflag:runflags}
 		}else if($scope.selected == 2){ //进行中（子）
 			$scope.recordStatus = 1;
 			var task_type = angular.copy($scope.task_type);
@@ -149,6 +150,13 @@ app.controller('checkTaskController', ['$scope','acceptance_http','exp_tool','al
 		acceptance_http.get_task_code({},function(result){
 			$scope.add_task.taskCode = result;
 			console.log($scope.add_task.taskCode)
+		})
+	};
+	//结束任务显示
+	$scope.stop_task_btn=function(){
+		$scope.rsearch_unit();
+		acceptance_http.get_processed_task({runflag:2},function(result){
+			$scope.task_list = $scope.task_list.concat(result.results);		
 		})
 	};
 	//关闭任务显示

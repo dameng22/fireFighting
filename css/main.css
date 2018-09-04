@@ -103,15 +103,25 @@ textarea{resize: none;}
 	color: #FF1452;
 }
 #notice_red_tip{
-	display: none;
-	display: inline-block;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    line-height: 13px;
+    background: red;
+    border-radius: 50%;
+    position: relative;
+    top: -42px;
+    left: 10px;
+    padding-left: 1px;
+}
+.notice_dot_tip{
+    display: inline-block;
     width: 10px;
     height: 10px;
     background: red;
     border-radius: 50%;
     position: relative;
-    top: -42px;
-    left: 8px;
+    left: -16px;
 }
 .bg{
   background-image: url(../images/login-bg.png);
@@ -2040,6 +2050,16 @@ textarea{resize: none;}
 	text-align: center;
 	font-weight: bold;
 }
+.ranking_info_title_rewrite{
+	position: relative;
+	height: 67px;
+	line-height: 49px;
+	font-size: 16px;
+	color: #4786FF;
+	letter-spacing: -0.23px;
+	text-align: center;
+	font-weight: bold;
+}
 .ranking_info_title span{
 	font-size: 16px;
 	color: #a8b0c6;
@@ -2047,10 +2067,10 @@ textarea{resize: none;}
 }
 .ranking_info_scroll{
 	position: relative;
-	height: calc(100% - 92px);
+	height: calc(100% - 102px);
 	overflow-y: hidden;
 	border: 1px solid #E6E6E6;
-	margin-bottom: 10px;
+	margin-bottom: 6px;
 }
 .ranking_info_scroll .list_data_head{
 	border: 0;
@@ -2653,11 +2673,23 @@ textarea{resize: none;}
 	font-size: 0;
 }
 .surface_dot_span{
-	display: inline-block;
+	/*display: inline-block;
 	width: 10px;
 	height: 10px;
 	background: red;
-	border-radius: 50%;
+	border-radius: 50%;*/
+	background-image: url(../images/manual_alarm.ico);
+	display: inline-block;
+    width: 24px;
+    height: 24px;
+	position: absolute;
+	cursor: pointer;
+}
+.ddd{
+	background-image: url(../images/photoelectric_smoke.ico);
+	display: inline-block;
+    width: 24px;
+    height: 24px;
 	position: absolute;
 	cursor: pointer;
 }
@@ -3032,25 +3064,17 @@ textarea{resize: none;}
 	text-indent: 10px;
 }
 .downloads_code{
-	display: inline-block;
-	width: 50%;
+	/*display: inline-block;
+	width: 50%;*/
 }
 .downloads_inside p{
-	font-size: 14px;
+	font-size: 16px;
 	letter-spacing: 0;
 	text-align: center;
-	margin-top: 13px;
 }
 .user_two_code{
-	display: inline-block;
-    width: 100px;
-    height: 43px;
-    border: 2px solid #f00;
-    line-height: 40px;
+    line-height: 35px;
     color: #f00;
-    position: relative;
-    left: -41px;
-    top: -20px;
 }
 .downloads_inside{
 	width: 182px;
@@ -3527,6 +3551,16 @@ option[value="?"]{
 	letter-spacing: 0;
 	font-weight: bold;
 	padding-left: 29px;
+}
+.device_control_span{
+	display: inline-block;
+    width: 60px;
+    height: 40px;
+    float: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 46px;
 }
 .device_pie_ul{
 	height: calc(100% - 44px);

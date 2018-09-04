@@ -1,8 +1,18 @@
 /**
  * Created by Lxy on 2017/12/24.
  */
-app.controller('downloadsController', ['$scope','foreground_http','$timeout','$filter','myself_alert','superivse_http','$http',
-	function($scope,foreground_http,$timeout,$filter,myself_alert,superivse_http,$http){
+app.controller('downloadsController', ['$scope','foreground_http','$timeout','$filter','myself_alert','superivse_http','$http','$rootScope',
+	function($scope,foreground_http,$timeout,$filter,myself_alert,superivse_http,$http,$rootScope){
+		if($rootScope.sys_role.indexOf('fams_systemuser')>=0){
+			$("#user_img").show();
+			$("#supervise_img").hide();
+			$("#user_img").css('margin-right','261px');
+		}
+		if($rootScope.sys_role.indexOf('fams_org')>=0){
+			$("#user_img").hide();
+			$("#supervise_img").show();
+			$("#supervise_img").css('margin-left','261px');
+		}
 	foreground_http.get_sys_setting({'code':[2,3,4,5]},function(result){
 		$scope.contact = result;
 		$scope.telephone = $filter('filter')(result,function(item){if(item.code == 5){return item}});

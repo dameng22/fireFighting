@@ -255,22 +255,45 @@ app.controller('fireAlarmController', ['$scope','$location','acceptance_http','m
 			};
 			acceptance_http.deal_alarms(params,function(result){
 				if(result){
-					myself_alert.dialog_show("处理成功!");
-					$scope.get_right_unit('restore');
-					$scope.its_true = false;
-					$scope.its_wait = false;
-					$scope.its_fake = false;
-					$scope.its_test = false;
-					$scope.unit_ids = [];
-					check_status = [];
-					detail_ids = [];
-					$scope.check_all = false;
-					$scope.remark = null;
-					acceptance_http.get_info_count({"clientId":localStorage.time_stamp},function(result){
-						$scope.$emit("count_tips", result);
-						new_fire.count = 0;
-					});
-					$rootScope.fire_now = false;
+					if(type == 'true'){
+						$rootScope.fire_report_now = true;
+						$rootScope.fire_report_func = function(){
+							myself_alert.dialog_show("处理成功!");
+							$scope.get_right_unit('restore');
+							$scope.its_true = false;
+							$scope.its_wait = false;
+							$scope.its_fake = false;
+							$scope.its_test = false;
+							$scope.unit_ids = [];
+							check_status = [];
+							detail_ids = [];
+							$scope.check_all = false;
+							$scope.remark = null;
+							acceptance_http.get_info_count({"clientId":localStorage.time_stamp},function(result){
+								$scope.$emit("count_tips", result);
+								new_fire.count = 0;
+							});
+							$rootScope.fire_now = false;
+							$rootScope.fire_report_now = false;
+						}
+					} else {
+						myself_alert.dialog_show("处理成功!");
+						$scope.get_right_unit('restore');
+						$scope.its_true = false;
+						$scope.its_wait = false;
+						$scope.its_fake = false;
+						$scope.its_test = false;
+						$scope.unit_ids = [];
+						check_status = [];
+						detail_ids = [];
+						$scope.check_all = false;
+						$scope.remark = null;
+						acceptance_http.get_info_count({"clientId":localStorage.time_stamp},function(result){
+							$scope.$emit("count_tips", result);
+							new_fire.count = 0;
+						});
+						$rootScope.fire_now = false;
+					}
 				}
 			});
 		}

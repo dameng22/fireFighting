@@ -4,6 +4,6 @@
 	<p class="notice_detai_time">{{$ctrl.noticeItem.noticeDate}}<br/>
 	发布人：{{$ctrl.noticeItem.person.givenNameOriental}}
 	</p>
-	<p class="notice_detai_content" ng-show="$ctrl.noticeItem.noticeContent">{{$ctrl.noticeItem.noticeContent}}</p>
+	<textarea class="notice_detai_content" ng-show="$ctrl.noticeItem.noticeContent">{{$ctrl.noticeItem.noticeContent}}</textarea>
 	<p class="notice_file" ng-repeat="l in $ctrl.noticeDetail track by $index">{{l.originalName}}<span ng-click="$ctrl.download(l.fileName,l.originalName)">下载</span></p>
 </div>

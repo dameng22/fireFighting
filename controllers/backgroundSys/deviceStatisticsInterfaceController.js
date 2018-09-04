@@ -12,6 +12,7 @@ app.controller('deviceStatisticsInterfaceController', ['$scope','background_http
 			area_id = null
 		}
 		$scope.company_list = [];//清空左侧单位
+		$scope.name = "";
 		background_http.get_pie_data({'regionId':area_id},function(result){
 			init_year();
 			legend = []
@@ -36,10 +37,12 @@ app.controller('deviceStatisticsInterfaceController', ['$scope','background_http
 			chart.off("click");
 			chart.on("click", function (param){
 				$scope.device_statics_down_show = true;
+				$scope.name = param.name;
+				$scope.excel_name = '接口方式';
 				if(param.name == '其他'){
-					$scope.jsons = {'regionId':area_id,'facuApitypeIdIsNull':true};
+					$scope.jsons = {'regionId':area_id,'facuApitypeIdIsNull':true,'menuName':$scope.excel_name};
 				}else{
-					$scope.jsons = {'regionId':area_id,'facuApitypeId':param.data.id};
+					$scope.jsons = {'regionId':area_id,'facuApitypeId':param.data.id,'menuName':$scope.excel_name};
 				}
 				$scope.get_search();
 			});

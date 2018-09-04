@@ -221,7 +221,8 @@ app.controller('areaStatisticsController', ['$scope','$timeout','echart_round','
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle:{color:'#FA757A'},
             }
         }
    	},{
@@ -232,7 +233,8 @@ app.controller('areaStatisticsController', ['$scope','$timeout','echart_round','
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle:{color:'#B977FC'},
             }
         }
    	},{
@@ -243,7 +245,8 @@ app.controller('areaStatisticsController', ['$scope','$timeout','echart_round','
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle:{color:'#F9D868'},
             }
         }
    	}];

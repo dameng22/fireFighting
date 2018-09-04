@@ -14,6 +14,7 @@ app.controller('deviceStatisticsController', ['$scope','background_http','$timeo
 			area_id = null
 		}
 		$scope.company_list = [];//清空左侧单位
+		$scope.name = "";
 		background_http.get_pie_data({'regionId':area_id},function(result){
 			for(var i = 1;i<5;i++){
 				legend = []
@@ -58,17 +59,20 @@ app.controller('deviceStatisticsController', ['$scope','background_http','$timeo
 				chart.setOption(options_pie);
 				chart.on("click", function (param){
 					$scope.device_statics_down_show = true;
+					$scope.name = param.name;
 					if(param.data.chart_type == 1){
+						$scope.excel_name = '通讯模式';
 						if(param.name == '其他'){
-							$scope.jsons = {'regionId':area_id,'modelTypeIdIsNull':true};
+							$scope.jsons = {'regionId':area_id,'modelTypeIdIsNull':true,'menuName':$scope.excel_name};
 						}else{
-							$scope.jsons = {'regionId':area_id,'modelTypeId':param.data.id};
+							$scope.jsons = {'regionId':area_id,'modelTypeId':param.data.id,'menuName':$scope.excel_name};
 						}
 					}else if(param.data.chart_type == 2){
+						$scope.excel_name = '运营商';
 						if(param.name == '其他'){
-							$scope.jsons = {'regionId':area_id,'operatorIdIsNull':true};
+							$scope.jsons = {'regionId':area_id,'operatorIdIsNull':true,'menuName':$scope.excel_name};
 						}else{
-							$scope.jsons = {'regionId':area_id,'operatorId':param.data.id};
+							$scope.jsons = {'regionId':area_id,'operatorId':param.data.id,'menuName':$scope.excel_name};
 						}
 					}else if(param.data.chart_type == 3){
 						if(param.name == '其他'){

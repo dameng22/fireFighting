@@ -1,7 +1,9 @@
 /**
  * Created by Lxy on 2017/12/10.
  */
-app.controller('unitCountController', ['$scope','$timeout','echart_round','foreground_http','$filter','$rootScope', function($scope,$timeout,echart_round,foreground_http,$filter,$rootScope){
+app.controller('unitCountController', ['$scope','$timeout','echart_round','foreground_http','$filter','$rootScope','all_dic','exp_tool','downloadFiles',
+function($scope,$timeout,echart_round,foreground_http,$filter,$rootScope,all_dic,exp_tool,downloadFiles){
+	$scope.month_to_number = all_dic.month_to_number;
 	//本日本月本年数量统计
 	foreground_http.get_unit_period_count({"customerSiteId":localStorage.unit_id},function(result){
 		for(var k in result){
@@ -48,11 +50,83 @@ app.controller('unitCountController', ['$scope','$timeout','echart_round','foreg
 			}
 			if($rootScope.router_state == 'unitCount'){ //防止点击过快报错
 				init_set();//配置初始化
-				chart_line = echarts.init(document.getElementById('alarm_line'));
+				chart_line = echarts.init(document.getElementById('alarm_line'));				
+				chart_line.clear();
 				chart_line.setOption(options_line);
-			}
+	    		chart_line.off("click");
+	    		chart_line.on("click", function (param){
+					//console.log(param.seriesIndex)	//当前线
+					$scope.show_type = param.seriesIndex;
+					if(param.seriesIndex == 0){ //火警
+						$scope.type_id = 0;
+						$scope.end_id = 2
+					}else if(param.seriesIndex == 1){//误报
+						$scope.type_id = 0;
+						$scope.end_id = 1
+					}else if(param.seriesIndex == 2){//故障
+						$scope.type_id = 1;
+						$scope.end_id = null
+					}
+					$scope.current_month = $filter('dic_filter')(param.name,$scope.month_to_number);
+					$scope.get_search();
+					$scope.detail_show_user = true;
+					$scope.$apply();
+				});
+			}				
 		});
 	};
+	$scope.show_types = function(){
+		if($scope.show_type == 0){
+			//return '火警';
+			return '报警总数';
+		}else if($scope.show_type == 1){
+			return '误报';
+		}else if($scope.show_type == 2){
+			return '故障';
+		}
+	};
+	
+	//单位列表
+	var limits = true;
+	var page_num = 0;
+	var page_size = 20;
+	var total_page = 0;
+	var param;
+	$scope.unit_list = [];
+	$scope.get_list=function(){
+		page_num = page_num+1;
+	   	param = {customerSiteId:localStorage.unit_id,pageNum:page_num,pageSize:page_size,endStateId:$scope.end_id};
+		foreground_http.get_unit_fire_record(param,function(result){
+			$scope.unit_list = $scope.unit_list.concat(result.results);
+			limits = true;
+			total_page = result.totalPage;
+			$scope.all_count = result.count;
+		})
+	};
+	
+	//下拉加载
+	function scrollDate(){
+		$(".list_data_scroll").mCustomScrollbar({
+			theme:"minimal-dark",
+			autoHideScrollbar:true,
+			callbacks:{
+		        onTotalScroll:function(){
+			        if(limits&&(page_num<total_page)){
+			        	limits = false;
+				        $scope.get_list();
+			    	}
+		        },
+		        onTotalScrollOffset: 20
+		   }
+		});
+	};
+	$timeout(scrollDate, 10);
+	$scope.get_search=function(){
+		page_num = 0;
+		$scope.unit_list = [];
+		$scope.get_list();
+	};
+	
 	$scope.get_year_data();
 	//年份下拉初始化
 	$scope.year = [];
@@ -109,7 +183,8 @@ app.controller('unitCountController', ['$scope','$timeout','echart_round','foreg
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle: {color:'#FA757A'}
             }
         }
    	},{
@@ -120,7 +195,8 @@ app.controller('unitCountController', ['$scope','$timeout','echart_round','foreg
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle:{color:'#4A88FB'},
             }
         }
    	},{
@@ -131,7 +207,8 @@ app.controller('unitCountController', ['$scope','$timeout','echart_round','foreg
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle:{color:'#ECA380'},
             }
         }
    	}];
@@ -181,4 +258,53 @@ app.controller('unitCountController', ['$scope','$timeout','echart_round','foreg
 			return 'alarm_statis_orange'
 		}
    };
+   
+   //警情状态  terminalStatusId：0自动火警  1确认火警  2紧急火警 
+  	$scope.danger_status = function(id){
+  		if(id == 0){
+  			return '自动火警';
+  		}else if(id == 1){
+  			return '确认火警';
+  		}else if(id == 2){
+  			return '紧急火警 ';
+  		}
+  	};
+  	$scope.status_format = function(process,end){
+		switch(process){
+			case 0:
+				return '未处理';
+			case 1:
+				return '待确认';
+			case -1:
+				return '单位确认';
+			case 2:
+				if($scope.show_type==0 || $scope.show_type == 1){
+					switch(end){
+						case 0:
+							return '未知火警';
+						case 1:
+							return '误报火警';
+						case 2:
+							return '真实火警';
+						case 3:
+							return '测试火警';
+					}
+				}else if($scope.show_type==2){
+					return '已处理';
+				}
+		}
+    };
+    //导出文件
+	$scope.download_file = function(){
+		var urls,params,filenames;
+		urls = "record/exportNetworkingFireExcels";
+		params = {customerSiteId:localStorage.unit_id,endStateId:$scope.end_id};
+		filenames = "火灾报警记录";
+		if($scope.type_id == 1){
+			urls = "record/exportNetworkingMalfunctionExcels";
+			params = {customerSiteId:localStorage.unit_id};
+			filenames = "故障信息记录";
+		}
+		downloadFiles.download(urls,params,'',"GET",filenames);
+	}
 }]);

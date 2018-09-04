@@ -153,7 +153,8 @@ app.controller('alarmStatisticsController', ['$scope','$timeout','echart_round',
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle: {color:'#F4555E'},
             }
         }
    	},{
@@ -164,7 +165,8 @@ app.controller('alarmStatisticsController', ['$scope','$timeout','echart_round',
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle: {color:'#4A88FB'},
             }
         }
    	},{
@@ -175,7 +177,8 @@ app.controller('alarmStatisticsController', ['$scope','$timeout','echart_round',
         label: {
             normal: {
                 show: true,
-                position: 'inside'
+                position: 'inside',
+                textStyle: {color:'#ECA380'},
             }
         }
    	}];

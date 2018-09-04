@@ -42,43 +42,51 @@
 </div>
 <!--弹窗-->
 <div class="ranking_info_detail" ng-show="detail_show"> 
-	<div class="ranking_info_title">
+	<div ng-class="check_type == 1?'ranking_info_title_rewrite':'ranking_info_title'">
 		{{unit.siteName || unit.newName}}&nbsp;&nbsp;<span>|</span>&nbsp;&nbsp;{{type_name()}}{{all_count}}起
-		<span ng-if="check_type == 1">(真实火警:{{actualFireCount}} 误报火警:{{falseFireCount}})</span> <!--火灾弹窗加入真实火警和误报火警数量-->
+		<p ng-if="check_type == 1" style="margin-top: -22px;color: #C0C0C0;font-size: 15px;">(真实火警:{{actualFireCount}} 误报火警:{{falseFireCount}})</p> <!--火灾弹窗加入真实火警和误报火警数量-->
 		<i class="ico_sprite ico_close" ng-click="detail_show = false"></i>
 	</div>
 	<div class="check_task_scroll border_radius_4 ranking_info_scroll">
 		<p class="list_data list_data_head min_width_440">
 			<span class="ranking_info_index" style="width: 7%;">序号</span>
 			<span class="ranking_info_task" ng-if="check_type == 4 || check_type == 3">查岗任务名称</span>
-			<span class="ranking_info_time">{{(check_type==1||check_type==2)?'报警时间':'消控室电话'}}</span>
-			<span class="ranking_info_position">{{(check_type==1||check_type==2)?'报警位置':'任务开始时间'}}</span>
-			<span class="ranking_info_describ" ng-if="check_type == 1||check_type==2" style="width: 10%;">警情概述</span>
+			<span class="ranking_info_time" style="width: 19%;">{{(check_type==1||check_type==2)?'报警时间':'消控室电话'}}</span>
+			<span class="ranking_info_position" ng-if="check_type==1">{{(check_type==1)?'报警位置':'任务开始时间'}}</span>
+			<span class="ranking_info_position" ng-if="check_type==2">{{(check_type==2)?'故障位置':'任务开始时间'}}</span>
+			<span class="ranking_info_position" ng-if="check_type==4">任务开始时间</span>
+			<span class="ranking_info_describ" ng-if="check_type == 1" style="width: 10%;">报警类型</span>
+			<span class="ranking_info_describ" ng-if="check_type==2" style="width: 19%;">故障类型</span>
 			<!--<span class="ranking_info_status">{{(check_type==1||check_type==2)?'警情状态':'回复时间'}}</span>-->
-			<span class="ranking_info_status" ng-if="check_type == 1||check_type==2">警情状态</span> <!--在岗、脱岗去掉回复时间-->
+			<span class="ranking_info_status" ng-if="check_type == 1">警情状态</span> <!--在岗、脱岗去掉回复时间-->
+			<span class="ranking_info_status" ng-if="check_type==2">故障状态</span> <!--在岗、脱岗去掉回复时间-->
 			<span class="ranking_info_receiv" ng-if="check_type == 1||check_type==2" style="width: 20%;">接警时间</span> <!--火灾弹窗加接警时间-->
 			
-			<span class="ranking_info_require" ng-if="check_type == 3">确认时间</span>
+			<span class="ranking_info_require" ng-if="check_type == 3 || check_type == 4">确认时间</span>
 			<span class="ranking_info_person" ng-if="check_type == 4 || check_type == 3">查岗人</span>
 		</p>
 		<div class="list_data_scroll fix_check_task min_width_440">
 			<p class="list_data cursor_normal" ng-repeat="l in unit_list track by $index">
 				<span class="ranking_info_index" style="width: 7%;">{{$index+1}}</span>
 				<span class="ranking_info_task" ng-if="check_type == 4 || check_type == 3">{{l.taskName}}</span>
-				<span class="ranking_info_time">{{(check_type==1||check_type==2)?(l.alertTime | date:'yyyy-MM-dd HH:mm:ss') : l.controlRoomContactinfo}}</span>
-				<span class="ranking_info_position" title="{{(check_type==1||check_type==2)?l.reportingDevice.address.address : (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}">{{(check_type==1||check_type==2)?l.reportingDevice.address.address : (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}</span>
-				<span class="ranking_info_describ" ng-if="check_type == 1||check_type==2" style="width: 10%;">{{danger_status(l.terminalStatusId)}}</span>
-				<span class="ranking_info_status" ng-if="check_type == 1||check_type==2">{{status_format(l.processingStatusId,l.endStateId)}}</span>
+				<span class="ranking_info_time" style="width: 19%;">{{(check_type==1||check_type==2)?(l.alertTime | date:'yyyy-MM-dd HH:mm:ss') : l.controlRoomContactinfo}}</span>
+				<span class="ranking_info_position" ng-if="check_type==1" title="{{(check_type==1)?l.reportingDevice.address.address : (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}">{{(check_type==1)?l.reportingDevice.address.address : (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}</span>
+				<span class="ranking_info_position" ng-if="check_type==2" title="{{(check_type==2)?l.reportingDevice.address.address : (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}">{{(check_type==2)?l.reportingDevice.address.address : (l.requestTime | date:'yyyy-MM-dd HH:mm:ss')}}</span>
+				<span class="ranking_info_position" ng-if="check_type==4" title="{{l.requestTime | date:'yyyy-MM-dd HH:mm:ss'}}">{{l.requestTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+				<span class="ranking_info_describ" ng-if="check_type == 1" style="width: 10%;">{{danger_status(l.terminalStatusId)}}</span>
+				<span class="ranking_info_describ" ng-if="check_type==2" style="width: 19%;">{{device_broke(l)}}</span>
+				<span class="ranking_info_status" ng-if="check_type == 1">{{l.processingStatusId==0?'未处理':'已处理'}}</span>
+				<span class="ranking_info_status" ng-if="check_type==2">{{l.processingStatusId==0?'未处理':'已处理'}}</span>
 				<span class="ranking_info_receiv" ng-if="check_type == 1||check_type==2" style="width: 20%;">{{l.receivingTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
 				
-				<span class="ranking_info_require" ng-if="check_type == 3">{{l.requestTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+				<span class="ranking_info_require" ng-if="check_type == 3 || check_type == 4">{{l.requestTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
 				<span class="ranking_info_person" ng-if="check_type == 4 || check_type == 3">{{l.person.givenNameOriental}}</span>
 			</p>
 		</div>	
 	</div>
 	<p class="ranking_info_btn text-right">
 		<span class="btn_size btn_blue margin_right_10 vertical_top" ng-click="download_file()">导出</span>
-		<span class="btn_size btn_green vertical_top">打印</span>
+		<!--<span class="btn_size btn_green vertical_top">打印</span>-->
 	</p>
 </div>
 

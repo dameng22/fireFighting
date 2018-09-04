@@ -1,7 +1,8 @@
 /**
  * Created by Lxy on 2017/12/24.
  */
-app.controller('troubleAlarmController',['$scope','foreground_http','$timeout','exp_tool','acceptance_http','all_dic','myself_alert', function($scope,foreground_http,$timeout,exp_tool,acceptance_http,all_dic,myself_alert){
+app.controller('troubleAlarmController',['$scope','foreground_http','$timeout','exp_tool','acceptance_http','all_dic','myself_alert','dic_http','$base64','$stateParams',
+function($scope,foreground_http,$timeout,exp_tool,acceptance_http,all_dic,myself_alert,dic_http,$base64,$stateParams){
    	var limits = true;
 	var page_num = 0;
   	var page_size = 20;
@@ -69,6 +70,10 @@ app.controller('troubleAlarmController',['$scope','foreground_http','$timeout','
 	//获取传输装置
 	acceptance_http.get_unit_info_trans({customerSiteId:localStorage.unit_id},function(result){
 		$scope.device_info = result;
+	});
+	//通讯模式
+	dic_http.get_fam_type({customerId:$base64.decode($stateParams.unit),isdisable:false},function(result){
+		$scope.communication_mdl = result;
 	});
 	//enter搜索
 	$('.enter_press').bind('keypress', function (event) { 

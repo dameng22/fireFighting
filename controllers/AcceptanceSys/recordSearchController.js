@@ -261,6 +261,12 @@ app.controller('recordSearchController', ['$scope','acceptance_http','exp_tool',
 				start = null;
 				end = null;
 				$scope.counts = result.count;
+				if($scope.counts == 0){
+					$rootScope.record_zero = true;
+					$rootScope.record_zero_fun = function(){
+						$rootScope.record_zero = false;
+					};
+				}
 				
 				if($scope.isFirst == true){
 					$("#start")[0].value = "";
